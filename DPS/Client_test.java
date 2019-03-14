@@ -18,23 +18,28 @@ public class Client_test {
     
     public static void main(String[] args) throws IOException {
     
-        String server = "152.40.35.202";    //my ip for testing
+        String server = "152.40.35.223";    //my ip for testing
+       
         byte[] data;    //the message you want to send
-        int servPort = 2020; //7 is the default port for echoing data back
+        int servPort = 11064;
         
         System.out.println("Connecting to Server...");
         
         //create a socket that is connected to the host
         Socket socket = new Socket(server, servPort);
-        System.out.println("Connected to Server");
+        System.out.println("Connected to " + server + " on port: " + servPort);
         
         Scanner s = new Scanner(System.in); //for getting input
-        System.out.println("Enter a message to be sent then press enter: ");
-        data = s.nextLine().getBytes(); //convert input to bytes so it can be sent
-        
-        System.out.println("Sending string...");
         InputStream in = socket.getInputStream();
         OutputStream out = socket.getOutputStream();
+        
+        
+        while(true){
+            
+        System.out.print(socket.getLocalAddress() + ":");
+        data = s.nextLine().getBytes(); //convert input to bytes so it can be sent
+        
+        
         out.write(data);
         
         //recieving the same string back from the server
@@ -48,11 +53,10 @@ public class Client_test {
          totalBytesRecieved += bytesRecieved;
         }   //loop only exits when array is full
         
-        //print the string back
-        System.out.println("Recieved: " + new String(data));
-        
+        }
         ///close the socket
-        socket.close();
+        //socket.close();
     }
     
 }
+
