@@ -4,6 +4,8 @@
  * Built for Senior Capstone.
  */
 package dps;
+import java.lang.Math;
+import java.util.Random;
 
 /**
  * This is the map class, and it is used mostly to construct maps with specific 
@@ -26,7 +28,7 @@ public class Map {
     public int floorNum;
     public int mapID;
     public String mapName;
-    
+    public Random rng;
     
     //main method, maaay not actually need this, we'll see
     public static void main(String[] args) {
@@ -55,7 +57,27 @@ public class Map {
      * @param deadEndsYN
      */
     public Map(int width, int length, int rooms, String environment, String halls, String deadEndsYN){
+        //sets the map size
+        sizeX = width;
+        sizeY = length;
+        setting = environment;
+        hallType = halls;
+        deadEnds = deadEndsYN;
         
+        //fills the grid with blank tiles
+        for(int i = 0; i < sizeY; i++){
+            for(int j = 0; j < sizeX; j++){
+                Grid[j][i] = new tile(j, i);
+            }
+        }
+        
+        //Here's where we place rooms. Maaay wanna switch this to a while loop
+        //that increments each time a room is placed and exits either a) when 
+        //all rooms are placed or b) it runs out of room to put them. Go fucken
+        //HAM on the error checking to ensure it doesn't break something
+        for (int k = 0; k < rooms; k++){
+            placeRoom();
+        }
     }
     
     
@@ -71,7 +93,11 @@ public class Map {
     public class tile {
         //property vars go here, figure out what that is later on
         public String type;
+        public Boolean isRoom;
+        public Boolean isHall;
         public Boolean isOccupied;
+        public int xPos;
+        public int yPos;
         
         /*
         This miiiiiight need some vars for x and y position, for use by other 
@@ -79,16 +105,32 @@ public class Map {
         */
         
         
-        //constuctor
-        public tile(){
-            
+        //default constuctor
+        public tile(int x, int y){
+            type = "filled";
+            isRoom = false;
+            isHall = false;
+            isOccupied = false;
+            xPos = x;
+            yPos = y;
         }
         
-        //toString method. Important for saving. Fix later
+        /*********
+         * Gonna need some methods for setting tiles to specific things.
+         * Overload the f out of this constructor
+         * @return 
+         ********/
+        
+        //toString method. Important for saving. Fix later bc this is super gross
         @Override
         public String toString(){
             String tileString = "";
-            
+            tileString.concat(this.type);
+            tileString.concat((this.isRoom.toString()) + ",");
+            tileString.concat((this.isHall.toString()) + ", ");
+            tileString.concat((this.isOccupied.toString()) + ", ");
+            tileString.concat((Integer.toString(this.xPos)) + ", ");
+            tileString.concat((Integer.toString(this.yPos)) + "\n");
             return tileString;
         }
         
@@ -119,11 +161,58 @@ public class Map {
         sizeY = newY;
     }
     
+    //Exactly what it sounds like
+    public tile getTileAt(int x, int y){
+        return Grid[x][y];
+    }
+    
     
     //more getters and setters go here
     
     
-    
+    /**
+     * Method for randomly placing rooms on the map
+     */
+    private void placeRoom(){
+        //The math here is gonna get real fucky, hang on to your butts folks
+        int roomWidth = rng.nextInt(((sizeX)%2)+1);
+        int roomLength = rng.nextInt(((sizeY)%2)+1);
+        //These modulo 2 bits are what will get modified to affect room size.
+        //Replace with vars at a later date. Maybe make them an arg.
+        
+        //These bits make it start fom the top left, for simplicity's sake. 
+        //However, there's a chance this will affect the room placement. 
+        //This could be changed to be the center coordinates.
+        int coordX = rng.nextInt(sizeX);
+        int coordY = rng.nextInt(sizeY);
+        
+        
+        //jfc this code is janky as all fuck. pls halp me clean this up
+        //Like, it works but. Ew. y'know?
+        boolean free = true;
+        for(int q = 0; q < roomWidth+2; q++){
+            for(int w = 0; w < roomLength+2; w++){
+                //thiiiis is gonna take some effort.
+                if((coordX + q) > this.sizeX || (coordY + w) > this.sizeY){
+                    break;
+                }
+                if(Grid[(coordX + q)][(coordY + w)].isRoom == true ||Grid[coordX + q][coordY + w].isHall == true){
+                    free = false;
+                    break;
+                }
+            }
+        }
+        //god forgive me I'm back on my bullshit
+        if(free == true){
+            for(int q = 0; q < roomWidth; q++){
+                for(int w = 0; w < roomLength; w++){
+                    Grid[coordX + q][coordY + w].isRoom = true;
+                    Grid[coordX + q][coordY + w].type = "Room";
+                }
+            }
+        }
+        
+    }
     
     
     /**
@@ -134,7 +223,11 @@ public class Map {
     @Override
     public String toString(){
         String dungeon = "";
-        
+        for(int x = 0; x < sizeX; x++){
+            for(int y = 0; y < sizeY; y++){
+                dungeon.concat(this.getTileAt(x, y).toString());
+            }
+        }
         return dungeon;
     }
     
