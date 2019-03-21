@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="CharacterMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dps.CharacterMainController">
+   <children>
+      <Button layoutX="455.0" layoutY="300.0" mnemonicParsing="false" onAction="#NewCharacter" prefHeight="78.0" prefWidth="370.0" text="Create New Character" AnchorPane.leftAnchor="455.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Button layoutX="455.0" layoutY="422.0" mnemonicParsing="false" onAction="#EditCharacter" prefHeight="78.0" prefWidth="370.0" text="Edit Character" AnchorPane.leftAnchor="455.0">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Button>
+      <Button fx:id="BackButton" layoutX="50.0" layoutY="715.0" mnemonicParsing="false" onAction="#Back" prefHeight="35.0" prefWidth="123.0" text="Back" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

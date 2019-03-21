@@ -7,17 +7,82 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="CharacterCreation" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dps.CharacterCreationController">
+<AnchorPane fx:id="CharacterCreation" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dps.CharacterCreationController">
    <children>
-      <Label text="Name">
-         <VBox.margin>
-            <Insets left="10.0" top="10.0" />
-         </VBox.margin>
-      </Label>
-      <TextField maxWidth="-Infinity" prefWidth="200.0" translateX="35.0" translateY="-21.0">
-         <VBox.margin>
-            <Insets left="10.0" />
-         </VBox.margin>
-      </TextField>
+      <TabPane layoutY="2.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab closable="false" text="Required Fields">
+               <content>
+                  <GridPane alignment="CENTER" hgap="10.0" layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="671.0" prefWidth="992.0" vgap="10.0">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="138.0" minWidth="10.0" prefWidth="141.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="218.0" minWidth="10.0" prefWidth="205.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="178.0" minWidth="10.0" prefWidth="58.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="270.0" minWidth="10.0" prefWidth="246.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="270.0" minWidth="10.0" prefWidth="122.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="270.0" minWidth="10.0" prefWidth="122.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <children>
+                        <TextField prefHeight="25.0" prefWidth="154.0" GridPane.columnIndex="1" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="102.0" text="Character Name:" textAlignment="CENTER" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                           <GridPane.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="176.0" text="Class:" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <GridPane.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <ComboBox fx:id="ClassDropDown" editable="true" prefHeight="25.0" prefWidth="230.0" promptText="Choose one or type custom class in" GridPane.columnIndex="3" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="Level: " textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <TextField fx:id="LevelTxt" promptText="If blank level will be set to 1" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Label text="Race:" textAlignment="CENTER" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="RaceDropDown" editable="true" prefWidth="230.0" promptText="Choose one or type custom race" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Str:" textAlignment="CENTER" GridPane.rowIndex="2" />
+                        <Label text="Dex:" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Label text="Int:" textAlignment="CENTER" GridPane.rowIndex="3" />
+                        <Label text="Con:" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Label text="Wis:" textAlignment="CENTER" GridPane.rowIndex="4" />
+                        <Label text="Cha:" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <TextField fx:id="Str" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="Dex" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <TextField fx:id="Int" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="Con" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <TextField fx:id="Wis" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="Cha" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                        <Label text="AC:" textAlignment="CENTER" GridPane.rowIndex="5" />
+                        <Label text="HP:" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <TextField fx:id="AC" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <TextField fx:id="HP" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                     </children>
+                  </GridPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Extra Info">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TextArea layoutX="6.0" layoutY="7.0" prefHeight="200.0" prefWidth="200.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <Button layoutX="116.0" layoutY="702.0" mnemonicParsing="false" onAction="#Back" text="Back" />
+      <Button layoutX="1147.0" layoutY="702.0" mnemonicParsing="false" onAction="#Save" text="Save" />
    </children>
-</VBox>
+</AnchorPane>

@@ -8,34 +8,33 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="MainMenu" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dps.MainMenuController">
-    
-    <children>
-   
-        <Label alignment="CENTER" contentDisplay="TOP" text="Dungeon Positioning System" textAlignment="CENTER">
-            <font>
-                <Font size="36.0" />
-            </font>
-         <VBox.margin>
-            <Insets bottom="25.0" left="50.0" right="50.0" top="25.0" />
-         </VBox.margin>
-        </Label>
-      <Button alignment="CENTER" contentDisplay="CENTER" onAction="#loadCharacterCreate" prefHeight="25.0" prefWidth="105.0" scaleX="2.0" scaleY="2.0" text="Create Character" textAlignment="CENTER">
-         <VBox.margin>
-            <Insets bottom="25.0" top="25.0" />
-         </VBox.margin></Button>
-      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" scaleX="2.0" scaleY="2.0" text="Host Session" textAlignment="CENTER">
-         <VBox.margin>
-            <Insets bottom="25.0" top="25.0" />
-         </VBox.margin></Button>
-      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="105.0" scaleX="2.0" scaleY="2.0" text="Join Session" textAlignment="CENTER">
-         <VBox.margin>
-            <Insets bottom="25.0" top="25.0" />
-         </VBox.margin></Button>
-      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="105.0" scaleX="2.0" scaleY="2.0" text="Manual" textAlignment="CENTER">
-         <VBox.margin>
-            <Insets bottom="25.0" top="25.0" />
-         </VBox.margin></Button>
-    </children>
+<AnchorPane fx:id="MainMenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dps.MainMenuController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="71.0" layoutY="14.0" text="Dungeon Positioning System" textAlignment="CENTER" AnchorPane.leftAnchor="71.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Button layoutX="175.0" layoutY="67.0" mnemonicParsing="false" onAction="#DMMenu" prefHeight="53.0" prefWidth="250.0" text="DM Mode" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="70.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+      <Button layoutX="175.0" layoutY="128.0" mnemonicParsing="false" onAction="#PlayerMenu" prefHeight="53.0" prefWidth="250.0" text="PC Mode" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="140.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+      <Button layoutX="175.0" layoutY="188.0" mnemonicParsing="false" onAction="#Manual" prefHeight="53.0" prefWidth="250.0" text="Manual" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="210.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+      <Button layoutX="176.0" layoutY="249.0" mnemonicParsing="false" onAction="#Quit" prefHeight="53.0" prefWidth="250.0" text="Exit" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="280.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+   </children>
 
-</VBox>
+</AnchorPane>
