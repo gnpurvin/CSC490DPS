@@ -4,8 +4,12 @@
  * Built for Senior Capstone.
  */
 package dps;
+
 import java.lang.Math;
 import java.util.Random;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 
 /**
  * This is the map class, and it is used mostly to construct maps with specific 
@@ -40,7 +44,16 @@ public class Map {
      * Default constructor. Takes no args, outputs a super basic map.
      */
     public Map(){
-        
+        sizeX = 20;
+        sizeY = 20;
+        numRooms = 1;
+        setting = "Doesn't matter lmao";
+        hallType = "Endless";
+        deadEnds = "nah";
+        Grid = new tile[sizeX][sizeY];
+        floorNum = 1;
+        mapID = 00000;
+        mapName = "default";
     }
     
     /**
@@ -96,8 +109,10 @@ public class Map {
         public Boolean isRoom;
         public Boolean isHall;
         public Boolean isOccupied;
+        public Boolean isStairs;
         public int xPos;
         public int yPos;
+        public Rectangle2D.Double assocRect;
         
         /*
         This miiiiiight need some vars for x and y position, for use by other 
@@ -111,6 +126,7 @@ public class Map {
             isRoom = false;
             isHall = false;
             isOccupied = false;
+            isStairs = false;
             xPos = x;
             yPos = y;
         }
@@ -121,6 +137,10 @@ public class Map {
          * @return 
          ********/
         
+        public void setAssocRect(Rectangle2D.Double rect){
+            assocRect = rect;
+        }
+        
         //toString method. Important for saving. Fix later bc this is super gross
         @Override
         public String toString(){
@@ -129,6 +149,7 @@ public class Map {
             tileString.concat((this.isRoom.toString()) + ",");
             tileString.concat((this.isHall.toString()) + ", ");
             tileString.concat((this.isOccupied.toString()) + ", ");
+            tileString.concat((this.isStairs.toString()) + ", ");
             tileString.concat((Integer.toString(this.xPos)) + ", ");
             tileString.concat((Integer.toString(this.yPos)) + "\n");
             return tileString;
@@ -161,13 +182,38 @@ public class Map {
         sizeY = newY;
     }
     
-    //Exactly what it sounds like
+    public void setNumRooms(int n){
+        numRooms = n;
+    }
+    
+    public int getNumRooms(){
+        return numRooms;
+    }
+    
+    //more getters and setters go here
+    
+    /***************************
+     * Tile Specific Getters and setters go here
+     * v v v v v v v v v v v v v 
+     ***************************/
+    
+    /**
+     * Exactly what it sounds like
+     * @return tile
+     */
     public tile getTileAt(int x, int y){
         return Grid[x][y];
     }
     
+    public String getType (tile t){
+        return t.type;
+    }
     
-    //more getters and setters go here
+    public String getTileCoords(tile t){
+        String tileCoords = "";
+        //uhhhhhhhhhhhh
+        return tileCoords;
+    }
     
     
     /**
@@ -217,7 +263,7 @@ public class Map {
     
     /**
      * The toString method. Real heckin important for saving. Should put things 
-     * in a CSV format. FIGURE OUT GOOD ALGORITHM FOR THIS
+     * in a CSV format. Constantly update algorithm to make sure it outputs /right/
      * @return the dungeon in a CSV format
      */
     @Override

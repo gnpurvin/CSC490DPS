@@ -5,6 +5,7 @@
  */
 package dps;
 
+import java.awt.Graphics;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,6 +19,8 @@ import javafx.stage.Stage;
  * @author Spencer
  */
 public class DPS extends Application {
+    public mapController mpc = new mapController();
+    public Graphics g;
     
     @Override
     public void start(Stage primaryStage) {
@@ -28,6 +31,10 @@ public class DPS extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Hello World!");
+                //Have this part or wherever, idc, open up a draw panel so that
+                //you can call the paintComponent method, which shooouuuld do 
+                //the thing unless I fucked it up. Fingers crossed
+                                
             }
         });
         
@@ -46,6 +53,7 @@ public class DPS extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        
     }
     
 }
