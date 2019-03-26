@@ -83,7 +83,6 @@ public class ServerWorker extends Thread {
             if (!login.equals("null")) {
                 if (login.equals("DM") && password.equals("DM")
                         || (login.equals("ray") && password.equals("ray"))
-                        || (login.equals("courtney") && password.equals("luv"))
                         || (login.equals("phil") && password.equals("phil"))
                         || (login.equals("spencer") && password.equals("spencer"))
                         || (login.equals("liz") && password.equals("liz"))
