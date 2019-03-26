@@ -42,7 +42,7 @@ public class DiceRoller {
 	 * @return string with the result of the roll
 	 */
 	public String roll(int numDice) {
-		String result = "User rolled a ";
+		String result = "rolled a ";
 		Random rand = new Random();
 		int sum = 0;
 		for(int i = 0; i < numDice; i++) {
