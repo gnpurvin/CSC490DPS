@@ -3,7 +3,6 @@
  * including logging in, logging out, sending group messages, and direct messages.
  * Part of the Dungeon Positioning System software created for a senior project at UNCG by
  * Phil, Liz, Spencer, Greg, and Ray.
-
  */
 package dps_server;
 
@@ -66,6 +65,10 @@ public class ServerWorker extends Thread {
                     handleLogoff();
                 } else if ("login".equalsIgnoreCase(cmd)) { //if login then handle login
                     HandleLogin(out, tokens);
+                } else if("map".equalsIgnoreCase(cmd)){     //if map then send map
+                    HandleMap(out, tokens);        
+                } else if("move".equalsIgnoreCase(cmd)){    //if token move then handle move
+                    HandleTokenMove(out, tokens);
                 } else if (cmd.startsWith("#")) {   //if # is the first character, then it's a direct message.
                     DirectMsg(tokens);
                 } else {                         //else it's a group chat message.
@@ -75,29 +78,28 @@ public class ServerWorker extends Thread {
         }
     }
 
-    private void HandleLogin(OutputStream out, String tokens[]) throws IOException {
-        if (tokens.length == 3) {
-            String login = tokens[1];
-            String password = tokens[2];
-
-            if (!login.equals("null")) {
-                if (login.equals("DM") && password.equals("DM")
-                        || (login.equals("ray") && password.equals("ray"))
-                        || (login.equals("phil") && password.equals("phil"))
-                        || (login.equals("spencer") && password.equals("spencer"))
-                        || (login.equals("liz") && password.equals("liz"))
-                        || (login.equals("greg") && password.equals("greg"))) {
+    //login method for spencer with strings for user and pass
+    public void Login(String user, String password) throws IOException{
+        
+            if (!user.equals("null")) {
+                //to be replaced by queries to the DB later
+                if (user.equals("DM") && password.equals("DM")
+                        || (user.equals("ray") && password.equals("ray"))
+                        || (user.equals("phil") && password.equals("phil"))
+                        || (user.equals("spencer") && password.equals("spencer"))
+                        || (user.equals("liz") && password.equals("liz"))
+                        || (user.equals("greg") && password.equals("greg"))) {
                     String msg = "Welcome to the Party!\n";
                     out.write(msg.getBytes());
-                    this.login = login;
-                    System.out.println(login + " logged in successfully.");
+                    this.login = user;
+                    System.out.println(this.login + " logged in successfully.");
 
                     List<ServerWorker> workerList = server.getWorkerList();
                     String onlineMsg;
 
                     //sending new login notification to other users
                     for (ServerWorker worker : workerList) {
-                        if (!login.equals(worker.getLogin())) {
+                        if (!user.equals(worker.getLogin())) {
                             if (worker.getLogin() != null) {
                                 onlineMsg = worker.getLogin() + " is online.\n";
                                 send(onlineMsg);
@@ -107,8 +109,8 @@ public class ServerWorker extends Thread {
 
                     //sending list of online people to current user
                     for (ServerWorker worker : workerList) {
-                        if (!login.equals(worker.getLogin())) {
-                            onlineMsg = login + " just logged in.\n";
+                        if (!user.equals(worker.getLogin())) {
+                            onlineMsg = user + " just logged in.\n";
                             worker.send(onlineMsg);
                         }
                     }
@@ -118,6 +120,14 @@ public class ServerWorker extends Thread {
                     System.err.println("Login failed for " + login+".");
                 }
             }
+    }
+    
+    private void HandleLogin(OutputStream out, String tokens[]) throws IOException {
+        if (tokens.length == 3) {
+            String user = tokens[1];
+            String password = tokens[2];
+            Login(user, password);
+
         }
     }
 
@@ -188,6 +198,15 @@ public class ServerWorker extends Thread {
                 }
             }
         }
+    }
+
+    //TO-DO add logic for sending map
+    private void HandleMap(OutputStream out, String tokens[]) {
+        
+         }
+
+    private void HandleTokenMove(OutputStream out, String[] tokens) {
+        
     }
 
 }
