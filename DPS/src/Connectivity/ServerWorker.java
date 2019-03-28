@@ -218,23 +218,16 @@ public class ServerWorker extends Thread{
     }
     
    public void HandleRollDice(OutputStream out, String tokens[]) throws IOException{
-          String rollString = tokens[1];
-     
-       DiceRoller d = new DiceRoller(rollString);
-       String msg = d.roll();
+          DiceRoller d = new DiceRoller(tokens[1]);
+       String msg = login+" "+d.roll()+"\n";
        
         List<ServerWorker> workerList = server.getWorkerList();
    
-        String outMsg = login+" "+msg+"\n";
-        this.send(outMsg);
-        
-        //send text to everyone logged in.
+        //send result to everyone logged in.
         for (ServerWorker worker : workerList) { 
-                {
-                    outMsg = login +" " + msg + "\n";
-                    worker.send(outMsg);
-                }
-            }
+                worker.send(msg);
+        }
+      
         }
    }
  
