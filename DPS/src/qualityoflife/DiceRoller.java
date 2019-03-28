@@ -20,11 +20,14 @@ public class DiceRoller {
 	/** number of dice to roll */
 	private int numDice;
 	
+	/** all valid sizes for a die */
 	private static final int[] SIZES = new int[] {4, 6, 8, 10, 12, 20, 100};
 
 	/**
 	 * constructor for the dice roller
-	 * @param size of the dice being rolled
+	 * @param input string formatted as XdY
+	 * X is the number of dice to roll
+	 * Y is the size of the die being rolled
 	 */
 	public DiceRoller(String input) {
 		Scanner inScan = new Scanner(input.toLowerCase());
@@ -32,6 +35,7 @@ public class DiceRoller {
 		int num = inScan.nextInt();
 		int size = inScan.nextInt();
 		boolean valid = false;
+		inScan.close();
 		for(int i = 0; i < SIZES.length; i++) {
 			if(size == SIZES[i]) {
 				valid = true;
@@ -58,8 +62,8 @@ public class DiceRoller {
 	}
 
 	/**
-	 * Rolls a number of dice according to the given parameter
-	 * @param numDice the number of dice being rolled
+	 * Rolls a number of dice according to the number of rolls and size of die 
+	 * given in the constructor
 	 * @return string with the result of the roll
 	 */
 	public String roll() {
@@ -77,7 +81,7 @@ public class DiceRoller {
 //	 * rolls a single die of the given size
 //	 * @return result of the roll
 //	 */
-//	public int roll() {
+//	public int rollSingleInt() {
 //		Random rand = new Random();
 //		return rand.nextInt(size) + 1; 
 //	}
