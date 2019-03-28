@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.LoginController">
+   <children>
+      <Label fx:id="UserName" layoutX="149.0" layoutY="102.0" text="User Name:" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="150.0" />
+      <Label fx:id="SessionCode" layoutX="163.0" layoutY="200.0" text="Session Code:" visible="false" AnchorPane.bottomAnchor="180.0" AnchorPane.rightAnchor="400.0" />
+      <Label fx:id="DatabaseName" layoutX="133.0" layoutY="203.0" text="Server Name:" visible="false" AnchorPane.bottomAnchor="180.0" AnchorPane.rightAnchor="400.0" />
+      <TextField fx:id="UserNameIn" layoutX="250.0" layoutY="98.0" AnchorPane.leftAnchor="225.0" AnchorPane.topAnchor="145.0" />
+      <TextField fx:id="SessionCodeIn" layoutX="250.0" layoutY="188.0" visible="false" AnchorPane.bottomAnchor="175.0" AnchorPane.leftAnchor="225.0" />
+      <TextField fx:id="DatabaseNameIn" layoutX="260.0" layoutY="198.0" visible="false" AnchorPane.bottomAnchor="175.0" AnchorPane.leftAnchor="225.0" />
+      <Button fx:id="DM" layoutX="328.0" layoutY="247.0" mnemonicParsing="false" onAction="#LoginDM" text="Login" visible="false" AnchorPane.bottomAnchor="125.0" AnchorPane.rightAnchor="226.0" />
+      <Button fx:id="PC" layoutX="338.0" layoutY="257.0" mnemonicParsing="false" onAction="#LoginPC" text="Login" visible="false" AnchorPane.bottomAnchor="125.0" AnchorPane.rightAnchor="226.0" />
+   </children>
+</AnchorPane>
