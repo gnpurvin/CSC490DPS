@@ -229,8 +229,7 @@ public class ServerWorker extends Thread{
         this.send(outMsg);
         
         //send text to everyone logged in.
-        for (ServerWorker worker : workerList) {
-            if (!login.equals(worker.getLogin())) {
+        for (ServerWorker worker : workerList) { 
                 {
                     outMsg = login +" " + msg + "\n";
                     worker.send(outMsg);
@@ -238,5 +237,4 @@ public class ServerWorker extends Thread{
             }
         }
    }
-   
-}
+ 
