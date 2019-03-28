@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" fx:id="CharacterMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dps.CharacterMainController">
+<AnchorPane id="AnchorPane" fx:id="CharacterMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CharacterMainController">
    <children>
       <Button layoutX="455.0" layoutY="300.0" mnemonicParsing="false" onAction="#NewCharacter" prefHeight="78.0" prefWidth="370.0" text="Create New Character" AnchorPane.leftAnchor="455.0">
          <font>
@@ -19,7 +19,7 @@
             <Font size="29.0" />
          </font>
       </Button>
-      <Button fx:id="BackButton" layoutX="50.0" layoutY="715.0" mnemonicParsing="false" onAction="#Back" prefHeight="35.0" prefWidth="123.0" text="Back" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0">
+      <Button fx:id="BackButton" layoutX="51.0" layoutY="676.0" mnemonicParsing="false" onAction="#Back" prefHeight="35.0" prefWidth="123.0" text="Back" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="51.0">
          <font>
             <Font size="18.0" />
          </font>

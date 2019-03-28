@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dps;
+package GUI;
 
+import java.io.File;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,12 +23,14 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.converter.IntegerStringConverter;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * FXML Controller class
  *
  * @author Spencer
  */
+@XmlRootElement
 public class CharacterCreationController implements Initializable {
 
     /**
@@ -33,6 +39,8 @@ public class CharacterCreationController implements Initializable {
 
     @FXML
     public AnchorPane CharacterCreation;
+    @FXML
+    public TextField Name;
     @FXML
     public ComboBox ClassDropDown;
     @FXML
@@ -118,8 +126,33 @@ public class CharacterCreationController implements Initializable {
 
     //saves file as xml and returns to previous menu
     @FXML
+    
     public void Save(ActionEvent action) throws Exception{
+
+        CharacterSheet Character = new CharacterSheet();
+        Character.setName(Name.getText());
+        Character.setClassName(ClassDropDown.getValue().toString());
+        Character.setRace(RaceDropDown.getValue().toString());
+        Character.setStr(Str.getText());
+        Character.setDex(Dex.getText());
+        Character.setInt(Int.getText());
+        Character.setCon(Con.getText());
+        Character.setWis(Wis.getText());
+        Character.setCha(Cha.getText());
+        Character.setHP(HP.getText());
+        Character.setAC(AC.getText());
         
+                File file = new File("Characters\\" + Character.getName() + ".xml");
+                JAXBContext jaxbContext = JAXBContext.newInstance(CharacterSheet.class);
+                Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+                
+                jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                
+                jaxbMarshaller.marshal(Character, file);
+                jaxbMarshaller.marshal(Character, System.out);
+                
+                
+
         AnchorPane Back = FXMLLoader.load(getClass().getResource("CharacterMain.fxml"));
         CharacterCreation.getChildren().setAll(Back);
     }

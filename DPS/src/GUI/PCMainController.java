@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dps;
+package GUI;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,6 +28,9 @@ public class PCMainController implements Initializable {
     public AnchorPane PCMain;
     @FXML
     public Button CreateChar;
+    @FXML
+    public Button Join;
+
     /**
      * Initializes the controller class.
      */
@@ -51,7 +54,13 @@ public class PCMainController implements Initializable {
 
     @FXML
     public void JoinSession(ActionEvent event) throws Exception{
-        //TODO
+        FXMLLoader Session = new FXMLLoader(getClass().getResource("PlayerSession.fxml"));
+        Stage stage = new Stage();
+        stage.initOwner(Join.getScene().getWindow());
+        stage.setScene(new Scene((Parent) Session.load()));
+        stage.setHeight(800);
+        stage.setWidth(1280);
+        stage.show();
     }
 
     @FXML
