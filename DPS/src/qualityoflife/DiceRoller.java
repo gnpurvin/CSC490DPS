@@ -67,13 +67,13 @@ public class DiceRoller {
 	 * @return string with the result of the roll
 	 */
 	public String roll() {
-		String result = "rolled a ";
+		String result = "rolled " + numDice + "d" + size + " and got ";
 		Random rand = new Random();
 		int sum = 0;
 		for(int i = 0; i < numDice; i++) {
 			sum += rand.nextInt(size) + 1;
 		}
-		result += sum;
+		result += sum + ".";
 		return result;
 	}
 //	

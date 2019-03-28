@@ -19,6 +19,7 @@ class DiceRollerTest {
 		d = new DiceRoller("5D20");
 		assertEquals(5, d.getNumDice());
 		assertEquals(20, d.getSize());
+		System.out.println(d.roll());
 	}
 
 }
