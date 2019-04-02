@@ -7,6 +7,6 @@ package Connectivity;
  */
 public interface MessageListener {
     
-    public void onMessage(String fromLogin, String msg);
+    public String onMessage(String fromLogin, String msg);
 
 }
