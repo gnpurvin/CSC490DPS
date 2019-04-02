@@ -197,7 +197,15 @@ public class Client {
             listener.onMessage(login, cmd);
         }
     }
-
+    
+    
+   public OutputStream getOutStream(){
+    return this.serverOut;   
+   }
+   
+   public InputStream getInStream(){
+       return this.serverIn;
+   }
    
     
 }
