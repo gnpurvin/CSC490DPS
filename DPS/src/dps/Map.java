@@ -7,9 +7,7 @@ package dps;
 
 import java.lang.Math;
 import java.util.Random;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.geom.Rectangle2D;
+import javafx.scene.paint.Color;
 
 /**
  * This is the map class, and it is used mostly to construct maps with specific 
@@ -34,9 +32,10 @@ public class Map {
     public String mapName;
     public Random rng;
     
+    
     //main method, maaay not actually need this, we'll see
     public static void main(String[] args) {
-        
+        System.out.println("Map instantiated");
     }
     
     
@@ -46,7 +45,7 @@ public class Map {
     public Map(){
         sizeX = 20;
         sizeY = 20;
-        numRooms = 1;
+        numRooms = 2;
         setting = "Doesn't matter lmao";
         hallType = "Endless";
         deadEnds = "nah";
@@ -112,7 +111,6 @@ public class Map {
         public Boolean isStairs;
         public int xPos;
         public int yPos;
-        public Rectangle2D.Double assocRect;
         
         /*
         This miiiiiight need some vars for x and y position, for use by other 
@@ -131,15 +129,6 @@ public class Map {
             yPos = y;
         }
         
-        /*********
-         * Gonna need some methods for setting tiles to specific things.
-         * Overload the f out of this constructor
-         * @return 
-         ********/
-        
-        public void setAssocRect(Rectangle2D.Double rect){
-            assocRect = rect;
-        }
         
         //toString method. Important for saving. Fix later bc this is super gross
         @Override
@@ -215,11 +204,19 @@ public class Map {
         return tileCoords;
     }
     
+    //Fix this thingy
+    public void setTileColor(tile t, Color c){
+        System.out.println("Implement later");
+    }
+    
+    public void setMapId(){
+        this.mapID = rng.nextInt(10000);
+    }
     
     /**
      * Method for randomly placing rooms on the map
      */
-    private void placeRoom(){
+    public void placeRoom(){
         //The math here is gonna get real fucky, hang on to your butts folks
         int roomWidth = rng.nextInt(((sizeX)%2)+1);
         int roomLength = rng.nextInt(((sizeY)%2)+1);
