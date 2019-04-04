@@ -5,10 +5,10 @@
  */
 package dps;
 
-import java.awt.Graphics;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
@@ -20,28 +20,30 @@ import javafx.stage.Stage;
  */
 public class DPS extends Application {
     public mapController mpc = new mapController();
-    public Graphics g;
     
+    StackPane mapping = mpc.mapping;
+    Scene mapScene = mpc.mapScene;
+     
     @Override
     public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-                //Have this part or wherever, idc, open up a draw panel so that
-                //you can call the paintComponent method, which shooouuuld do 
-                //the thing unless I fucked it up. Fingers crossed
-                                
-            }
-        });
+        Button btn1 = new Button();
+        btn1.setText("Say 'Hello World'");
         
         StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
         Scene scene = new Scene(root, 300, 250);
+        root.getChildren().add(btn1);
+        
+        
+        this.mapping = mpc.mapping;
+        this.mapScene = mpc.mapScene;
+        mpc.drawMap();
+        
+        Button btn2 = new Button();
+        btn2.setText("Make map");
+        mapping.getChildren().add(btn2);
+        btn2.setOnAction(e -> mapping.getChildren().add(mpc.c));
+        
+        btn1.setOnAction(e -> primaryStage.setScene(mapScene));
         
         primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);
