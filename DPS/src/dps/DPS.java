@@ -8,7 +8,7 @@ package dps;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
@@ -19,6 +19,7 @@ import javafx.stage.Stage;
  * @author Spencer
  */
 public class DPS extends Application {
+
     public mapController mpc = new mapController();
     
     StackPane mapping = mpc.mapping;
@@ -49,7 +50,7 @@ public class DPS extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
+  
     /**
      * @param args the command line arguments
      */
@@ -58,4 +59,12 @@ public class DPS extends Application {
         
     }
     
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("/GUI/MainMenu.fxml"));
+        primaryStage.setTitle("DPS");
+        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.show();
+    }
 }
+
