@@ -14,8 +14,12 @@ package dps;
 public class token {
     public int xPos;
     public int yPos;
-    public String owner;
+    //public String owner;
     public String type; //maaaay not actually need, to be determined
+    public int tokenID;
+    public String tokenImage;
+    public int tokenSizeX;
+    public int tokenSizeY;
     
     
     /**
@@ -25,7 +29,7 @@ public class token {
      * @param kind 
      */
     public token(int x, int y, String kind){
-        owner = "DM";
+        //owner = "DM";
         type = kind;
         xPos = x;
         yPos = y;
