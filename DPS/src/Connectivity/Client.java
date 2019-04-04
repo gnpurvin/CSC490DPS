@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Connectivity;
 
 import java.io.*;
@@ -44,8 +48,9 @@ public class Client {
 
         this.addMessageListener(new MessageListener() {
             @Override
-            public void onMessage(String fromLogin, String msg) {
-                System.out.println(fromLogin + ": " + msg);
+            public String onMessage(String fromLogin, String msg) {
+               //System.out.println(fromLogin + ": " + msg);
+                return fromLogin+": "+msg;
             }
         });
     }
@@ -175,7 +180,7 @@ public class Client {
     }
 
     //call this method for sending strings to server
-    private void sendMsg(String Msg) throws IOException {
+    public void sendMsg(String Msg) throws IOException {
         String cmd = Msg + "\n";
         serverOut.write(cmd.getBytes());
     }
@@ -192,5 +197,15 @@ public class Client {
             listener.onMessage(login, cmd);
         }
     }
-
+    
+    
+   public OutputStream getOutStream(){
+    return this.serverOut;   
+   }
+   
+   public InputStream getInStream(){
+       return this.serverIn;
+   }
+   
+    
 }
