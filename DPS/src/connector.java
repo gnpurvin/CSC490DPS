@@ -176,6 +176,7 @@ public class connector {
         }
     }
     
+    //getIP returns the DM's IP address
     public static String getIP(int sessionID) {
         String query = "SELECT IPAddress FROM sessionowner WHERE sessionID = " + sessionID;
         String IPAddress = "";
