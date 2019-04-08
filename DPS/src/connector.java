@@ -161,6 +161,43 @@ public class connector {
 
         return num;
     }
+    
+    //setIP updates the DM's IP address on the database
+    public static void setIP(int sessionID, String IPAddress) {
+        String query = "UPDATE sessionowner SET IPAddress = '" + IPAddress + "' WHERE sessionID = " + sessionID;
+        
+        try {
+            Statement st = con.createStatement();
+            st.executeUpdate(query);
+            st.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Unable to set IP");
+        }
+    }
+    
+    public static String getIP(int sessionID) {
+        String query = "SELECT IPAddress FROM sessionowner WHERE sessionID = " + sessionID;
+        String IPAddress = "";
+        
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            
+            if (rs.next())
+            {
+                IPAddress = rs.getString("IPAddress");
+            }
+            st.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Unable to get IP address");
+        }
+        
+        return IPAddress;
+    }
+    
+
 
     //editSession updates the sessionName of a sessionID
     public static void editSession(int sessionID, String sessionName) {
@@ -362,6 +399,7 @@ public class connector {
         String query = "DELETE FROM token WHERE tokenID = " + tokenID;
         try {
             Statement st = con.createStatement();
+
             st.executeUpdate(query);
             st.close();
         } catch (SQLException ex) {
@@ -395,6 +433,13 @@ public class connector {
         //test makeSession
         //int sessionID = connector.makeSession("test", "Aesthellar");
         //System.out.println("Your new session's ID is: " + sessionID);
+        
+        //test setIP
+        //connector.setIP(89, "693.051.341.265");
+        
+        //test getIP
+        //String IP = connector.getIP(89);
+        //System.out.println(IP);
         
         //tests getSessionList
         /*ArrayList<Integer> sessions = new ArrayList<Integer>();
@@ -445,7 +490,7 @@ public class connector {
         //connector.editTokenValues(20, tokenValues);
         
         //test deleteToken
-        //connector.deleteToken(117);
+        //connector.deleteMap(117);
         
         //test closeCon
         //connector.closeCon();
