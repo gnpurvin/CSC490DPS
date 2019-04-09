@@ -5,7 +5,9 @@
  */
 package GUI;
 
-import java.io.IOException;
+
+
+import DB.connector;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -15,7 +17,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -24,50 +29,42 @@ import javafx.stage.Stage;
  * @author Spencer
  */
 public class LoginController implements Initializable {
+    
+    @FXML
+    public Label UserName;
+    @FXML
+    public Label Password;
     @FXML
     public TextField UserNameIn;
     @FXML
-    public TextField SessionCodeIn;
+    public PasswordField PasswordIn;
     @FXML
-    public TextField ServerNameIn;
+    public Button LoginBtn;
     @FXML
-    public Button DM;
+    public AnchorPane LoginPane;
     @FXML
-    public Button PC;
+    public Label Error;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }
-    public void PClog(){
-        SessionCodeIn.setVisible(true);
-        PC.setVisible(true);
+        LoginPane.setMaxSize(600, 400);
+        LoginPane.setMinSize(600, 400);
     }
     
-    public void DMlog(){
-        ServerNameIn.setVisible(true);
-        DM.setVisible(true);
-    }
-
-    public void LoginDM(ActionEvent action) throws IOException {
-        FXMLLoader Session = new FXMLLoader(getClass().getResource("PlayerSession.fxml"));
-        Stage stage = new Stage();
-        stage.initOwner(DM.getScene().getWindow());
-        stage.setScene(new Scene((Parent) Session.load()));
-        stage.setHeight(800);
-        stage.setWidth(1280);
-        stage.show();
-    }
-    
-    public void LoginPC(ActionEvent action) throws IOException {
-        FXMLLoader Session = new FXMLLoader(getClass().getResource("PlayerSession.fxml"));
-        Stage stage = new Stage();
-        stage.initOwner(PC.getScene().getWindow());
-        stage.setScene(new Scene((Parent) Session.load()));
-        stage.setHeight(800);
-        stage.setWidth(1280);
-        stage.show();
+    @FXML
+    public void Login(ActionEvent event)throws Exception{
+        if(connector.Authenticate(UserNameIn.getText(), PasswordIn.getText()) == true){
+            FXMLLoader Main =  new FXMLLoader(getClass().getResource("MainMenu.fxml"));
+            MainMenuController controller = new MainMenuController(UserNameIn.getText(), PasswordIn.getText());
+            Main.setController(controller);
+            LoginPane.getChildren().setAll((AnchorPane) Main.load());
+        }
+        else{
+            UserNameIn.clear();
+            PasswordIn.clear();
+            Error.setVisible(true);
+        }
     }
 }

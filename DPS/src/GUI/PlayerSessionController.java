@@ -28,6 +28,13 @@ public class PlayerSessionController implements Initializable {
     private ChoiceBox TypeofDice;
     @FXML
     private TextField NumberofDice;
+    private String username;
+    private String session;
+    
+    public PlayerSessionController(String name, String ses){
+        username = name;
+        session = ses;
+    }
     
     UnaryOperator<TextFormatter.Change> integerFilter = change -> {
         String newText = change.getControlNewText();
@@ -90,5 +97,7 @@ public class PlayerSessionController implements Initializable {
     public void CreateCharacter(ActionEvent action){
         
     }
-    
+    public void DMSes(){
+        
+    }
 }

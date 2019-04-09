@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import DB.connector;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -30,13 +31,22 @@ public class PCMainController implements Initializable {
     public Button CreateChar;
     @FXML
     public Button Join;
+    
+    private String username;
+    private String session;
+    
+    public PCMainController(String name, String ses){
+        username = name;
+        session = ses;
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        PCMain.setMaxSize(600, 400);
+        PCMain.setMinSize(600, 400);
     }
 
     @FXML
@@ -54,13 +64,18 @@ public class PCMainController implements Initializable {
 
     @FXML
     public void JoinSession(ActionEvent event) throws Exception{
-        AnchorPane Session = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        PCMain.getChildren().setAll(Session);
+        FXMLLoader Session = new FXMLLoader(getClass().getResource("PlayerSession.fxml"));
+        PlayerSessionController controller = new PlayerSessionController(username, session);
+        Session.setController(controller);
+        PCMain.getChildren().setAll((AnchorPane) Session.load());
     }
 
     @FXML
     public void MainMenu(ActionEvent event) throws Exception{
-        AnchorPane Main = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-        PCMain.getChildren().setAll(Main);
+        FXMLLoader Main =  new FXMLLoader(getClass().getResource("MainMenu.fxml"));
+        MainMenuController controller = new MainMenuController(username);
+        Main.setController(controller);
+        connector.closeCon();
+        PCMain.getChildren().setAll((AnchorPane) Main.load());
     }
 }

@@ -25,7 +25,7 @@ public class DPS extends Application {
     
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/GUI/MainMenu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/GUI/Login.fxml"));
         primaryStage.setTitle("DPS");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();

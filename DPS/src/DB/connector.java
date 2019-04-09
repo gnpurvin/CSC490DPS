@@ -1,3 +1,6 @@
+package DB;
+
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.sql.*;

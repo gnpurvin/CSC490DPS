@@ -14,7 +14,7 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="65.0" mnemonicParsing="false" onAction="#SessionList" prefHeight="53.0" prefWidth="267.0" text="Create/Edit Sessions" textAlignment="CENTER" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="70.0">
+      <Button fx:id="MakeMap" alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="65.0" mnemonicParsing="false" onAction="#MapMaker" prefHeight="53.0" prefWidth="267.0" text="Create/Edit Maps" textAlignment="CENTER" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="70.0">
          <font>
             <Font size="24.0" />
          </font>
