@@ -5,7 +5,7 @@
  */
 package GUI;
 
-import DB.connector;
+import database.connector;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -34,10 +34,12 @@ public class PCMainController implements Initializable {
     
     private String username;
     private String session;
+    private String password;
     
-    public PCMainController(String name, String ses){
+    public PCMainController(String name, String ses, String pass){
         username = name;
         session = ses;
+        password = pass;
     }
 
     /**
@@ -73,7 +75,7 @@ public class PCMainController implements Initializable {
     @FXML
     public void MainMenu(ActionEvent event) throws Exception{
         FXMLLoader Main =  new FXMLLoader(getClass().getResource("MainMenu.fxml"));
-        MainMenuController controller = new MainMenuController(username);
+        MainMenuController controller = new MainMenuController(username, password);
         Main.setController(controller);
         connector.closeCon();
         PCMain.getChildren().setAll((AnchorPane) Main.load());

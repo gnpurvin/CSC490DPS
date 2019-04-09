@@ -7,7 +7,7 @@ package GUI;
 
 
 
-import DB.connector;
+import database.connector;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;

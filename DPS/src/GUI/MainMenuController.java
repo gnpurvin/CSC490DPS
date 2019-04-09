@@ -44,7 +44,7 @@ public class MainMenuController implements Initializable{
     @FXML
     public void DMMenu(ActionEvent event) throws Exception{
         FXMLLoader SessionList = new FXMLLoader(getClass().getResource("SessionList.fxml"));
-        SessionListController controller = new SessionListController(username);
+        SessionListController controller = new SessionListController(username, password);
         SessionList.setController(controller);
         MainMenu.getChildren().setAll((AnchorPane) SessionList.load());
     }
@@ -56,7 +56,7 @@ public class MainMenuController implements Initializable{
         if(true){
             //load player menu and connect to session
             FXMLLoader PCMain = new FXMLLoader(getClass().getResource("PCMain.fxml"));
-            PCMainController controller = new PCMainController(username, "");
+            PCMainController controller = new PCMainController(username, "", password);
             PCMain.setController(controller);
             MainMenu.getChildren().setAll((AnchorPane) PCMain.load());
         }

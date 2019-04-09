@@ -5,7 +5,7 @@
  */
 package GUI;
 
-import DB.connector;
+import database.connector;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -22,18 +22,20 @@ import javafx.scene.layout.AnchorPane;
  * @author Spencer
  */
 public class SessionListController implements Initializable {
-    
+
     @FXML
     public ChoiceBox Sessions;
     @FXML
     public Button Host;
     @FXML
     public AnchorPane SessionList;
-    private String username;
 
-    
-    public SessionListController(String name){
+    private String username;
+    private String password;
+
+    public SessionListController(String name,String pass){
         username = name;
+        password = pass;
     }
     /**
      * Initializes the controller class.
@@ -49,10 +51,10 @@ public class SessionListController implements Initializable {
     @FXML
     public void HostSession(ActionEvent event) throws Exception{
         FXMLLoader DM = new FXMLLoader(getClass().getResource("DMMainMenu.fxml"));
-        DMMainController controller = new DMMainController(username, (String) Sessions.getValue());
+        DMMainController controller = new DMMainController(username, (String) Sessions.getValue(), password);
         DM.setController(controller);
         SessionList.getChildren().setAll((AnchorPane) DM.load());
     }
-    
-    
+
+
 }
