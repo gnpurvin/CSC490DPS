@@ -9,12 +9,7 @@ public class connector {
     private static final String url = "jdbc:mysql://dpsdb.cltxtb6ls4t4.us-east-1.rds.amazonaws.com:3306/dpsdb?user=Aesthellar&password=password";
     private static Connection con;
     
-    //constructor sets the connection
-    connector() {
-        con = connector.connect();
-    }
-    
-    //connect connects to the DPS database
+    //connect connects to the DPS database and returns connection
     public static Connection connect() {
         try {
             con = DriverManager.getConnection(url);
@@ -84,9 +79,9 @@ public class connector {
 
     //Checks if player already has a token on the map using their username, the current mapID, and the session the map belongs to
     //Returns the player's tokenID
-    public static int checkPlayerToken(String username, int sessionID, int mapID) {
-
-        int tokenID = 10000;
+    public static int getTokenID(String username, int sessionID, int mapID) {
+        int tokenID = -1;
+        ArrayList<Integer> tokenIDList = new ArrayList<Integer>();
         String findTokenID = "SELECT tokenID FROM mapContain WHERE mapID = " + mapID;
 
         //find list of tokens from a specific map
@@ -97,18 +92,22 @@ public class connector {
 
             while (rs.next()) {
                 tokenID = rs.getInt("tokenID"); //Find all tokens on map
+                tokenIDList.add(tokenID);
+            }
+            for (int i = 0; i < tokenIDList.size(); i++) {
                 String findUserToken = "SELECT username FROM tokenowner WHERE tokenID = " + tokenID;
-
                 rs2 = st.executeQuery(findUserToken);
                 while (rs2.next()) {
                     String user = rs2.getString("username");
                     if (username.equals(user)) {    //Check if user owns a token on map
                         return tokenID; //Returns tokenID of a user
                     } else {
-                        //Call makeToken with username, size (1, 1), mapID, and tokenValues
+                        System.out.println("Make a new token"); //Call makeToken to make a new token
                     }
                 }
             }
+            
+            st.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Unable to check if new player");
@@ -116,27 +115,43 @@ public class connector {
         return tokenID;
     }
 
-    //getSessionList returns an ArrayList of sessions that the user has created
-    public static ArrayList<Integer> getSessionList(String username) {
-
-        ArrayList<Integer> sessions = new ArrayList<Integer>();
-        String query = "SELECT sessionID FROM sessionowner WHERE username = '" + username + "'";
-
+    //getSessionList returns an ArrayList of session names that the user has created
+    public static ArrayList<String> getSessionList(String username) {
+        int sessionID = -1;
+        
+        ArrayList<Integer> sessIDList = new ArrayList<Integer>();
+        ArrayList<String> sessNameList = new ArrayList<String>();
+        String findSessionID = "SELECT sessionID FROM sessionowner WHERE username = '" + username + "'";
+        
+        
+        //find list of sessionIDs made by the user
         try {
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
+            ResultSet rs = st.executeQuery(findSessionID);
 
             while (rs.next()) {
-                int sessionID = rs.getInt("sessionID");
-                sessions.add(sessionID);
+                sessionID = rs.getInt("sessionID"); //Find all sessions belonging to the user
+                sessIDList.add(sessionID);
             }
+            for (int i = 0; i < sessIDList.size(); i++) {
+                String findSessionName = "SELECT sessionName FROM session WHERE sessionID = " + sessionID;
+                ResultSet rs2 = st.executeQuery(findSessionName);
+                
+                while (rs2.next()) {
+                    String sessionName = rs2.getString("sessionName");
+                    sessNameList.add(sessionName);
+                }
+            }
+            
             st.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Unable to find sessions");
         }
-        return sessions;
+        return sessNameList;
     }
+    
+    //public static findSessionNames(String )
 
     //makeSession makes a session using the user's username and a sessionName then returns the sessionID
     public static int makeSession(String sessionName, String username) {
@@ -427,7 +442,7 @@ public class connector {
     //Test all methods
     public static void main(String args[]) {
         //test connect
-        //con = connector.connect();
+        con = connector.connect();
 
         //test makeUser
         //connector.makeUser("Aesthellar", "letmein");
@@ -448,11 +463,11 @@ public class connector {
         //System.out.println(IP);
         
         //tests getSessionList
-        /*ArrayList<Integer> sessions = new ArrayList<Integer>();
+        /*ArrayList<String> sessions = new ArrayList<String>();
         sessions = connector.getSessionList("Aesthellar");
         System.out.println("Aesthellar's owned sessions: ");
         for (int i = 0; i < sessions.size(); i++) {
-            System.out.println("Session ID: " + sessions.get(i));
+            System.out.println(sessions.get(i));
         }*/
         
         //test editSession
@@ -486,6 +501,10 @@ public class connector {
         //test makeToken
         //int tokenID = connector.makeToken("Aesthellar", 1, 1, 594, "tokenstuff");
         //System.out.println("Your new token ID is: " + tokenID);
+        
+        //test getTokenID
+        //int tokenID = connector.getTokenID("Aesthellar", 849, 594);
+        //System.out.println("Token ID = " + tokenID);
         
         //test getTokenValues
         //String tokenValues = connector.getTokenValues(20);
