@@ -8,7 +8,12 @@ public class connector {
 
     private static final String url = "jdbc:mysql://dpsdb.cltxtb6ls4t4.us-east-1.rds.amazonaws.com:3306/dpsdb?user=Aesthellar&password=password";
     private static Connection con;
-
+    
+    //constructor sets the connection
+    connector() {
+        con = connector.connect();
+    }
+    
     //connect connects to the DPS database
     public static Connection connect() {
         try {
@@ -422,7 +427,7 @@ public class connector {
     //Test all methods
     public static void main(String args[]) {
         //test connect
-        con = connector.connect();
+        //con = connector.connect();
 
         //test makeUser
         //connector.makeUser("Aesthellar", "letmein");
