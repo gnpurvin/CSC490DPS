@@ -41,6 +41,15 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
+    public void PClog(){
+        SessionCodeIn.setVisible(true);
+        PC.setVisible(true);
+    }
+    
+    public void DMlog(){
+        ServerNameIn.setVisible(true);
+        DM.setVisible(true);
+    }
 
     public void LoginDM(ActionEvent action) throws IOException {
         FXMLLoader Session = new FXMLLoader(getClass().getResource("PlayerSession.fxml"));

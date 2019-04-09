@@ -28,6 +28,8 @@ public class DMMainController implements Initializable {
     public AnchorPane DMMain;
     @FXML
     public Button CreateChar;
+    @FXML
+    public Button Host;
     
     /**
      * Initializes the controller class.
@@ -57,7 +59,9 @@ public class DMMainController implements Initializable {
 
     @FXML
     public void HostSession(ActionEvent event) throws Exception{
-        //TODO
+        FXMLLoader Session = new FXMLLoader(getClass().getResource("Login.fxml"));
+        LoginController controller = Session.getController();        
+        controller.DMlog();
     }
 
     @FXML

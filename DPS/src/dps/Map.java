@@ -4,8 +4,10 @@
  * Built for Senior Capstone.
  */
 package dps;
+
 import java.lang.Math;
 import java.util.Random;
+import javafx.scene.paint.Color;
 
 /**
  * This is the map class, and it is used mostly to construct maps with specific 
@@ -30,9 +32,10 @@ public class Map {
     public String mapName;
     public Random rng;
     
+    
     //main method, maaay not actually need this, we'll see
     public static void main(String[] args) {
-        
+        System.out.println("Map instantiated");
     }
     
     
@@ -40,7 +43,16 @@ public class Map {
      * Default constructor. Takes no args, outputs a super basic map.
      */
     public Map(){
-        
+        sizeX = 20;
+        sizeY = 20;
+        numRooms = 2;
+        setting = "Doesn't matter lmao";
+        hallType = "Endless";
+        deadEnds = "nah";
+        Grid = new tile[sizeX][sizeY];
+        floorNum = 1;
+        mapID = 00000;
+        mapName = "default";
     }
     
     /**
@@ -96,6 +108,7 @@ public class Map {
         public Boolean isRoom;
         public Boolean isHall;
         public Boolean isOccupied;
+        public Boolean isStairs;
         public int xPos;
         public int yPos;
         
@@ -111,15 +124,11 @@ public class Map {
             isRoom = false;
             isHall = false;
             isOccupied = false;
+            isStairs = false;
             xPos = x;
             yPos = y;
         }
         
-        /*********
-         * Gonna need some methods for setting tiles to specific things.
-         * Overload the f out of this constructor
-         * @return 
-         ********/
         
         //toString method. Important for saving. Fix later bc this is super gross
         @Override
@@ -129,6 +138,7 @@ public class Map {
             tileString.concat((this.isRoom.toString()) + ",");
             tileString.concat((this.isHall.toString()) + ", ");
             tileString.concat((this.isOccupied.toString()) + ", ");
+            tileString.concat((this.isStairs.toString()) + ", ");
             tileString.concat((Integer.toString(this.xPos)) + ", ");
             tileString.concat((Integer.toString(this.yPos)) + "\n");
             return tileString;
@@ -161,19 +171,52 @@ public class Map {
         sizeY = newY;
     }
     
-    //Exactly what it sounds like
+    public void setNumRooms(int n){
+        numRooms = n;
+    }
+    
+    public int getNumRooms(){
+        return numRooms;
+    }
+    
+    //more getters and setters go here
+    
+    /***************************
+     * Tile Specific Getters and setters go here
+     * v v v v v v v v v v v v v 
+     ***************************/
+    
+    /**
+     * Exactly what it sounds like
+     * @return tile
+     */
     public tile getTileAt(int x, int y){
         return Grid[x][y];
     }
     
+    public String getType (tile t){
+        return t.type;
+    }
     
-    //more getters and setters go here
+    public String getTileCoords(tile t){
+        String tileCoords = "";
+        //uhhhhhhhhhhhh
+        return tileCoords;
+    }
     
+    //Fix this thingy
+    public void setTileColor(tile t, Color c){
+        System.out.println("Implement later");
+    }
+    
+    public void setMapId(){
+        this.mapID = rng.nextInt(10000);
+    }
     
     /**
      * Method for randomly placing rooms on the map
      */
-    private void placeRoom(){
+    public void placeRoom(){
         //The math here is gonna get real fucky, hang on to your butts folks
         int roomWidth = rng.nextInt(((sizeX)%2)+1);
         int roomLength = rng.nextInt(((sizeY)%2)+1);
@@ -217,7 +260,7 @@ public class Map {
     
     /**
      * The toString method. Real heckin important for saving. Should put things 
-     * in a CSV format. FIGURE OUT GOOD ALGORITHM FOR THIS
+     * in a CSV format. Constantly update algorithm to make sure it outputs /right/
      * @return the dungeon in a CSV format
      */
     @Override

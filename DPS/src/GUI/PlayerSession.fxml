@@ -7,7 +7,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <ScrollPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.PlayerSessionController">
    <content>
       <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0">
@@ -53,9 +52,9 @@
             </AnchorPane>
             <AnchorPane layoutX="5.0" layoutY="485.0" prefHeight="200.0" prefWidth="400.0" AnchorPane.leftAnchor="700.0" AnchorPane.topAnchor="485.0">
                <children>
-                  <TextField layoutX="43.0" layoutY="50.0" promptText="# of die" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="50.0" />
-                  <ChoiceBox layoutX="260.0" layoutY="50.0" prefWidth="150.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="50.0" />
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="222.0" layoutY="113.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="40.0" text="Roll" textAlignment="CENTER" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="110.0" />
+                  <TextField fx:id="NumberofDice" layoutX="43.0" layoutY="50.0" promptText="# of die" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="50.0" />
+                  <ChoiceBox fx:id="TypeofDice" layoutX="260.0" layoutY="50.0" prefWidth="150.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="50.0" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="222.0" layoutY="113.0" mnemonicParsing="false" onAction="#Roll" prefHeight="25.0" prefWidth="40.0" text="Roll" textAlignment="CENTER" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="110.0" />
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="189.0" layoutY="22.0" prefHeight="17.0" prefWidth="110.0" text="Dice Roller" textAlignment="CENTER" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="10.0">
                      <font>
                         <Font size="20.0" />

@@ -54,13 +54,8 @@ public class PCMainController implements Initializable {
 
     @FXML
     public void JoinSession(ActionEvent event) throws Exception{
-        FXMLLoader Session = new FXMLLoader(getClass().getResource("PlayerSession.fxml"));
-        Stage stage = new Stage();
-        stage.initOwner(Join.getScene().getWindow());
-        stage.setScene(new Scene((Parent) Session.load()));
-        stage.setHeight(800);
-        stage.setWidth(1280);
-        stage.show();
+        AnchorPane Session = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        PCMain.getChildren().setAll(Session);
     }
 
     @FXML
