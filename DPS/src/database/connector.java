@@ -199,8 +199,6 @@ public class connector {
         
         return IPAddress;
     }
-    
-
 
     //editSession updates the sessionName of a sessionID
     public static void editSession(int sessionID, String sessionName) {
@@ -424,7 +422,7 @@ public class connector {
     //Test all methods
     public static void main(String args[]) {
         //test connect
-        //con = connector.connect();
+        con = connector.connect();
 
         //test makeUser
         //connector.makeUser("Aesthellar", "letmein");
