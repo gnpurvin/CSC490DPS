@@ -151,7 +151,6 @@ public class connector {
         return sessNameList;
     }
     
-    //public static findSessionNames(String )
 
     //makeSession makes a session using the user's username and a sessionName then returns the sessionID
     public static int makeSession(String sessionName, String username) {
@@ -219,7 +218,34 @@ public class connector {
         
         return IPAddress;
     }
+    
+    //Returns sessionID given username and sessionName
+    public static int getSessionID(String username, String sessionName) {
+        int sessionID = -1;
+        
+        ArrayList<Integer> sessIDList = new ArrayList<Integer>();
+        String findSessionID = "SELECT sessionID FROM session WHERE sessionName = '" + sessionName + "' UNION"
+                + " SELECT sessionID FROM sessionowner WHERE username = '" + username + "'";
+        
+        
+        //find list of sessionIDs made by the user
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(findSessionID);
 
+            if (rs.next()) {
+                sessionID = rs.getInt("sessionID");
+                return sessionID;
+            }
+            
+            st.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Unable to find session ID");
+        }
+        return sessionID;
+    }
+    
     //editSession updates the sessionName of a sessionID
     public static void editSession(int sessionID, String sessionName) {
 
@@ -452,7 +478,7 @@ public class connector {
         //System.out.println("Authenticating... " + bool);
         
         //test makeSession
-        //int sessionID = connector.makeSession("test", "Aesthellar");
+        //int sessionID = connector.makeSession("DND Campaign", "Aesthellar");
         //System.out.println("Your new session's ID is: " + sessionID);
         
         //test setIP
@@ -462,7 +488,11 @@ public class connector {
         //String IP = connector.getIP(89);
         //System.out.println(IP);
         
-        //tests getSessionList
+        //test getSessionID
+        //int sessionID = connector.getSessionID("Aesthellar", "DND Campaign");
+        //System.out.println(sessionID);
+        
+        //test getSessionList
         /*ArrayList<String> sessions = new ArrayList<String>();
         sessions = connector.getSessionList("Aesthellar");
         System.out.println("Aesthellar's owned sessions: ");
@@ -515,7 +545,7 @@ public class connector {
         //connector.editTokenValues(20, tokenValues);
         
         //test deleteToken
-        //connector.deleteMap(117);
+        //connector.deleteToken(117);
         
         //test closeCon
         //connector.closeCon();
