@@ -33,13 +33,15 @@ public class PCMainController implements Initializable {
     public Button Join;
     
     private String username;
-    private String session;
+    private int session;
     private String password;
+    private boolean DM;
     
-    public PCMainController(String name, String ses, String pass){
+    public PCMainController(String name, int ses, String pass){
         username = name;
         session = ses;
         password = pass;
+        DM = false;
     }
 
     /**
@@ -67,7 +69,7 @@ public class PCMainController implements Initializable {
     @FXML
     public void JoinSession(ActionEvent event) throws Exception{
         FXMLLoader Session = new FXMLLoader(getClass().getResource("PlayerSession.fxml"));
-        PlayerSessionController controller = new PlayerSessionController(username, session);
+        PlayerSessionController controller = new PlayerSessionController(username, session, DM);
         Session.setController(controller);
         PCMain.getChildren().setAll((AnchorPane) Session.load());
     }
@@ -77,7 +79,6 @@ public class PCMainController implements Initializable {
         FXMLLoader Main =  new FXMLLoader(getClass().getResource("MainMenu.fxml"));
         MainMenuController controller = new MainMenuController(username, password);
         Main.setController(controller);
-        connector.closeCon();
         PCMain.getChildren().setAll((AnchorPane) Main.load());
     }
 }

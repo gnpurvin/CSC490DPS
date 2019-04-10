@@ -57,7 +57,7 @@ public class MainMenuController implements Initializable{
         if(true){
             //load player menu and connect to session
             FXMLLoader PCMain = new FXMLLoader(getClass().getResource("PCMain.fxml"));
-            PCMainController controller = new PCMainController(username, "", password);
+            PCMainController controller = new PCMainController(username, 0, password);
             PCMain.setController(controller);
             MainMenu.getChildren().setAll((AnchorPane) PCMain.load());
         }

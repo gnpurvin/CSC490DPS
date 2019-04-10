@@ -35,13 +35,15 @@ public class DMMainController implements Initializable {
     public Button MakeMap;
     
     private String username;
-    private String session;
+    private int session;
     private String password;
+    private boolean DM;
     
-    public DMMainController(String name, String sessionname, String pass){
+    public DMMainController(String name, int sessionname, String pass){
         username = name;
         session = sessionname;
         password = pass;
+        DM = true;
     }
     
     /**
@@ -80,9 +82,8 @@ public class DMMainController implements Initializable {
     @FXML
     public void HostSession(ActionEvent event) throws Exception{
         FXMLLoader Session = new FXMLLoader(getClass().getResource("PlayerSession.fxml"));
-        PlayerSessionController controller = new PlayerSessionController(username, session);
+        PlayerSessionController controller = new PlayerSessionController(username, session, DM);
         Session.setController(controller);
-        controller.DMSes();
         DMMain.getChildren().setAll((AnchorPane) Session.load());
     }
 
@@ -91,7 +92,6 @@ public class DMMainController implements Initializable {
         FXMLLoader Main =  new FXMLLoader(getClass().getResource("MainMenu.fxml"));
         MainMenuController controller = new MainMenuController(username, password);
         Main.setController(controller);
-        connector.closeCon();
         DMMain.getChildren().setAll((AnchorPane) Main.load());
     }
 }

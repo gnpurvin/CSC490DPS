@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.util.converter.IntegerStringConverter;
@@ -25,15 +26,28 @@ import javafx.util.converter.IntegerStringConverter;
 public class PlayerSessionController implements Initializable {
     
     @FXML
-    private ChoiceBox TypeofDice;
+    public ChoiceBox TypeofDice;
     @FXML
-    private TextField NumberofDice;
-    private String username;
-    private String session;
+    public TextField NumberofDice;
+    @FXML
+    public MenuItem OpenM;
+    @FXML
+    public MenuItem CloseM;
+    @FXML
+    public MenuItem CreateM;
     
-    public PlayerSessionController(String name, String ses){
+    
+    private String username;
+    private int session;
+    private boolean DM;
+    
+    public PlayerSessionController(String name, int ses, boolean dm){
         username = name;
         session = ses;
+        DM = dm;
+        if(DM == true){
+            this.DMSes();
+        }
     }
     
     UnaryOperator<TextFormatter.Change> integerFilter = change -> {
@@ -97,7 +111,20 @@ public class PlayerSessionController implements Initializable {
     public void CreateCharacter(ActionEvent action){
         
     }
-    public void DMSes(){
+    
+    @FXML
+    public void Roll(ActionEvent action){
         
+    }
+    
+    @FXML
+    public void Back(ActionEvent action)throws Exception{
+        
+    }
+    
+    private void DMSes(){
+        OpenM.setVisible(DM);
+        CloseM.setVisible(DM);
+        CreateM.setVisible(DM);
     }
 }

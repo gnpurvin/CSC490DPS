@@ -7,6 +7,7 @@ package GUI;
 
 import database.connector;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -51,14 +53,26 @@ public class SessionListController implements Initializable {
     @FXML
     public void HostSession(ActionEvent event) throws Exception{
         FXMLLoader DM = new FXMLLoader(getClass().getResource("DMMainMenu.fxml"));
-        DMMainController controller = new DMMainController(username, (String) Sessions.getValue(), password);
+        DMMainController controller = new DMMainController(username, (int) Sessions.getValue(), password);
         DM.setController(controller);
         SessionList.getChildren().setAll((AnchorPane) DM.load());
     }
     
     @FXML
     public void NewSession(ActionEvent event) throws Exception{
+        TextInputDialog NameSession = new TextInputDialog();
+        NameSession.setTitle("New Session");
+        NameSession.setContentText("Please Enter Session name:");
         
+        Optional<String> result = NameSession.showAndWait();
+        if(result.isPresent()){
+            int ses = connector.makeSession(result.get(), username);
+            FXMLLoader DM = new FXMLLoader(getClass().getResource("DMMainMenu.fxml"));
+            DMMainController controller = new DMMainController(username, ses, password);
+            DM.setController(controller);
+            SessionList.getChildren().setAll((AnchorPane) DM.load());
+           
+        }
     }
 
 

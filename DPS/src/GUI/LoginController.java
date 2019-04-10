@@ -55,6 +55,8 @@ public class LoginController implements Initializable {
     public Button CreateLogin;
     @FXML
     public Button Cancel;
+    @FXML
+    public Label Error1;
     
     private Connection con;
     
@@ -94,6 +96,7 @@ public class LoginController implements Initializable {
         PasswordIn1.setVisible(true);
         Password1.setVisible(true);
         Cancel.setVisible(true);
+        Error.setVisible(false);
     }
     
     @FXML
@@ -106,9 +109,10 @@ public class LoginController implements Initializable {
             PasswordIn1.setVisible(false);
             Password1.setVisible(false);
             Cancel.setVisible(false);
+            Error1.setVisible(false);
         }
         else{
-            
+            Error1.setVisible(true);
         }
     }
     
@@ -120,6 +124,7 @@ public class LoginController implements Initializable {
         PasswordIn1.setVisible(false);
         Password1.setVisible(false);
         Cancel.setVisible(false);
+        Error1.setVisible(false);
     }
     @FXML
     public void Quit(ActionEvent event){

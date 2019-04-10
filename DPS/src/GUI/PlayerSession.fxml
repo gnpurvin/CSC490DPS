@@ -26,9 +26,9 @@
                         <items>
                           <MenuItem mnemonicParsing="false" onAction="#AddToken" text="Add token" />
                           <MenuItem mnemonicParsing="false" onAction="#DeleteToken" text="Delete token" />
-                          <MenuItem mnemonicParsing="false" onAction="#OpenMap" text="Open map" visible="false" />
-                          <MenuItem mnemonicParsing="false" onAction="#CloseMap" text="Close map" visible="false" />
-                          <MenuItem mnemonicParsing="false" onAction="#CreateMap" text="Create map" visible="false" />                    
+                          <MenuItem fx:id="OpenM" mnemonicParsing="false" onAction="#OpenMap" text="Open map" visible="false" />
+                          <MenuItem fx:id="CloseM" mnemonicParsing="false" onAction="#CloseMap" text="Close map" visible="false" />
+                          <MenuItem fx:id="CreateM" mnemonicParsing="false" onAction="#CreateMap" text="Create map" visible="false" />                    
                         </items>
                       </Menu>
                     </menus>
@@ -62,7 +62,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <Button fx:id="BackBtn" layoutX="1100.0" layoutY="685.0" mnemonicParsing="false" onAction="#Back" text="Button" />
+            <Button fx:id="BackBtn" layoutX="1100.0" layoutY="685.0" mnemonicParsing="false" onAction="#Back" text="Back" AnchorPane.bottomAnchor="90.0" AnchorPane.rightAnchor="139.0" />
          </children>
       </AnchorPane>
    </content>
