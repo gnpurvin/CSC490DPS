@@ -9,6 +9,7 @@ package GUI;
 
 import database.connector;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,6 +45,23 @@ public class LoginController implements Initializable {
     public AnchorPane LoginPane;
     @FXML
     public Label Error;
+    @FXML
+    public Button CreateNew;
+    @FXML
+    public PasswordField PasswordIn1;
+    @FXML
+    public Label Password1;
+    @FXML
+    public Button CreateLogin;
+    @FXML
+    public Button Cancel;
+    
+    private Connection con;
+    
+    public LoginController(Connection connect){
+        con = connect;
+    }
+    
     /**
      * Initializes the controller class.
      */
@@ -66,5 +84,45 @@ public class LoginController implements Initializable {
             PasswordIn.clear();
             Error.setVisible(true);
         }
+    }
+    
+    @FXML
+    public void CreateNewLogin(ActionEvent event){
+        LoginBtn.setVisible(false);
+        CreateNew.setVisible(false);
+        CreateLogin.setVisible(true);
+        PasswordIn1.setVisible(true);
+        Password1.setVisible(true);
+        Cancel.setVisible(true);
+    }
+    
+    @FXML
+    public void Create(ActionEvent event){
+        if(PasswordIn.getText().equals(PasswordIn1.getText())){
+            connector.makeUser(UserNameIn.getText(), PasswordIn.getText());
+            LoginBtn.setVisible(true);
+            CreateNew.setVisible(true);
+            CreateLogin.setVisible(false);
+            PasswordIn1.setVisible(false);
+            Password1.setVisible(false);
+            Cancel.setVisible(false);
+        }
+        else{
+            
+        }
+    }
+    
+    @FXML
+    public void CancelNew(ActionEvent event){
+        LoginBtn.setVisible(true);
+        CreateNew.setVisible(true);
+        CreateLogin.setVisible(false);
+        PasswordIn1.setVisible(false);
+        Password1.setVisible(false);
+        Cancel.setVisible(false);
+    }
+    @FXML
+    public void Quit(ActionEvent event){
+        System.exit(0);
     }
 }

@@ -55,6 +55,11 @@ public class SessionListController implements Initializable {
         DM.setController(controller);
         SessionList.getChildren().setAll((AnchorPane) DM.load());
     }
+    
+    @FXML
+    public void NewSession(ActionEvent event) throws Exception{
+        
+    }
 
 
 }

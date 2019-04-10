@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.PlayerSessionController">
+<ScrollPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0">
          <children>
@@ -62,6 +62,7 @@
                   </Label>
                </children>
             </AnchorPane>
+            <Button fx:id="BackBtn" layoutX="1100.0" layoutY="685.0" mnemonicParsing="false" onAction="#Back" text="Button" />
          </children>
       </AnchorPane>
    </content>

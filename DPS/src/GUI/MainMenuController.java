@@ -1,5 +1,6 @@
 package GUI;
 
+import database.connector;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -80,6 +81,7 @@ public class MainMenuController implements Initializable{
 
     @FXML
     public void Quit(ActionEvent event) throws IOException{
+        connector.closeCon();
         System.exit(0);
     }
 }

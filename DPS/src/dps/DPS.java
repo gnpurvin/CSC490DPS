@@ -5,11 +5,16 @@
  */
 package dps;
 
+import GUI.LoginController;
+import database.connector;
+import java.sql.Connection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -25,8 +30,13 @@ public class DPS extends Application {
     
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/GUI/Login.fxml"));
+        Connection con = connector.connect();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Login.fxml"));
+        LoginController controller = new LoginController(con);        
+        loader.setController(controller);
+        Parent root = (AnchorPane) loader.load();
         primaryStage.setTitle("DPS");
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }

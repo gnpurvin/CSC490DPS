@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" fx:id="DMMain" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.DMMainController">
+<AnchorPane id="AnchorPane" fx:id="DMMain" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="14.0" text="Dungeon Master" textAlignment="CENTER" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="14.0">
          <font>
