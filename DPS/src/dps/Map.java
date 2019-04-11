@@ -5,7 +5,8 @@
  */
 package dps;
 
-import java.lang.Math;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import javafx.scene.paint.Color;
 
@@ -31,6 +32,7 @@ public class Map {
     public int mapID;
     public String mapName;
     public Random rng;
+    public List<token> tokenList;
     
     
     //main method, maaay not actually need this, we'll see
@@ -43,16 +45,24 @@ public class Map {
      * Default constructor. Takes no args, outputs a super basic map.
      */
     public Map(){
-        sizeX = 20;
-        sizeY = 20;
-        numRooms = 2;
+        sizeX = 40;
+        sizeY = 40;
+        numRooms = 5;
         setting = "Doesn't matter lmao";
         hallType = "Endless";
         deadEnds = "nah";
         Grid = new tile[sizeX][sizeY];
+        //fills the grid with blank tiles
+        for(int i = 0; i < sizeX; i++){
+            for(int j = 0; j < sizeY; j++){
+                Grid[i][j] = new tile(i, j);
+            }
+        }
         floorNum = 1;
         mapID = 00000;
         mapName = "default";
+        System.out.println(this.toString());
+        tokenList = new ArrayList<>();
     }
     
     /**
@@ -120,7 +130,7 @@ public class Map {
         
         //default constuctor
         public tile(int x, int y){
-            type = "filled";
+            type = "";
             isRoom = false;
             isHall = false;
             isOccupied = false;
@@ -130,11 +140,51 @@ public class Map {
         }
         
         
+        public void setIsRoom(Boolean b){
+            this.isRoom = b;
+        }
+        
+        public void setIsHall(Boolean b){
+            this.isHall = b;
+        }
+        
+        public void setIsOccupied(Boolean b){
+            this.isOccupied = b;
+        }
+        
+        public void setIsStairs(Boolean b){
+            this.isStairs = b;
+        }
+        
+        public Boolean getIsRoom(){
+            return this.isRoom;
+        }
+        
+        public Boolean getIsHall(){
+            return this.isHall;
+        }
+        
+        public Boolean getIsOccupied(){
+            return this.isRoom;
+        }
+        
+        public Boolean getIsStairs(){
+            return this.isRoom;
+        }
+        
+        public int getXCoord(){
+            return this.xPos;
+        }
+        
+        public int getYCoord(){
+            return this.yPos;
+        }
+        
         //toString method. Important for saving. Fix later bc this is super gross
         @Override
         public String toString(){
             String tileString = "";
-            tileString.concat(this.type);
+            tileString.concat(type);
             tileString.concat((this.isRoom.toString()) + ",");
             tileString.concat((this.isHall.toString()) + ", ");
             tileString.concat((this.isOccupied.toString()) + ", ");
@@ -151,7 +201,12 @@ public class Map {
      * setters. More getters and setters than your body has room for. 
      * 
      * Everything happens so much
+     * @return 
      ***********/
+    
+    public String getMapName(){
+        return this.mapName;
+    }
     
     //Getter and Setter for width (x value)
     public int getWidth(){
@@ -179,7 +234,11 @@ public class Map {
         return numRooms;
     }
     
-    //more getters and setters go here
+    public void moveTokenTo(token t, int x, int y){
+        t.updatePosition(x, y);
+        Grid[x][y].isOccupied = true;
+        //editTokenValues method
+    }
     
     /***************************
      * Tile Specific Getters and setters go here
@@ -188,6 +247,8 @@ public class Map {
     
     /**
      * Exactly what it sounds like
+     * @param x
+     * @param y
      * @return tile
      */
     public tile getTileAt(int x, int y){
@@ -199,8 +260,7 @@ public class Map {
     }
     
     public String getTileCoords(tile t){
-        String tileCoords = "";
-        //uhhhhhhhhhhhh
+        String tileCoords = Integer.toString(t.xPos) + ", " + Integer.toString(t.yPos);
         return tileCoords;
     }
     
@@ -218,43 +278,51 @@ public class Map {
      */
     public void placeRoom(){
         //The math here is gonna get real fucky, hang on to your butts folks
-        int roomWidth = rng.nextInt(((sizeX)%2)+1);
-        int roomLength = rng.nextInt(((sizeY)%2)+1);
-        //These modulo 2 bits are what will get modified to affect room size.
-        //Replace with vars at a later date. Maybe make them an arg.
+        this.rng = new Random();
         
-        //These bits make it start fom the top left, for simplicity's sake. 
-        //However, there's a chance this will affect the room placement. 
-        //This could be changed to be the center coordinates.
-        int coordX = rng.nextInt(sizeX);
-        int coordY = rng.nextInt(sizeY);
-        
+        int roomWidth = (rng.nextInt(10)+3);
+        int roomLength = (rng.nextInt(10)+3);
+        int coordX = (rng.nextInt((sizeX - roomWidth)-1));
+        int coordY = (rng.nextInt((sizeY - roomLength)-1));
         
         //jfc this code is janky as all fuck. pls halp me clean this up
         //Like, it works but. Ew. y'know?
-        boolean free = true;
-        for(int q = 0; q < roomWidth+2; q++){
-            for(int w = 0; w < roomLength+2; w++){
-                //thiiiis is gonna take some effort.
-                if((coordX + q) > this.sizeX || (coordY + w) > this.sizeY){
-                    break;
-                }
-                if(Grid[(coordX + q)][(coordY + w)].isRoom == true ||Grid[coordX + q][coordY + w].isHall == true){
-                    free = false;
-                    break;
-                }
-            }
-        }
-        //god forgive me I'm back on my bullshit
-        if(free == true){
-            for(int q = 0; q < roomWidth; q++){
-                for(int w = 0; w < roomLength; w++){
-                    Grid[coordX + q][coordY + w].isRoom = true;
-                    Grid[coordX + q][coordY + w].type = "Room";
-                }
-            }
-        }
         
+        boolean free = true;
+        //Check if it's within the bounds of the array
+        if((coordX + roomWidth + 2) < (sizeX - coordX) || (coordY + roomLength + 2) < (sizeY - coordY) ){
+           //cycles through each tile in the area to check if it's already a room
+            for(int i = 0; i < roomWidth; i++){
+                for(int j = 0; j < roomLength; j++){
+                    //System.out.println((coordX + i) + ", " + (coordY + j));
+                    if(Grid[coordX + i][coordY + j].isRoom == true || Grid[coordX + i][coordY + j].isHall == true){
+                        free = false;
+                    }
+                }
+            }
+            //god forgive me I'm back on my bullshit
+            if(free == true){
+                for(int q = 0; q < roomWidth; q++){
+                    for(int w = 0; w < roomLength; w++){
+                        Grid[coordX + q][coordY + w].isRoom = true;
+                        Grid[coordX + q][coordY + w].type = "Room";
+                    }
+                }
+                System.out.println("Placed a room!");
+            }
+            else if(free == false){
+                placeRoom();
+            }
+        }
+        else {
+            placeRoom();
+        }
+           
+    }
+    
+    //Make hallways do the thing. Figure out algorithm
+    public void placeHalls(){
+        //uhhhh
     }
     
     
@@ -264,10 +332,12 @@ public class Map {
      * @return the dungeon in a CSV format
      */
     @Override
-    public String toString(){
+    public final String toString(){
         String dungeon = "";
         for(int x = 0; x < sizeX; x++){
             for(int y = 0; y < sizeY; y++){
+                dungeon.concat(Integer.toString(sizeX));
+                dungeon.concat(Integer.toString(sizeY));
                 dungeon.concat(this.getTileAt(x, y).toString());
             }
         }

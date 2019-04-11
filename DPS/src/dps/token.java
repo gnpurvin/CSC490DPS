@@ -34,4 +34,18 @@ public class token {
         xPos = x;
         yPos = y;
     }
+    
+    public token(int x, int y, String kind, int tID, String tImage){
+        xPos = x;
+        yPos = y;
+        type = kind;
+        tokenID = tID;
+        tokenImage = tImage;
+        
+    }
+    
+    public void updatePosition(int x, int y){
+        xPos = x;
+        yPos = y;
+    }
 }
