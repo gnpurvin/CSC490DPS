@@ -1,5 +1,8 @@
 
 
+//client needs send and recieve
+//server needs to bounce
+
 package Connectivity;
 
 import java.io.*;
@@ -9,6 +12,7 @@ import database.*;
 import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import GUI.PlayerSessionController;
 
 /**
  *
@@ -35,9 +39,9 @@ public class Client {
      */
     public Client(int servPort, int sessionCode) throws IOException {
         this.sessionCode = sessionCode;
+        Connection dbcon = connector.connect();
         this.serverName = getHostIP();
         this.servPort = servPort;
-        Connection dbcon = connector.connect();
 
         //overriding the abstract methods in the interface
         this.addUserStatusListener(new UserStatusListener() {
@@ -58,8 +62,10 @@ public class Client {
         this.addMessageListener(new MessageListener() {
             @Override
             public String onMessage(String fromLogin, String msg) {
-                System.out.println(fromLogin + ": " + msg);
-                return fromLogin + ": " + msg;
+                String outMsg = fromLogin + ": " + msg;
+                System.out.println(outMsg);
+                PlayerSessionController.onMessage(outMsg);
+                return outMsg;
             }
         });
     }
@@ -245,14 +251,15 @@ public class Client {
     //probably don't need this method. We will see.
     private void handleRecieveTokenMove(String tokens[]){
        
-            /* for (MessageListener listener : userMessageListeners) {
+             for (MessageListener listener : userMessageListeners) {
             //"tokenmove "+tokenID+" "+xPos+" "+yPos+"\n";
             int tokenID = Integer.parseInt(tokens[1]);
             String tokenInfo = tokens[2] + tokens[3];
            
-            */
-            
             //moveToken.method
         }
+    
+
+    
     
 }
