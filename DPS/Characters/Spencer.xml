@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<characterSheet>
+    <AC>1</AC>
+    <cha>1</cha>
+    <className>Bard</className>
+    <con>1</con>
+    <dex>1</dex>
+    <HP>1</HP>
+    <int>1</int>
+    <level>1</level>
+    <name>Spencer</name>
+    <race>DragonBorn</race>
+    <str>1</str>
+    <wis>1</wis>
+</characterSheet>
