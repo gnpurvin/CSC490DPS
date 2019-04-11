@@ -15,10 +15,10 @@
                <children>
                   <TextArea fx:id="ChatIn" editable="false" prefHeight="275.0" prefWidth="600.0" scrollTop="1000.0" wrapText="true" />
                   <TextField fx:id="ChatOut" prefHeight="25.0" prefWidth="520.0" />
-                  <Button mnemonicParsing="false" onAction="#ChatSend" prefHeight="25.0" prefWidth="80.0" text="Send" />
+                  <Button fx:id="SendBtn" mnemonicParsing="false" onAction="#ChatSend" prefHeight="25.0" prefWidth="80.0" text="Send" />
                </children>
             </TextFlow>
-            <AnchorPane layoutX="1.0" prefHeight="475.0" prefWidth="700.0" style="-fx-background-color: #C0C0C0;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="MapPane" layoutX="1.0" prefHeight="475.0" prefWidth="700.0" style="-fx-background-color: #C0C0C0;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <MenuBar prefHeight="25.0" prefWidth="547.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <menus>
@@ -42,8 +42,8 @@
                     <menus>
                       <Menu mnemonicParsing="false" text="Character">
                         <items>
-                          <MenuItem mnemonicParsing="false" onAction="#AddCharacter" text="Add character sheet" />
-                          <MenuItem mnemonicParsing="false" onAction="#CreateCharacter" text="Create new character" />
+                          <MenuItem fx:id="Create" mnemonicParsing="false" onAction="#CreateCharacter" text="Create new character" />
+                              <Menu fx:id="AddC" mnemonicParsing="false" text="Add character sheet" />
                         </items>
                       </Menu>
                     </menus>
