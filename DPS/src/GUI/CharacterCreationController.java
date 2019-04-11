@@ -133,6 +133,7 @@ public class CharacterCreationController implements Initializable {
         Character.setName(Name.getText());
         Character.setClassName(ClassDropDown.getValue().toString());
         Character.setRace(RaceDropDown.getValue().toString());
+        Character.setLevel(LevelTxt.getText());
         Character.setStr(Str.getText());
         Character.setDex(Dex.getText());
         Character.setInt(Int.getText());

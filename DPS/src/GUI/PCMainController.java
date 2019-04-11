@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import database.connector;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -30,13 +32,26 @@ public class PCMainController implements Initializable {
     public Button CreateChar;
     @FXML
     public Button Join;
+    
+    private String username;
+    private int session;
+    private String password;
+    private boolean DM;
+    
+    public PCMainController(String name, int ses, String pass){
+        username = name;
+        session = ses;
+        password = pass;
+        DM = false;
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        PCMain.setMaxSize(600, 400);
+        PCMain.setMinSize(600, 400);
     }
 
     @FXML
@@ -55,17 +70,20 @@ public class PCMainController implements Initializable {
     @FXML
     public void JoinSession(ActionEvent event) throws Exception{
         FXMLLoader Session = new FXMLLoader(getClass().getResource("PlayerSession.fxml"));
+        PlayerSessionController controller = new PlayerSessionController(username, session, DM);
+        Session.setController(controller);
         Stage stage = new Stage();
         stage.initOwner(Join.getScene().getWindow());
         stage.setScene(new Scene((Parent) Session.load()));
-        stage.setHeight(800);
-        stage.setWidth(1280);
+        stage.setMaximized(true);
         stage.show();
     }
 
     @FXML
     public void MainMenu(ActionEvent event) throws Exception{
-        AnchorPane Main = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-        PCMain.getChildren().setAll(Main);
+        FXMLLoader Main =  new FXMLLoader(getClass().getResource("MainMenu.fxml"));
+        MainMenuController controller = new MainMenuController(username, password);
+        Main.setController(controller);
+        PCMain.getChildren().setAll((AnchorPane) Main.load());
     }
 }
