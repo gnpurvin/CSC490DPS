@@ -6,9 +6,6 @@
 package dps;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
@@ -19,13 +16,16 @@ import javafx.stage.Stage;
  * @author Spencer
  */
 public class DPS extends Application {
-    public mapController mpc = new mapController();
     
-    StackPane mapping = mpc.mapping;
-    Scene mapScene = mpc.mapScene;
+    
+    
      
     @Override
     public void start(Stage primaryStage) {
+        mapController mpc = new mapController();
+        StackPane mapping = mpc.mapping;
+        Scene mapScene = mpc.mapScene;
+    
         Button btn1 = new Button();
         btn1.setText("Say 'Hello World'");
         
@@ -33,9 +33,6 @@ public class DPS extends Application {
         Scene scene = new Scene(root, 300, 250);
         root.getChildren().add(btn1);
         
-        
-        this.mapping = mpc.mapping;
-        this.mapScene = mpc.mapScene;
         mpc.drawMap();
         
         Button btn2 = new Button();
