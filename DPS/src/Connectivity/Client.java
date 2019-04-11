@@ -8,7 +8,8 @@ package Connectivity;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Scanner;
+import database.*;
+import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class Client {
 
-    private final String serverName;
+    private String serverName;
     private final int servPort;
     private OutputStream serverOut;
     private InputStream serverIn;
@@ -27,11 +28,20 @@ public class Client {
     private final ArrayList<UserStatusListener> userStatusListeners = new ArrayList<>();
     private final ArrayList<MessageListener> userMessageListeners = new ArrayList<>();
     private Socket socket;
+    private int sessionCode;
 
-    public Client(String serverName, int servPort) throws IOException {
-        this.serverName = serverName;
+    /**
+     * Constructor for the client object
+     * @param servPort Server port you want to use. Default 11064.
+     * @param sessionCode Session code you want to connect to
+     * @throws IOException
+     */
+    public Client(int servPort, int sessionCode) throws IOException {
+        this.sessionCode = sessionCode;
+        this.serverName = getHostIP();
         this.servPort = servPort;
 
+        //overriding the abstract methods in the interface
         this.addUserStatusListener(new UserStatusListener() {
 
             @Override
@@ -46,32 +56,36 @@ public class Client {
 
         });
 
+        //overriding the abstract method in the interface
         this.addMessageListener(new MessageListener() {
             @Override
             public String onMessage(String fromLogin, String msg) {
-               //System.out.println(fromLogin + ": " + msg);
-                return fromLogin+": "+msg;
+                System.out.println(fromLogin + ": " + msg);
+                return fromLogin + ": " + msg;
             }
         });
     }
 
-    public void start(String username, String password) throws IOException {
+    //starts the client connection process and logs in with a username
+    public boolean start(String username) throws IOException {
         if (this.connect()) {
             System.out.println("Connected to host.");
-            if (this.login(username, password)) {
+            if (this.login(username)) {
                 System.out.println("Login successful.");
-
+                return true;
             } else {
                 System.out.println("Login failed.");
             }
         } else {
             System.out.println("Connection failed.");
+            return false;
         }
+        return true;
     }
 
-    //for logging in with a string username and password
-    private boolean login(String login, String password) throws IOException {
-        String cmd = "login " + login + " " + password + "\n";
+    //for logging in with a string username
+    private boolean login(String login) throws IOException {
+        String cmd = "login " + login + " " + sessionCode + "\n";
         serverOut.write(cmd.getBytes());
 
         String response = bufferedIn.readLine();
@@ -95,13 +109,13 @@ public class Client {
     private boolean connect() throws IOException {
         try {
             this.socket = new Socket(serverName, servPort);
-
             this.serverOut = socket.getOutputStream();
             this.serverIn = socket.getInputStream();
             this.bufferedIn = new BufferedReader(new InputStreamReader(serverIn));
             return true;
 
         } catch (IOException e) {
+            System.out.println("Could not connect client to host.\n");
         }
         return false;
     }
@@ -137,7 +151,7 @@ public class Client {
 
     }
 
-    //loop reading input from server
+    //loop constantly reading input from server
     private void readMsgLoop() throws IOException {
 
         try {
@@ -197,15 +211,19 @@ public class Client {
             listener.onMessage(login, cmd);
         }
     }
-    
-    
-   public OutputStream getOutStream(){
-    return this.serverOut;   
-   }
-   
-   public InputStream getInStream(){
-       return this.serverIn;
-   }
-   
+
+    public OutputStream getOutStream() {
+        return this.serverOut;
+    }
+
+    public InputStream getInStream() {
+        return this.serverIn;
+    }
+
+    //gets the IP address of the server from the database
+    private String getHostIP(){
+        Connection dbcon = connector.connect();
+        return connector.getIP(this.sessionCode);
+    }
     
 }
