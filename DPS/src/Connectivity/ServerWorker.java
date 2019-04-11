@@ -1,4 +1,4 @@
-   /*
+/*
  * This class is meant to capture everything about the connection to the client;  
  * including logging in, logging out, sending group messages, and direct messages.
  * Part of the Dungeon Positioning System software created for a senior project at UNCG by
@@ -15,19 +15,18 @@ import java.net.Socket;
 import java.util.List;
 import qualityoflife.*;
 
+
 /**
  *
- * @author sotirod
+ * @author Ray
  */
-public class ServerWorker extends Thread{
-    
- 
+public class ServerWorker extends Thread {
+
     private final Socket clntSock;
     private String login = null;
     private final Server server;
     private OutputStream out;
-    
-    
+
     public ServerWorker(Server server, Socket clntSock) {
         this.server = server;
         this.clntSock = clntSock;
@@ -38,7 +37,7 @@ public class ServerWorker extends Thread{
         try {
             HandleClient();
         } catch (IOException ex) {
-        
+
         }
     }
 
@@ -52,10 +51,10 @@ public class ServerWorker extends Thread{
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         String line;
-        
+
         //loop to constantly grab input
         while ((line = reader.readLine()) != null) {
-            
+
             //divide the input byte array by whitespace and get commands accordingly
             String[] tokens = line.split(" ");
 
@@ -65,71 +64,62 @@ public class ServerWorker extends Thread{
                 if ("quit".equalsIgnoreCase(cmd) || ("logoff".equalsIgnoreCase(cmd))) { //if logoff, then handle logoff
                     handleLogoff();
                 } else if ("login".equalsIgnoreCase(cmd)) { //if login then handle login
-                    HandleLogin(out, tokens);
-                } else if("map".equalsIgnoreCase(cmd)){     //if map then send map
-                    HandleMap(out, tokens);        
-                } else if("move".equalsIgnoreCase(cmd)){    //if token move then handle move
-                    HandleTokenMove(out, tokens);
-                } else if ("roll".equalsIgnoreCase(cmd)){
-                    HandleRollDice(out, tokens);
-                }else if (cmd.startsWith("#")) {   //if # is the first character, then it's a direct message.
+                    HandleLogin(tokens);
+                } else if ("roll".equalsIgnoreCase(cmd)) {
+                    HandleRollDice(tokens);
+                } else if (cmd.length()>100){
+                    HandleMap(tokens);
+                } else if("tokenmove".equalsIgnoreCase(cmd)){
+                    HandleTokenMove(tokens);
+                } else if (cmd.startsWith("#")) {   //if # is the first character, then it's a direct message.
                     DirectMsg(tokens);
                 } else {                         //else it's a group chat message.
-                    HandleMsgAll(tokens);   
+                    HandleMsgAll(tokens);
                 }
             }
         }
     }
 
     //login method with strings for user and pass
-    public void Login(String user, String password) throws IOException{
-        
-            if (!user.equals("null")) {
-                //to be replaced by queries to the DB later
-                if (user.equals("DM") && password.equals("DM")
-                        || (user.equals("ray") && password.equals("ray"))
-                        || (user.equals("phil") && password.equals("phil"))
-                        || (user.equals("spencer") && password.equals("spencer"))
-                        || (user.equals("liz") && password.equals("liz"))
-                        || (user.equals("greg") && password.equals("greg"))) {
-                    String msg = "Welcome to the Party!\n";
-                    out.write(msg.getBytes());
-                    this.login = user;
-                    System.out.println(this.login + " logged in successfully.");
+    public void Login(String user) throws IOException {
 
-                    List<ServerWorker> workerList = server.getWorkerList();
-                    String onlineMsg;
+        if (!user.equals("null")) {
+            {
+                String msg = "Welcome to the Party!\n";
+                out.write(msg.getBytes());
+                this.login = user;
+                System.out.println(this.login + " logged in successfully.");
+                
 
-                    //sending new login notification to other users
-                    for (ServerWorker worker : workerList) {
-                        if (!user.equals(worker.getLogin())) {
-                            if (worker.getLogin() != null) {
-                                onlineMsg = worker.getLogin() + " is online.\n";
-                                send(onlineMsg);
-                            }
+                List<ServerWorker> workerList = server.getWorkerList();
+                String onlineMsg;
+
+                //sending new login notification to other users
+                for (ServerWorker worker : workerList) {
+                    if (!user.equals(worker.getLogin())) {
+                        if (worker.getLogin() != null) {
+                            onlineMsg = worker.getLogin() + " is online.\n";
+                            send(onlineMsg);
                         }
                     }
+                }
 
-                    //sending list of online people to current user
-                    for (ServerWorker worker : workerList) {
-                        if (!user.equals(worker.getLogin())) {
-                            onlineMsg = user + " just logged in.\n";
-                            worker.send(onlineMsg);
-                        }
+                //sending list of online people to current user
+                for (ServerWorker worker : workerList) {
+                    if (!user.equals(worker.getLogin())) {
+                        onlineMsg = user + " just logged in.\n";
+                        worker.send(onlineMsg);
                     }
-                } else {
-                    String msg = "error login\n";
-                    out.write(msg.getBytes());
-                    System.err.println("Login failed for " + login+".");
                 }
             }
+        }
     }
-    
-    private void HandleLogin(OutputStream out, String tokens[]) throws IOException {
+
+    private void HandleLogin(String tokens[]) throws IOException {
         if (tokens.length == 3) {
             String user = tokens[1];
-            String password = tokens[2];
-            Login(user, password);
+            String sessionCode = tokens[2];
+            Login(user);
 
         }
     }
@@ -138,7 +128,7 @@ public class ServerWorker extends Thread{
         String Msg = "Bye.\n";
         out.write(Msg.getBytes());
         server.removeWorker(this);
-        System.out.println(getLogin()+" logged off.");
+        System.out.println(getLogin() + " logged off.");
         List<ServerWorker> workerList = server.getWorkerList();
 
         //tell everyone logged in that you logged off.
@@ -161,7 +151,7 @@ public class ServerWorker extends Thread{
 
     //format "#login" "body of message"
     private void DirectMsg(String tokens[]) throws IOException {
-        
+
         String sendTo = tokens[0].replaceFirst("#", "");    //the login of the user the direct message is intended for is tokens[0] without the #.
 
         //loop to build the message from every word entered.
@@ -176,7 +166,7 @@ public class ServerWorker extends Thread{
         for (ServerWorker worker : workerList) {
             if (sendTo.equals(worker.getLogin())) {
                 {
-                    String outMsg = "PM from " + login + ": " + body + "\n";    
+                    String outMsg = "PM from " + login + ": " + body + "\n";
                     worker.send(outMsg);            //send the message to everyone logged in.
                 }
             }
@@ -186,9 +176,9 @@ public class ServerWorker extends Thread{
     //send a message to everyone in the chat by typing no special characters
     private void HandleMsgAll(String tokens[]) throws IOException {
         String body = "";
-     for (String token : tokens) {
-         body = body.concat(token + " ");
-     }
+        for (String token : tokens) {
+            body = body.concat(token + " ");
+        }
 
         List<ServerWorker> workerList = server.getWorkerList();
 
@@ -203,31 +193,49 @@ public class ServerWorker extends Thread{
         }
     }
 
-    //TO-DO add logic for sending map
-    private void HandleMap(OutputStream out, String tokens[]) {
-        
-         }
+    public void HandleRollDice(String tokens[]) throws IOException {
+        DiceRoller d = new DiceRoller(tokens[1]);
+        String msg = login + " " + d.roll() + "\n";
 
-    //TO-DO add logic for sending moved token
-    private void HandleTokenMove(OutputStream out, String[] tokens) {
-        
-    }
-
-    public void RollDice(String diceType, String diceNum){
-        //call gregs function
-    }
-    
-   public void HandleRollDice(OutputStream out, String tokens[]) throws IOException{
-          DiceRoller d = new DiceRoller(tokens[1]);
-       String msg = login+" "+d.roll()+"\n";
-       
         List<ServerWorker> workerList = server.getWorkerList();
-   
+
         //send result to everyone logged in.
-        for (ServerWorker worker : workerList) { 
-                worker.send(msg);
+        for (ServerWorker worker : workerList) {
+            worker.send(msg);
         }
-      
+
+    }
+
+    private void HandleMap(String tokens[]) throws IOException {
+        String mapString = tokens[1];
+        List<ServerWorker> workerList = server.getWorkerList();
+
+        for (ServerWorker worker : workerList) {
+            if (!login.equals(worker.getLogin())) {
+                {
+                    worker.send(mapString); ///send map to client
+                }
+            }
         }
-   }
- 
+
+    }
+
+    private void HandleTokenMove(String tokens[]) throws IOException {
+       
+        int tokenID = Integer.parseInt(tokens[1]);
+        String tokenInfo = tokens[2];
+        
+        List<ServerWorker> workerList = server.getWorkerList();
+        String outMsg = "tokenmove "+tokenID+" "+tokenInfo;
+        
+        for (ServerWorker worker : workerList) {
+            if (!login.equals(worker.getLogin())) {
+                {
+                    worker.send(outMsg);
+                }
+            }
+        }
+
+    }
+
+}
