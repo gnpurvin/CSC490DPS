@@ -65,24 +65,27 @@ public class mapController {
     public void drawMap(){
         c  = new Canvas(600, 600);
         gc = c.getGraphicsContext2D();
-       
+        for(int v = 0; v < currMap.numRooms; v++){
+            currMap.placeRoom();
+        }
+
+        System.out.println("Placed rooms");
+        
         //iterates across each row
         for(int i = 0; i < currMap.sizeX; i++){
             
                 //iterates down each column
             for(int j = 0; j < currMap.sizeY; j++){
                 
-                //if(this.currMap.getTileAt(i, j).isRoom == true){
-                    //gc.setFill(roomColor);
-                //}
-                //else {
-                    //gc.setFill(wallColor);
-                //}
+                if(this.currMap.getTileAt(i, j).getIsRoom() == true){
+                    gc.setFill(roomColor);
+                }
+                else {
+                    gc.setFill(wallColor);
+                }
                 
                 gc.strokeRect((i*20), (j*20), 19, 19);
                 gc.fillRect((i*20), (j*20), 19, 19);
-                
-                
                 
             }
         }
@@ -114,3 +117,4 @@ public class mapController {
         return loadedMap;
     }
 }
+
