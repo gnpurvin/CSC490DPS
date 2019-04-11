@@ -30,5 +30,13 @@ public class DPS extends Application {
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+        
 }
 
+}
