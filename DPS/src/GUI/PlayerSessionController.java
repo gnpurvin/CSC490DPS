@@ -6,6 +6,7 @@
 package GUI;
 
 import Connectivity.Client;
+import Connectivity.Server;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,6 +30,7 @@ import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import java.io.File;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -65,6 +67,10 @@ public class PlayerSessionController implements Initializable {
     public AnchorPane MapPane;
     @FXML
     public TextField ChatOut;
+    @FXML
+    public ScrollPane Session;
+    @FXML
+    public Label Sessioncode;
 
 
 
@@ -77,9 +83,7 @@ public class PlayerSessionController implements Initializable {
         username = name;
         session = ses;
         DM = dm;
-        if(DM == true){
-            this.DMSes();
-        }
+
 
     }
 
@@ -99,11 +103,14 @@ public class PlayerSessionController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if(DM == true){
+            this.DMSes();
+        }
         TypeofDice.getItems().clear();
         TypeofDice.getItems().addAll("d4","d6","d8","d10","d12","d20","d100");
         NumberofDice.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 1, integerFilter));
         try{
-            Player = new Client(11064, session);
+            Player = new Client(11064, session, this);
             Player.start(username);
         }
         catch(IOException e){
@@ -112,7 +119,7 @@ public class PlayerSessionController implements Initializable {
 
         File[] files = new File("Characters\\").listFiles();
         for(File f : files){
-            if(f.isDirectory()){
+            if(f.isFile()){
                 MenuItem temp = new MenuItem(f.getName());
                 temp.setUserData(temp.getText());
                 temp.setOnAction((ActionEvent event) -> {
@@ -121,6 +128,7 @@ public class PlayerSessionController implements Initializable {
                 AddC.getItems().add(temp);
             }
         }
+
     }
 
 
@@ -158,7 +166,7 @@ public class PlayerSessionController implements Initializable {
     protected void AddCharacter(MenuItem m){
         CharacterSheet character = new CharacterSheet();
         try {
-            File file = new File("Character\\" + m.getUserData());
+            File file = new File("Characters\\" + m.getUserData());
             JAXBContext jaxbContext = JAXBContext.newInstance(CharacterSheet.class);
 
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -284,10 +292,19 @@ public class PlayerSessionController implements Initializable {
     @FXML
     protected void Back(ActionEvent action)throws Exception{
         Player.logoff();
-        BackBtn.getScene().getWindow().hide();
+        Session.getScene().getWindow().hide();
     }
 
     private void DMSes(){
+        try{
+            Server serv = new Server(11064, session);
+            serv.start();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        Sessioncode.setText(Integer.toString(session));
+        Sessioncode.setVisible(DM);
         OpenM.setVisible(DM);
         CloseM.setVisible(DM);
         CreateM.setVisible(DM);

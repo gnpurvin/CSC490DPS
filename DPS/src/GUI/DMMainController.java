@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -84,7 +85,11 @@ public class DMMainController implements Initializable {
         FXMLLoader Session = new FXMLLoader(getClass().getResource("PlayerSession.fxml"));
         PlayerSessionController controller = new PlayerSessionController(username, session, DM);
         Session.setController(controller);
-        DMMain.getChildren().setAll((AnchorPane) Session.load());
+        Stage stage = new Stage();
+        stage.initOwner(Host.getScene().getWindow());
+        stage.setScene(new Scene((Parent) Session.load()));
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML

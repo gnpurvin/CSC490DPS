@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane fx:id="Session" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0">
          <children>
@@ -37,7 +37,7 @@
             </AnchorPane>
             <AnchorPane layoutX="660.0" prefHeight="475.0" prefWidth="580.0" AnchorPane.leftAnchor="700.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <TabPane fx:id="CharacterTabs" layoutY="26.0" prefHeight="450.0" prefWidth="497.0" tabClosingPolicy="ALL_TABS" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />
+                  <TabPane fx:id="CharacterTabs" layoutY="26.0" prefHeight="450.0" prefWidth="570.0" tabClosingPolicy="ALL_TABS" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />
                   <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="497.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <menus>
                       <Menu mnemonicParsing="false" text="Character">
@@ -63,6 +63,7 @@
                </children>
             </AnchorPane>
             <Button fx:id="BackBtn" layoutX="1100.0" layoutY="685.0" mnemonicParsing="false" onAction="#Back" text="Back" AnchorPane.bottomAnchor="90.0" AnchorPane.rightAnchor="139.0" />
+            <Label fx:id="Sessioncode" layoutX="886.0" layoutY="749.0" AnchorPane.bottomAnchor="34.0" AnchorPane.rightAnchor="394.0" />
          </children>
       </AnchorPane>
    </content>

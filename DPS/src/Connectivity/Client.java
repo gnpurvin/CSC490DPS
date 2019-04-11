@@ -37,10 +37,11 @@ public class Client {
      * @param sessionCode Session code you want to connect to
      * @throws IOException
      */
-    public Client(int servPort, int sessionCode) throws IOException {
+    public Client(int servPort, int sessionCode, PlayerSessionController controller) throws IOException {
         this.sessionCode = sessionCode;
         Connection dbcon = connector.connect();
-        this.serverName = getHostIP();
+        this.serverName = "2600:1004:b025:4b95:48b1:ce2b:f290:e1b"
+/*getHostIP()*/;
         this.servPort = servPort;
 
         //overriding the abstract methods in the interface
@@ -64,7 +65,7 @@ public class Client {
             public String onMessage(String fromLogin, String msg) {
                 String outMsg = fromLogin + ": " + msg;
                 System.out.println(outMsg);
-                PlayerSessionController.onMessage(outMsg);
+                controller.onMessage(outMsg);
                 return outMsg;
             }
         });
@@ -119,6 +120,7 @@ public class Client {
             return true;
 
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println("Could not connect client to host.\n");
         }
         return false;
@@ -261,5 +263,6 @@ public class Client {
     
 
     
-    
+   
+    }
 }

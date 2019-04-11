@@ -31,6 +31,8 @@ public class SessionListController implements Initializable {
     public Button Host;
     @FXML
     public AnchorPane SessionList;
+    @FXML
+    public Button Back;
 
     private String username;
     private String password;
@@ -52,7 +54,7 @@ public class SessionListController implements Initializable {
 
     @FXML
     public void HostSession(ActionEvent event) throws Exception{
-        FXMLLoader DM = new FXMLLoader(getClass().getResource("DMMainMenu.fxml"));
+        FXMLLoader DM = new FXMLLoader(getClass().getResource("DMMain.fxml"));
         DMMainController controller = new DMMainController(username, connector.getSessionID(username, (String) Sessions.getValue()), password);
         DM.setController(controller);
         SessionList.getChildren().setAll((AnchorPane) DM.load());
@@ -67,13 +69,20 @@ public class SessionListController implements Initializable {
         Optional<String> result = NameSession.showAndWait();
         if(result.isPresent()){
             int ses = connector.makeSession(result.get(), username);
-            FXMLLoader DM = new FXMLLoader(getClass().getResource("DMMainMenu.fxml"));
+            FXMLLoader DM = new FXMLLoader(getClass().getResource("DMMain.fxml"));
             DMMainController controller = new DMMainController(username, ses, password);
             DM.setController(controller);
             SessionList.getChildren().setAll((AnchorPane) DM.load());
            
         }
     }
-
+    
+    @FXML
+    public void Back(ActionEvent event) throws Exception{
+        FXMLLoader Main =  new FXMLLoader(getClass().getResource("MainMenu.fxml"));
+        MainMenuController controller = new MainMenuController(username, password);
+        Main.setController(controller);
+        SessionList.getChildren().setAll((AnchorPane) Main.load());
+    }
 
 }
