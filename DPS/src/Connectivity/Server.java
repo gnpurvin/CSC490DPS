@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Connectivity;
 
 import java.io.IOException;
@@ -11,23 +7,33 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import database.*;
+import java.sql.Connection;
 
 /**
  *
  * @author sotirod
  */
 public class Server extends Thread{
-    /*
+/*
  * Server object
  */
 
     private final int serverPort;
+    private String IP;
+    private int sessionCode;
     
     //array list of serverWorkers, for multiple user connections
     private ArrayList<ServerWorker> workerList = new ArrayList<>();
-
-    public Server(int port) {
+    
+    /*
+    *
+    *@param port this is the port on the computer you will be connecting through. default 11064.
+    *@param sessionCode The session code you wish to host.
+    */
+    public Server(int port, int sessionCode) {
         this.serverPort = port;
+        this.sessionCode = sessionCode;
     }
 
     public List<ServerWorker> getWorkerList() {
@@ -41,6 +47,8 @@ public class Server extends Thread{
             while (true) {
                 Socket clntSock = servSock.accept();
                 OutputStream out = clntSock.getOutputStream();
+                this.IP = clntSock.getLocalAddress().getHostAddress();
+                this.setIPinDB();
                 System.out.println("Connected to " + clntSock.getInetAddress());
                 ServerWorker worker = new ServerWorker(this, clntSock);
                 workerList.add(worker);
@@ -58,7 +66,15 @@ public class Server extends Thread{
         this.workerList.add(worker);
     }
 
-    
+    public String getIP(){
+    return this.IP;
+}
 
+    //this matchess the IP of the server to the session code in the database
+     public void setIPinDB() {
+        Connection con = connector.connect();
+        connector.setIP(this.sessionCode, this.IP);
+    }
+    
 }
 
