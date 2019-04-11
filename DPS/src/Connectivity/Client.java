@@ -1,8 +1,5 @@
 
 
-//client needs send and recieve
-//server needs to bounce
-
 package Connectivity;
 
 import java.io.*;
