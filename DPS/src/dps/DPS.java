@@ -24,40 +24,6 @@ public class DPS extends Application {
     
     StackPane mapping = mpc.mapping;
     Scene mapScene = mpc.mapScene;
-     
-    @Override
-    public void start(Stage primaryStage) {
-        Button btn1 = new Button();
-        btn1.setText("Say 'Hello World'");
-        
-        StackPane root = new StackPane();
-        Scene scene = new Scene(root, 300, 250);
-        root.getChildren().add(btn1);
-        
-        
-        this.mapping = mpc.mapping;
-        this.mapScene = mpc.mapScene;
-        mpc.drawMap();
-        
-        Button btn2 = new Button();
-        btn2.setText("Make map");
-        mapping.getChildren().add(btn2);
-        btn2.setOnAction(e -> mapping.getChildren().add(mpc.c));
-        
-        btn1.setOnAction(e -> primaryStage.setScene(mapScene));
-        
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-  
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
-        
-    }
     
     @Override
     public void start(Stage primaryStage) throws Exception{
