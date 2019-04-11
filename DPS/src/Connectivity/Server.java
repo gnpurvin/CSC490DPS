@@ -34,6 +34,7 @@ public class Server extends Thread{
     public Server(int port, int sessionCode) {
         this.serverPort = port;
         this.sessionCode = sessionCode;
+        
     }
 
     public List<ServerWorker> getWorkerList() {
@@ -44,12 +45,12 @@ public class Server extends Thread{
     public void run() {
         try {
             ServerSocket servSock = new ServerSocket(serverPort);
+            this.IP = servSock.getInetAddress().toString();
+            this.setIPinDB();
             while (true) {
                 Socket clntSock = servSock.accept();
-                OutputStream out = clntSock.getOutputStream();
-                this.IP = clntSock.getLocalAddress().getHostAddress();
-                this.setIPinDB();
                 System.out.println("Connected to " + clntSock.getInetAddress());
+                OutputStream out = clntSock.getOutputStream();
                 ServerWorker worker = new ServerWorker(this, clntSock);
                 workerList.add(worker);
                 worker.start();
