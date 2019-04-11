@@ -1,8 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
+//client needs send and recieve
+//server needs to bounce
+
 package Connectivity;
 
 import java.io.*;
@@ -40,6 +40,7 @@ public class Client {
         this.sessionCode = sessionCode;
         this.serverName = getHostIP();
         this.servPort = servPort;
+        Connection dbcon = connector.connect();
 
         //overriding the abstract methods in the interface
         this.addUserStatusListener(new UserStatusListener() {
@@ -153,7 +154,7 @@ public class Client {
 
     //loop constantly reading input from server
     private void readMsgLoop() throws IOException {
-
+        
         try {
             String line;
             while ((line = bufferedIn.readLine()) != null) {
@@ -165,7 +166,11 @@ public class Client {
                         handleOnline(tokens);
                     } else if ("offline".equalsIgnoreCase(cmd)) {
                         handleOffline(tokens);
-                    } else {
+                    } else if (cmd.length()>100){
+                        handleRecieveMap(tokens);
+                    } else if("tokenmove".equalsIgnoreCase(cmd)){
+                        handleRecieveTokenMove(tokens);
+                    }else {
                         handleMessage(tokens);
                     }
                 }
@@ -225,5 +230,32 @@ public class Client {
         Connection dbcon = connector.connect();
         return connector.getIP(this.sessionCode);
     }
+
+    private void handleSendMap(String mapStr) throws IOException {
+        this.sendMsg(mapStr);
+    }
+    
+    //probably don't need this method. We will see.
+    private void handleRecieveMap(String tokens[]) {
+       String mapStr = tokens[1];
+        //drawMap(mapStr);
+    }
+    
+    private void handleSendTokenMove(int tokenID, String tokenInfo) throws IOException {
+        this.sendMsg("tokenmove "+tokenInfo+" "+tokenInfo);
+    }
+    
+    //probably don't need this method. We will see.
+    private void handleRecieveTokenMove(String tokens[]){
+       
+            /* for (MessageListener listener : userMessageListeners) {
+            //"tokenmove "+tokenID+" "+xPos+" "+yPos+"\n";
+            int tokenID = Integer.parseInt(tokens[1]);
+            String tokenInfo = tokens[2] + tokens[3];
+           
+            */
+            
+            //moveToken.method
+        }
     
 }
