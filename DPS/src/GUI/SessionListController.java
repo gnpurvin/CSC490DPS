@@ -53,7 +53,7 @@ public class SessionListController implements Initializable {
     @FXML
     public void HostSession(ActionEvent event) throws Exception{
         FXMLLoader DM = new FXMLLoader(getClass().getResource("DMMainMenu.fxml"));
-        DMMainController controller = new DMMainController(username, (int) Sessions.getValue(), password);
+        DMMainController controller = new DMMainController(username, connector.getSessionID(username, (String) Sessions.getValue()), password);
         DM.setController(controller);
         SessionList.getChildren().setAll((AnchorPane) DM.load());
     }
