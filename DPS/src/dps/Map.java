@@ -226,6 +226,7 @@ public class Map {
         sizeY = newY;
     }
     
+    //Getter and Setter for number of Rooms. This should be useful for GUI stuff.
     public void setNumRooms(int n){
         numRooms = n;
     }
@@ -234,11 +235,6 @@ public class Map {
         return numRooms;
     }
     
-    public void moveTokenTo(token t, int x, int y){
-        t.updatePosition(x, y);
-        Grid[x][y].isOccupied = true;
-        //editTokenValues method
-    }
     
     /***************************
      * Tile Specific Getters and setters go here
@@ -255,26 +251,25 @@ public class Map {
         return Grid[x][y];
     }
     
+    //Outputs whatever the tile's type is. Kinda useless right now, implement stuff later
     public String getType (tile t){
         return t.type;
     }
     
+    //Given a tile, outputs the coordinates. Might want to use this for GUI stuff
     public String getTileCoords(tile t){
         String tileCoords = Integer.toString(t.xPos) + ", " + Integer.toString(t.yPos);
         return tileCoords;
     }
     
-    //Fix this thingy
-    public void setTileColor(tile t, Color c){
-        System.out.println("Implement later");
-    }
-    
+    //Makes a random big ass number for the map ID
     public void setMapId(){
         this.mapID = rng.nextInt(10000);
     }
     
     /**
-     * Method for randomly placing rooms on the map
+     * Method for randomly placing rooms on the map. 
+     * This shit is gonna get complex.
      */
     public void placeRoom(){
         //The math here is gonna get real fucky, hang on to your butts folks
