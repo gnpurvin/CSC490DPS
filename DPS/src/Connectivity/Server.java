@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import database.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 
 /**
@@ -45,7 +47,15 @@ public class Server extends Thread{
     public void run() {
         try {
             ServerSocket servSock = new ServerSocket(serverPort);
-            this.IP = servSock.getInetAddress().toString();
+            InetAddress ip;
+            String hostname;
+            try {
+                ip = InetAddress.getLocalHost();
+                hostname = ip.getHostName();
+                this.IP = hostname;
+            } catch (UnknownHostException e) { 
+                e.printStackTrace();
+            }
             this.setIPinDB();
             while (true) {
                 Socket clntSock = servSock.accept();

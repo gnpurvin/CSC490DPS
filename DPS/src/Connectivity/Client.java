@@ -40,8 +40,7 @@ public class Client {
     public Client(int servPort, int sessionCode, PlayerSessionController controller) throws IOException {
         this.sessionCode = sessionCode;
         Connection dbcon = connector.connect();
-        this.serverName = "2600:1004:b025:4b95:48b1:ce2b:f290:e1b"
-/*getHostIP()*/;
+        this.serverName = getHostIP();
         this.servPort = servPort;
 
         //overriding the abstract methods in the interface
