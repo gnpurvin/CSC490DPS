@@ -5,13 +5,17 @@
  */
 package dps;
 
+
+import javafx.scene.paint.Color;
+
+
 /**
  * This is the class that defines the tokens used to represent players, NPCs, 
  * and Creatures on the map. Used mostly by the Map Controller, and can be 
  * accessed by the DM and sometimes the players, depending on settings.
  * @author Phillip
  */
-public class Token {
+public class token {
     public int xPos;
     public int yPos;
     //public String owner;
@@ -21,6 +25,7 @@ public class Token {
     public int tokenSizeX;
     public int tokenSizeY;
     public TokenMaster tokenMaster;
+    public Color tokenColor = Color.DARKMAGENTA;
     
     
     /**
@@ -32,8 +37,9 @@ public class Token {
      * @param type
      * @param xSize
      * @param ySize 
+     * @param c 
      */
-    public Token(TokenMaster tokenMaster, int tokenID, int xLoc, int yLoc, String type, int xSize, int ySize){
+    public token(TokenMaster tokenMaster, int tokenID, int xLoc, int yLoc, String type, int xSize, int ySize, Color c){
         this.tokenMaster = tokenMaster;
         this.tokenID = tokenID;
         this.type = type;
@@ -41,6 +47,7 @@ public class Token {
         this.yPos = yLoc;
         this.tokenSizeY = ySize;
         this.tokenSizeX = xSize;
+        this.tokenColor = c;
         this.tellMaster();
         //create token in db with tokenInfo
     }
@@ -52,14 +59,16 @@ public class Token {
      * @param xLoc
      * @param yLoc
      * @param type 
+     * @param c 
      */
-    public Token(TokenMaster tokenMaster, int tokenID, int xLoc, int yLoc, String type){
+    public token(TokenMaster tokenMaster, int tokenID, int xLoc, int yLoc, String type, Color c){
         this.tokenID = tokenID;
         this.yPos = yLoc;
         this.xPos = xLoc;
         this.type = type;
         this.tokenSizeX = 1; //or however we decide to set size for PC tokens
         this.tokenSizeY = 1; //same as above
+        this.tokenColor = c;
         this.tellMaster();
         //create token in db with tokenInfo
         
