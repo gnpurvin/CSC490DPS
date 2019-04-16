@@ -468,7 +468,7 @@ public class connector {
     //Test all methods
     public static void main(String args[]) {
         //test connect
-        con = connector.connect();
+        //con = connector.connect();
 
         //test makeUser
         //connector.makeUser("Aesthellar", "letmein");
