@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MapMakerController">
+   <children>
+      <Button id="DrawRandMapButton" fx:id="DrawRandMapButton" layoutX="1047.0" layoutY="101.0" mnemonicParsing="false" text="Draw Random Map" />
+      <Canvas height="600.0" layoutX="141.0" layoutY="91.0" width="600.0" />
+   </children>
+</AnchorPane>
