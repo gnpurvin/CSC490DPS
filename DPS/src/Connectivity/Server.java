@@ -36,6 +36,7 @@ public class Server extends Thread{
     public Server(int port, int sessionCode) {
         this.serverPort = port;
         this.sessionCode = sessionCode;
+        defineIP();
         
     }
 
@@ -80,6 +81,17 @@ public class Server extends Thread{
     public String getIP(){
     return this.IP;
 }
+    
+    public void defineIP(){
+          String addy[];
+        try{
+            addy = InetAddress.getLocalHost().toString().split("/");
+           // System.out.println("IP is: " + addy[1]);
+            this.IP = addy[1];
+        }catch(UnknownHostException e){
+            e.printStackTrace();
+        }
+    }
 
     //this matchess the IP of the server to the session code in the database
      public void setIPinDB() {
