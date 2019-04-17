@@ -5,98 +5,68 @@
  */
 package dps;
 
+import database.connector;
+import java.sql.Connection;
+
 /**
- * This is the class that defines the tokens used to represent players, NPCs, 
- * and Creatures on the map. Used mostly by the Map Controller, and can be 
+ * This is the class that defines the tokens used to represent players, NPCs,
+ * and Creatures on the map. Used mostly by the Map Controller, and can be
  * accessed by the DM and sometimes the players, depending on settings.
+ *
  * @author Phillip
  */
 public class Token {
-    public int xPos;
-    public int yPos;
-    //public String owner;
-    public String type; //maaaay not actually need, to be determined
-    public int tokenID;
-    public String tokenImage;
-    public int tokenSizeX;
-    public int tokenSizeY;
+
+    public String tokenValues;
+    public int coordX;
+    public int coordY;
+    public int sizeX;
+    public int sizeY;
+    private String username;
+    private int mapID;
+    private int tokenID;
+    Connection con = connector.connect();
+
     public TokenMaster tokenMaster;
-    
-    
-    /**
-     * Overloaded constructor for making non-PC tokens.
-     * @param tokenMaster
-     * @param tokenID
-     * @param xLoc
-     * @param yLoc
-     * @param type
-     * @param xSize
-     * @param ySize 
-     */
-    public Token(TokenMaster tokenMaster, int tokenID, int xLoc, int yLoc, String type, int xSize, int ySize){
-        this.tokenMaster = tokenMaster;
-        this.tokenID = tokenID;
-        this.type = type;
-        this.xPos = xLoc;
-        this.yPos = yLoc;
-        this.tokenSizeY = ySize;
-        this.tokenSizeX = xSize;
-        this.tellMaster();
-        //create token in db with tokenInfo
-    }
-    
-    /**
-     * Default constructor for making PC tokens. Does require a few args, but they're easy to get.
-     * @param tokenMaster
-     * @param tokenID 
-     * @param xLoc
-     * @param yLoc
-     * @param type 
-     */
-    public Token(TokenMaster tokenMaster, int tokenID, int xLoc, int yLoc, String type){
-        this.tokenID = tokenID;
-        this.yPos = yLoc;
-        this.xPos = xLoc;
-        this.type = type;
-        this.tokenSizeX = 1; //or however we decide to set size for PC tokens
-        this.tokenSizeY = 1; //same as above
-        this.tellMaster();
-        //create token in db with tokenInfo
-        
-    }
-    
-    public void updateLoc(){
-        //fetch new vals from db
-        //this.moveTo(db_newX, db_newY);
-    }
-    
-    //for moving tokens.
-    public void moveTo(int newX, int newY){
-       
-            //GUI method for updating goes here.
-            //update db
-        
-    }
-    
-    public void deleteToken(){
-        //take off of GUI
-        tokenMaster.removeTokenFromList(this);
-        //rip from db
-    }
-    
-    public String createTokenInfo(){
-        String info = "";
-        //concat what we need
-        return info;
-    }
-    
-    public int getTokenID(){
-        return this.tokenID;
+
+    //Token constructor for user specified size of token
+    public Token(int coordX, int coordY, int sizeX, int sizeY, String username, int mapID) {
+        this.coordX = coordX;
+        this.coordY = coordY;
+        this.sizeX = coordX;
+        this.sizeY = coordY;
+        tokenValues = "" + coordX + ", " + coordY + ", " + sizeX + ", " + sizeY + "";
+        tokenID = connector.makeToken(username, mapID, tokenValues);
     }
 
-    private void tellMaster() {
-        tokenMaster.addTokenToList(this);
+    //Token constructor for default player token
+    public Token(int coordX, int coordY, String username, int mapID) {
+        this.coordX = coordX;
+        this.coordY = coordY;
+        sizeX = 1;
+        sizeY = 1;
+        tokenValues = "" + coordX + ", " + coordY + ", " + sizeX + ", " + sizeY + "";
+        tokenID = connector.makeToken(username, mapID, tokenValues);
     }
-    
-    
+
+    //setTokenCoord changes the coordinates of the token on the database
+    public void setTokenCoord(int coordX, int coordY) {
+        this.coordX = coordX;
+        this.coordY = coordY;
+        tokenValues = "" + coordX + ", " + coordY + ", " + sizeX + ", " + sizeY + "";
+        connector.editTokenValues(tokenID, tokenValues);
+    }
+
+    //getTokenCoord gets the updates token coordinates from the database
+    public void getTokenCoord() {
+        tokenValues = connector.getTokenValues(tokenID);
+        String[] val = tokenValues.split(", ");
+        this.coordX = Integer.parseInt(val[0]);
+        this.coordY = Integer.parseInt(val[1]);
+    }
+
+    //deletes a token from the database
+    public void deleteToken() {
+        connector.deleteToken(tokenID);
+    }
 }

@@ -1,3 +1,10 @@
+/**
+ * This class contains all of the methods needed by the other subsystems to
+ * communicate with the MySQL database hosted on AWS RD
+ *
+ * @author Elizabeth Dong
+ */
+
 package database;
 
 import java.util.ArrayList;
@@ -376,13 +383,13 @@ public class connector {
     }
 
     //makeToken makes a new token given the player's username, size of the token, and the mapID it belongs to then returns the new tokenID
-    public static int makeToken(String username, int sizeX, int sizeY, int mapID, String tokenValues) {
+    public static int makeToken(String username, int mapID, String tokenValues) {
         Random rand = new Random();
         int num = rand.nextInt(10000);
         int tokenID = num;
 
         String randCheck = "SELECT tokenID FROM token WHERE tokenID = " + num;
-        String insertNewToken = "INSERT INTO token (tokenID, tokenSizeX, tokenSizeY, tokenValues) VALUES (" + tokenID + ", " + sizeX + ", " + sizeY + ", '" + tokenValues + "')";
+        String insertNewToken = "INSERT INTO token (tokenID, tokenValues) VALUES (" + tokenID + ", '" + tokenValues + "')";
         String insertNewTokenOwner = "INSERT INTO tokenowner (tokenID, username) VALUES (" + tokenID + ", '" + username + "')";
         String insertNewTokenMap = "INSERT INTO mapContain (mapID, tokenID) VALUES (" + mapID + ", " + tokenID + ")";
 
