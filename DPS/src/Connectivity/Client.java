@@ -1,8 +1,3 @@
-
-
-//client needs send and recieve
-//server needs to bounce
-
 package Connectivity;
 
 import java.io.*;
@@ -37,7 +32,7 @@ public class Client {
      * @param sessionCode Session code you want to connect to
      * @throws IOException
      */
-    public Client(int servPort, int sessionCode, PlayerSessionController controller) throws IOException {
+    public Client(int servPort, int sessionCode) throws IOException {
         this.sessionCode = sessionCode;
         Connection dbcon = connector.connect();
         this.serverName = getHostIP();
@@ -64,7 +59,7 @@ public class Client {
             public String onMessage(String fromLogin, String msg) {
                 String outMsg = fromLogin + ": " + msg;
                 System.out.println(outMsg);
-                controller.onMessage(outMsg);
+                PlayerSessionController.onMessage(outMsg);
                 return outMsg;
             }
         });
@@ -119,7 +114,6 @@ public class Client {
             return true;
 
         } catch (IOException e) {
-            e.printStackTrace();
             System.out.println("Could not connect client to host.\n");
         }
         return false;
@@ -235,33 +229,43 @@ public class Client {
         return connector.getIP(this.sessionCode);
     }
 
+    //CALL THIS METHOD FROM GUI WHEN MAP CHANGES
     private void handleSendMap(String mapStr) throws IOException {
         this.sendMsg(mapStr);
     }
     
-    //probably don't need this method. We will see.
     private void handleRecieveMap(String tokens[]) {
-       String mapStr = tokens[1];
+       String mapStr = tokens[0];
         //drawMap(mapStr);
     }
     
-    private void handleSendTokenMove(int tokenID, String tokenInfo) throws IOException {
-        this.sendMsg("tokenmove "+tokenInfo+" "+tokenInfo);
+    /**
+    * CALL THIS METHOD FROM GUI WHEN A TOKEN MOVES
+    *@param the token that has been moved
+    */
+    public void handleSendTokenMove(int tokenID) throws IOException {
+        //tell the other connections that this token has moved
+        this.sendMsg("tokenMove " + tokenID);
     }
     
-    //probably don't need this method. We will see.
+    
+    //format of tokenMove string input
+    //"tokenMove " + tokenID + "\n";
     private void handleRecieveTokenMove(String tokens[]){
-       
-             for (MessageListener listener : userMessageListeners) {
-            //"tokenmove "+tokenID+" "+xPos+" "+yPos+"\n";
-            int tokenID = Integer.parseInt(tokens[1]);
-            String tokenInfo = tokens[2] + tokens[3];
+            
+        int tokenID = Integer.parseInt(tokens[1]);
+        
+        //call db for tokenInfo
+        String tokenVals[] = connector.getTokenValues(tokenID).split(",");
+        int newX = Integer.parseInt(tokenVals[0]);
+        int newY = Integer.parseInt(tokenVals[1]);
+        
+        for (MessageListener listener : userMessageListeners) {
            
-            //moveToken.method
+                //GUI method for moving tokens goes right here
+            
         }
     
+}
 
-    
-   
-    }
 }
