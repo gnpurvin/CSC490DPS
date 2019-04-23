@@ -5,10 +5,8 @@
  */
 package dps;
 
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 /**
@@ -24,8 +22,6 @@ public class mapController {
     public Map currMap;
     private final Color roomColor;
     private final Color wallColor;
-    StackPane mapping;
-    Scene mapScene;
     public Canvas c;
     public GraphicsContext gc;
     
@@ -43,54 +39,63 @@ public class mapController {
         currMap = new Map();
         roomColor = Color.WHITE;
         wallColor = Color.BLACK;
-        mapping = new StackPane();
-        mapScene = new Scene(mapping, 800, 800);
-        
         
     }
     
     /**
-     * 
-     * Uhhhhhhhh.... figure it out later, lmao
-     * Will def need to create methods for editing map, generally using getters
-     * and setters in the map class. Some other stuff, idk
-     * 
-     * @param g
-     */
-    
-    /**
+     * Iterates through each tile in the 2D array and draws it. 
      * This gon' be reaaal complicated.
      * hold on to ya butts
      */
-    public void drawMap(){
-        c  = new Canvas(600, 600);
+    public void drawMap(Canvas c){
         gc = c.getGraphicsContext2D();
-       
+        for(int v = 0; v < currMap.numRooms; v++){
+            currMap.placeRoom();
+        }
+
+        System.out.println("Placed rooms");
+        
         //iterates across each row
         for(int i = 0; i < currMap.sizeX; i++){
             
                 //iterates down each column
             for(int j = 0; j < currMap.sizeY; j++){
                 
-                //if(this.currMap.getTileAt(i, j).isRoom == true){
-                    //gc.setFill(roomColor);
-                //}
-                //else {
-                    //gc.setFill(wallColor);
-                //}
+                if(this.currMap.getTileAt(i, j).getIsRoom() == true){
+                    gc.setFill(roomColor);
+                }
+                else {
+                    gc.setFill(wallColor);
+                }
                 
                 gc.strokeRect((i*20), (j*20), 19, 19);
                 gc.fillRect((i*20), (j*20), 19, 19);
-                
-                
                 
             }
         }
     //presumably the to jpg/png method goes here
     }
     
+    public void moveTokenTo(token t, int x, int y){
+        t.moveTo(x, y);
+        currMap.Grid[x][y].isOccupied = true;
+        this.drawTokens();
+    }
     
     
+    /**
+     * This method just iterates through the list of tokens and draws them at 
+     * the position specified by their X and Y coordinates in the color specified
+     * by their color variable. Call this whenever you want to update a 
+     * token's position or color, etc.
+     */
+    public void drawTokens(){
+        gc = c.getGraphicsContext2D();
+        for(int i = 0; i < currMap.tokenList.size(); i++){
+            gc.setFill(currMap.tokenList.get(i).tokenColor);
+            gc.fillOval((currMap.tokenList.get(i).xPos*20), (currMap.tokenList.get(i).yPos*20), currMap.tokenList.get(i).tokenSizeX, currMap.tokenList.get(i).tokenSizeY);
+        }
+    }
     
     /**
      * 
