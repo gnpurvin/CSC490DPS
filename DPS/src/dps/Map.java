@@ -347,6 +347,8 @@ public class Map {
         dungeon.concat(deadEnds + "\n");
         for(int x = 0; x < sizeX; x++){
             for(int y = 0; y < sizeY; y++){
+                dungeon.concat(Integer.toString(sizeX));
+                dungeon.concat(Integer.toString(sizeY));
                 dungeon.concat(this.getTileAt(x, y).toString());
             }
         }

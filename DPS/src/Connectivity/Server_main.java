@@ -13,9 +13,9 @@ class Server_Main {
     public static void main(String[] args) throws IOException {
 
         int servPort = 11064;
-        //Server server = new Server(servPort);
+        Server server = new Server(servPort, 000);
         System.out.println("Server Online.");
-        //server.start();
+        server.start();
 
     }
 
