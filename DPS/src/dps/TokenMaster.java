@@ -9,27 +9,27 @@ import java.util.List;
  * @author Ray
  */
 public class TokenMaster {
-    private ArrayList<Token> tokenList = new ArrayList<>();
+    private ArrayList<token> tokenList = new ArrayList<>();
             
             
   //this runs through the list of tokens, finds the right one and then calls it's move method
     public void updateTokenLoc(int tokenID, int newX, int newY){
-        for (Token token : tokenList) {
+        for (token token : tokenList) {
             if (tokenID == token.getTokenID()) {
                  token.moveTo(newX, newY);
             }
         }
     }
     
-    public void addTokenToList(Token token){
-        this.tokenList.add(token);
+    public void addTokenToList(token t){
+        this.tokenList.add(t);
     }
     
-    public void removeTokenFromList(Token token){
-        this.tokenList.remove(token);
+    public void removeTokenFromList(token t){
+        this.tokenList.remove(t);
     }
     
-     public List<Token> getTokenList() {
+     public List<token> getTokenList() {
         return tokenList;
     }
 

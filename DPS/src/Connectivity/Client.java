@@ -25,6 +25,7 @@ public class Client {
     private final ArrayList<MessageListener> userMessageListeners = new ArrayList<>();
     private Socket socket;
     private int sessionCode;
+    private PlayerSessionController controller;
 
     /**
      * Constructor for the client object
@@ -32,11 +33,13 @@ public class Client {
      * @param sessionCode Session code you want to connect to
      * @throws IOException
      */
-    public Client(int servPort, int sessionCode) throws IOException {
+    public Client(int servPort, int sessionCode, PlayerSessionController con) throws IOException {
         this.sessionCode = sessionCode;
         Connection dbcon = connector.connect();
         this.serverName = getHostIP();
         this.servPort = servPort;
+        this.controller = con;
+        
 
         //overriding the abstract methods in the interface
         this.addUserStatusListener(new UserStatusListener() {
@@ -59,7 +62,7 @@ public class Client {
             public String onMessage(String fromLogin, String msg) {
                 String outMsg = fromLogin + ": " + msg;
                 System.out.println(outMsg);
-                PlayerSessionController.onMessage(outMsg);
+                controller.onMessage(outMsg);
                 return outMsg;
             }
         });
