@@ -88,11 +88,6 @@ public class mapController {
         this.drawTokens();
     }
     
-    public void moveTokenTo(token t, int x, int y){
-        t.moveTo(x, y);
-        currMap.Grid[x][y].isOccupied = true;
-        this.drawTokens();
-    }
     
     /**
      * This method just iterates through the list of tokens and draws them at 
