@@ -48,15 +48,6 @@ public class Server extends Thread{
     public void run() {
         try {
             ServerSocket servSock = new ServerSocket(serverPort);
-            InetAddress ip;
-            String hostname;
-            try {
-                ip = InetAddress.getLocalHost();
-                hostname = ip.getHostName();
-                this.IP = hostname;
-            } catch (UnknownHostException e) { 
-                e.printStackTrace();
-            }
             this.setIPinDB();
             while (true) {
                 Socket clntSock = servSock.accept();
