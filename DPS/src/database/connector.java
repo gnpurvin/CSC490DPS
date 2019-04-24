@@ -4,15 +4,11 @@
  *
  * @author Elizabeth Dong
  */
-
 package database;
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.sql.*;
-
 public class connector {
-
     private static final String url = "jdbc:mysql://dpsdb.cltxtb6ls4t4.us-east-1.rds.amazonaws.com:3306/dpsdb?user=Aesthellar&password=password";
     private static Connection con;
     
@@ -21,20 +17,16 @@ public class connector {
         try {
             con = DriverManager.getConnection(url);
             System.out.println("Connected to DPSDB");
-
         } catch (SQLException ex) {
             System.out.println("Unable to connect to DPSDB");
             ex.printStackTrace();
         }
         return con;
     }
-
     //makeUser creates a new user with a password and unique username
     public static void makeUser(String username, String password) {
-
         String findUsername = "SELECT username FROM user WHERE username = '" + username + "'";
         String insertUser = "INSERT INTO user (username, password) VALUES ('" + username + "', '" + password + "')";
-
         //Check if username is unique
         try {
             Statement st = con.createStatement();
@@ -45,20 +37,15 @@ public class connector {
                 st.executeUpdate(insertUser);   //if username is unique then insert the new user
             }
             st.close();
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Unable to make a new user account");
         }
     }
-
     //Authenticate checks if the given username and password exists and correlates in the database
     public static boolean Authenticate(String username, String password) {
-
         boolean bool = false;
-
         String query = "SELECT password FROM user WHERE username = '" + username + "'";
-
         //find the user's password given username
         try {
             Statement st = con.createStatement();
@@ -74,29 +61,24 @@ public class connector {
             } else {
                 bool = false;
             }
-
             st.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Unable to authenticate");
         }
-
         return bool;
     }
-
     //Checks if player already has a token on the map using their username, the current mapID, and the session the map belongs to
     //Returns the player's tokenID
     public static int getTokenID(String username, int sessionID, int mapID) {
         int tokenID = -1;
         ArrayList<Integer> tokenIDList = new ArrayList<Integer>();
         String findTokenID = "SELECT tokenID FROM mapContain WHERE mapID = " + mapID;
-
         //find list of tokens from a specific map
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(findTokenID);
             ResultSet rs2;
-
             while (rs.next()) {
                 tokenID = rs.getInt("tokenID"); //Find all tokens on map
                 tokenIDList.add(tokenID);
@@ -124,9 +106,8 @@ public class connector {
 
     //getSessionList returns an ArrayList of session names that the user has created
     public static ArrayList<String> getSessionList(String username) {
-        
         int sessionID = -1;
-        
+
         ArrayList<Integer> sessIDList = new ArrayList<Integer>();
         ArrayList<String> sessNameList = new ArrayList<String>();
         String findSessionID = "SELECT sessionID FROM sessionowner WHERE username = '" + username + "'";
@@ -136,7 +117,6 @@ public class connector {
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(findSessionID);
-
             while (rs.next()) {
                 sessionID = rs.getInt("sessionID"); //Find all sessions belonging to the user
                 sessIDList.add(sessionID);
@@ -144,7 +124,7 @@ public class connector {
             for (int i = 0; i < sessIDList.size(); i++) {
                 String findSessionName = "SELECT sessionName FROM session WHERE sessionID = " + sessIDList.get(i);
                 ResultSet rs2 = st.executeQuery(findSessionName);
-                
+
                 while (rs2.next()) {
                     String sessionName = rs2.getString("sessionName");
                     sessNameList.add(sessionName);
@@ -158,8 +138,6 @@ public class connector {
         }
         return sessNameList;
     }
-    
-    
 
     //makeSession makes a session using the user's username and a sessionName then returns the sessionID
     public static int makeSession(String sessionName, String username) {
@@ -167,16 +145,13 @@ public class connector {
         Random rand = new Random();
         int num = rand.nextInt(1001);
         int sessionID = num;
-
         String randCheck = "SELECT sessionID FROM session WHERE sessionID = " + num;
         String insertNewSess = "INSERT INTO session (sessionID, sessionName) VALUES (" + sessionID + ", '" + sessionName + "')";
         String insertNewSessOwner = "INSERT INTO sessionowner (username, sessionID) VALUES ('" + username + "', " + sessionID + ")";
-
         //Check if new sessionID is unique
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(randCheck);
-
             if (rs.next()) {
                 System.out.println("The sessionID is not unique");
             } else {
@@ -188,7 +163,6 @@ public class connector {
             ex.printStackTrace();
             System.out.println("Unable to make a new session");
         }
-
         return num;
     }
     
@@ -241,7 +215,6 @@ public class connector {
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(findSessionID);
-
             if (rs.next()) {
                 sessionID = rs.getInt("sessionID");
                 return sessionID;
@@ -257,9 +230,7 @@ public class connector {
     
     //editSession updates the sessionName of a sessionID
     public static void editSession(int sessionID, String sessionName) {
-
         String query = "UPDATE session SET sessionName = '" + sessionName + "' WHERE sessionID = " + sessionID;
-
         try {
             Statement st = con.createStatement();
             st.executeUpdate(query);
@@ -269,7 +240,6 @@ public class connector {
             System.out.println("Unable to update session");
         }
     }
-
     //deleteSession removes a session from the database using the sessionID
     public static void deleteSession(int sessionID) {
         String query = "DELETE FROM session WHERE sessionID = " + sessionID;
@@ -282,18 +252,14 @@ public class connector {
             System.out.println("Unable to delete session");
         }
     }
-
     //getMapList returns an ArrayList of mapID given the sessionID 
     public static ArrayList<Integer> getMapList(int sessionID) {
-
         ArrayList<Integer> maps = new ArrayList<Integer>();
         int mapID = 1001;
         String checkMapID = "SELECT mapID FROM sessionmaps WHERE sessionID = '" + sessionID + "'";
-
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(checkMapID);
-
             //find the mapID
             while (rs.next()) {
                 mapID = rs.getInt("mapID");
@@ -306,23 +272,19 @@ public class connector {
         }
         return maps;
     }
-
     //makeMap makes a new map with user given mapValues and relates it to a session with a sessionID then returns the mapID
     public static int makeMap(String mapValues, int sessionID) {
         //Generate new mapID
         Random rand = new Random();
         int num = rand.nextInt(1001);
         int mapID = num;
-
         String randCheck = "SELECT mapID FROM map WHERE mapID = " + num;
         String insertNewMap = "INSERT INTO map (mapID, mapValues) VALUES (" + mapID + ", '" + mapValues + "')";
         String insertNewSessMap = "INSERT INTO sessionmaps (sessionID, mapID) VALUES ('" + sessionID + "', " + mapID + ")";
-
         //Check if new mapID is unique
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(randCheck);
-
             if(rs.next()) {
                 System.out.println("The mapID is not unique");
             } else {
@@ -334,10 +296,8 @@ public class connector {
             ex.printStackTrace();
             System.out.println("Unable to make a new session");
         }
-
         return num;
     }
-
     //getMapValues returns mapValues of a map
     public static String getMapValues(int mapID) {
         String findMapValues = "SELECT mapValues FROM map WHERE mapID = " + mapID;
@@ -345,7 +305,6 @@ public class connector {
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(findMapValues);
-
             if (rs.next()) {
                 mapValues = rs.getString("mapValues");
                 return mapValues;
@@ -356,11 +315,9 @@ public class connector {
         }
         return mapValues;
     }
-
     //editMapValues updates the mapValues of a given mapID
     public static void editMapValues(int mapID, String mapValues) {
         String query = "UPDATE map SET mapValues = '" + mapValues + "' WHERE mapID = " + mapID;
-
         try {
             Statement st = con.createStatement();
             st.executeUpdate(query);
@@ -369,13 +326,11 @@ public class connector {
             System.out.println("Unable to update map");
         }
     }
-
     //deleteMap removes a map from the database using the mapID
     public static void deleteMap(int mapID) {
         String query = "DELETE FROM map WHERE mapID = " + mapID;
         try {
             Statement st = con.createStatement();
-
             st.executeUpdate(query);
             st.close();
         } catch (SQLException ex) {
@@ -383,23 +338,19 @@ public class connector {
             System.out.println("Unable to delete map");
         }
     }
-
     //makeToken makes a new token given the player's username, size of the token, and the mapID it belongs to then returns the new tokenID
     public static int makeToken(String username, int mapID, String tokenValues) {
         Random rand = new Random();
         int num = rand.nextInt(10000);
         int tokenID = num;
-
         String randCheck = "SELECT tokenID FROM token WHERE tokenID = " + num;
         String insertNewToken = "INSERT INTO token (tokenID, tokenValues) VALUES (" + tokenID + ", '" + tokenValues + "')";
         String insertNewTokenOwner = "INSERT INTO tokenowner (tokenID, username) VALUES (" + tokenID + ", '" + username + "')";
         String insertNewTokenMap = "INSERT INTO mapContain (mapID, tokenID) VALUES (" + mapID + ", " + tokenID + ")";
-
         //Check if new tokenID is unique
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(randCheck);
-
             if (rs.next()) {
                 System.out.println("This tokenID is not unique");
             } else {
@@ -412,10 +363,8 @@ public class connector {
             ex.printStackTrace();
             System.out.println("Unable to make a new token");
         }
-
         return num;
     }
-
     //getTokenValues returns all tokenValues of a token
     public static String getTokenValues(int tokenID) {
         String findTokenValues = "SELECT tokenValues FROM token WHERE tokenID = " + tokenID;
@@ -423,7 +372,6 @@ public class connector {
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(findTokenValues);
-
             while (rs.next()) {
                 tokenValues = rs.getString("tokenValues");
                 return tokenValues;
@@ -435,11 +383,9 @@ public class connector {
         }
         return tokenValues;
     }
-
     //editTokenValues updates the tokenValues of a given tokenID
     public static void editTokenValues(int tokenID, String tokenValues) {
         String query = "UPDATE token SET tokenValues = '" + tokenValues + "' WHERE tokenID = " + tokenID;
-
         try {
             Statement st = con.createStatement();
             st.executeUpdate(query);
@@ -449,13 +395,11 @@ public class connector {
             System.out.println("Unable to update token");
         }
     }
-
     //deleteToken removes a token from the database using the tokenID
     public static void deleteToken(int tokenID) {
         String query = "DELETE FROM token WHERE tokenID = " + tokenID;
         try {
             Statement st = con.createStatement();
-
             st.executeUpdate(query);
             st.close();
         } catch (SQLException ex) {
@@ -463,25 +407,20 @@ public class connector {
             System.out.println("Unable to delete token");
         }
     }
-
     //closeCon closes the connection to the DPS database to relieve reserved resources
     public static void closeCon() {
         try {
             con.close();
-
         } catch (SQLException ex) {
             System.out.println("Unable to close connection to DPSDB");
         }
     }
-
     //Test all methods
     public static void main(String args[]) {
         //test connect
         //con = connector.connect();
-
         //test makeUser
         //connector.makeUser("Aesthellar", "letmein");
-
         //tests Authenticate
         //boolean bool = connector.Authenticate("Aesthellar", "letmein");
         //System.out.println("Authenticating... " + bool);
@@ -500,7 +439,7 @@ public class connector {
         //test getSessionID
         //int sessionID = connector.getSessionID("Aesthellar", "DND Campaign");
         //System.out.println(sessionID);
-        
+
         //test getSessionList
         /*ArrayList<String> sessions = new ArrayList<String>();
         sessions = connector.getSessionList("wolfdogman");

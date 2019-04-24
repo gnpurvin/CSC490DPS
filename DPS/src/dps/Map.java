@@ -4,22 +4,17 @@
  * Built for Senior Capstone.
  */
 package dps;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javafx.scene.paint.Color;
-
 /**
  * This is the map class, and it is used mostly to construct maps with specific 
  * parameters. Most editing is done by the controller class, which should 
  * generate an instance of this class to work with. 
  * @author Phillip
  */
-
-
 public class Map {
-
     //Properties of a Map
     public int sizeX;
     public int sizeY;

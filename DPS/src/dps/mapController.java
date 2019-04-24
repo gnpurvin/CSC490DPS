@@ -58,7 +58,6 @@ public class mapController {
         for(int v = 0; v < currMap.numRooms; v++){
             currMap.placeRoom();
         }
-
         System.out.println("Placed rooms");
         
         //iterates across each row
@@ -87,8 +86,8 @@ public class mapController {
         currMap.Grid[x][y].isOccupied = true;
         this.drawTokens();
     }
-    
-    
+
+
     /**
      * This method just iterates through the list of tokens and draws them at 
      * the position specified by their X and Y coordinates in the color specified
