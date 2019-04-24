@@ -130,3 +130,4 @@ public class mapController {
     public void saveMap(connector c){
         c.makeMap(currMap.toString(), currMap.mapID);
     }
+}
