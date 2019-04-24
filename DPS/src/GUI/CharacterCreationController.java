@@ -97,7 +97,7 @@ public class CharacterCreationController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //sets combo box with options below
         ClassDropDown.getItems().clear();
-        ClassDropDown.getItems().addAll("Bard", "Cleric", "Druid", "Fighter",
+        ClassDropDown.getItems().addAll("Barbarian", "Bard", "Cleric", "Druid", "Fighter",
                 "Monk", "Paladin", "Ranger", "Rouge", "Sorcerer", "Warlock", "Wizard");
 
         //sets combo box with options below
