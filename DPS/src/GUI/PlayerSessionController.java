@@ -113,7 +113,7 @@ public class PlayerSessionController implements Initializable {
         TypeofDice.getItems().addAll("d4","d6","d8","d10","d12","d20","d100");
         NumberofDice.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 1, integerFilter));
         try{
-            Player = new Client(11064, session, this);
+            Player = new Client(3306, session, this);
             Player.start(username);
         }
         catch(IOException e){
@@ -312,7 +312,7 @@ public class PlayerSessionController implements Initializable {
 
     private void DMSes(){
         try{
-            Server serv = new Server(11064, session);
+            Server serv = new Server(3306, session);
             serv.start();
         }
         catch(Exception e){

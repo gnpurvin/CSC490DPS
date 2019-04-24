@@ -102,7 +102,7 @@ public class CharacterCreationController implements Initializable {
 
         //sets combo box with options below
         RaceDropDown.getItems().clear();
-        RaceDropDown.getItems().addAll("DragonBorn", "Dwarf", "Elf", "Gnome",
+        RaceDropDown.getItems().addAll("Dragonborn", "Dwarf", "Elf", "Gnome",
                 "Half-Elf", "Halfling", "Half-Orc", "Human", "Tiefling");
 
         //sets all int text fields
