@@ -4,6 +4,7 @@
  * Built for Senior Capstone.
  */
 package dps;
+
 import database.connector;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,6 +12,7 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+
 /**
  * This class handles most of the editing and such for the map class. It will 
  * take user input and change the map accordingly, as well as handle any "behind
@@ -128,4 +130,3 @@ public class mapController {
     public void saveMap(connector c){
         c.makeMap(currMap.toString(), currMap.mapID);
     }
-}

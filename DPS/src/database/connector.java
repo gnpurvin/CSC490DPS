@@ -106,7 +106,6 @@ public class connector {
 
     //getSessionList returns an ArrayList of session names that the user has created
     public static ArrayList<String> getSessionList(String username) {
-
         int sessionID = -1;
 
         ArrayList<Integer> sessIDList = new ArrayList<Integer>();
@@ -139,8 +138,6 @@ public class connector {
         }
         return sessNameList;
     }
-
-
 
     //makeSession makes a session using the user's username and a sessionName then returns the sessionID
     public static int makeSession(String sessionName, String username) {

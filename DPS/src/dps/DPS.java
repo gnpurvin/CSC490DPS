@@ -21,13 +21,8 @@ import javafx.stage.StageStyle;
  * @author Spencer
  */
 public class DPS extends Application {
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
-    
+    mapController mpc = new mapController();
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Connection con = connector.connect();
@@ -40,5 +35,12 @@ public class DPS extends Application {
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
-}
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);    
+    }
+
+}

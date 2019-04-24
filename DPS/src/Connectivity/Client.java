@@ -96,7 +96,6 @@ public class Client {
     private boolean connect() throws IOException {
         System.out.println(this.serverName);
         try {
-
             this.socket = new Socket(serverName, servPort);
             this.serverOut = socket.getOutputStream();
             this.serverIn = socket.getInputStream();
