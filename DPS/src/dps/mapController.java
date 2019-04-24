@@ -28,6 +28,7 @@ public class mapController {
     private final Color wallColor;
     public Canvas c;
     public GraphicsContext gc;
+    public TokenMaster tm;
     
     
     //Default Main
@@ -82,6 +83,33 @@ public class mapController {
     
     }
     
+    
+    ////////////////////////////////////////
+    /// Section for 
+    /// Token manipulation methods 
+    ///////////////////////////////////////
+    
+    
+    /**
+     * Makes a token!
+     * @param x
+     * @param y
+     * @param type
+     * @return 
+     */
+    public token createToken(int x, int y, String type){
+        int id = (tm.tokenList.size() + 1);
+        token t = new token(tm, id, x, y, type, Color.DARKORANGE);
+        this.drawTokens();
+        return t;
+    }
+    
+    /**
+     * 
+     * @param t
+     * @param x
+     * @param y 
+     */
     public void moveTokenTo(token t, int x, int y){
         t.moveTo(x, y);
         currMap.Grid[x][y].isOccupied = true;
@@ -103,8 +131,12 @@ public class mapController {
         }
     }
     
+    
+    //////End of token Section////////
+    
+    
     /**
-     * 
+     * Checks if the tile at specified x and y is occupied.
      * @param x
      * @param y
      * @return 

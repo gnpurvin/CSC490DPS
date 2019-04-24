@@ -9,7 +9,7 @@ import java.util.List;
  * @author Ray
  */
 public class TokenMaster {
-    private ArrayList<token> tokenList = new ArrayList<>();
+    public ArrayList<token> tokenList = new ArrayList<>();
             
             
   //this runs through the list of tokens, finds the right one and then calls it's move method
