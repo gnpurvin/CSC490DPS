@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="MainMenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="71.0" layoutY="14.0" text="Dungeon Positioning System" textAlignment="CENTER" AnchorPane.leftAnchor="71.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Button layoutX="175.0" layoutY="67.0" mnemonicParsing="false" onAction="#DMMenu" prefHeight="53.0" prefWidth="250.0" text="DM Mode" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="70.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+      <Button layoutX="175.0" layoutY="128.0" mnemonicParsing="false" onAction="#PlayerMenu" prefHeight="53.0" prefWidth="250.0" text="Player Mode" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="140.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+      <Button fx:id="Create" layoutX="175.0" layoutY="188.0" mnemonicParsing="false" onAction="#Character" prefHeight="53.0" prefWidth="250.0" text="Create Character" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="210.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+      <Button layoutX="176.0" layoutY="249.0" mnemonicParsing="false" onAction="#Quit" prefHeight="53.0" prefWidth="250.0" text="Exit" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="280.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+      <TextField fx:id="Sessioncode" layoutX="71.0" layoutY="155.0" promptText="Enter session code" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="155.0" />
+      <Label fx:id="Error" layoutX="98.0" layoutY="186.0" text="Session Unavialable" textFill="RED" visible="false" AnchorPane.leftAnchor="98.0" AnchorPane.topAnchor="186.0" />
+   </children>
+
+</AnchorPane>
