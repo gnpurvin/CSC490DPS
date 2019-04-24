@@ -34,6 +34,8 @@ public class DPS extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
+        
+        //mpc.saveMap();
     }
 
     /**

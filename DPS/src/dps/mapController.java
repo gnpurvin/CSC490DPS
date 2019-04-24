@@ -150,9 +150,9 @@ public class mapController {
     //takes various args from csv file, puts them into the constructor, Map 
     //class builds it, then returns it as a Map object exactly the same as it 
     //saved.
-    public Map readFrom(connector c){
+    public Map readFrom(connector c, int seshID){
         //yoink vals from db, pass them to vars, instantiate map using those vars as args
-        String fullMapString = c.getMapValues(currMap.mapID);
+        String fullMapString = c.getMapValues(seshID);
         String mapArray[] = fullMapString.split("\n");
         
         /*
@@ -161,17 +161,16 @@ public class mapController {
         */
         String mapFields[] = mapArray[0].split(", ");
         Boolean loaded = true;
-        int id = Integer.parseInt(mapFields[0]);
-        String name = mapFields[1];
-        int sizeX = Integer.parseInt(mapFields[2]);
-        int sizeY = Integer.parseInt(mapFields[3]);
-        int rooms = Integer.parseInt(mapFields[4]);
-        String setting = mapFields[5];
-        String halls = mapFields[6];
-        String deadEnds = mapFields[7];
+        String name = mapFields[0];
+        int sizeX = Integer.parseInt(mapFields[1]);
+        int sizeY = Integer.parseInt(mapFields[2]);
+        int rooms = Integer.parseInt(mapFields[3]);
+        String setting = mapFields[4];
+        String halls = mapFields[5];
+        String deadEnds = mapFields[6];
         
         
-        Map loadedMap = new Map(loaded, id, name, sizeX, sizeY, rooms, setting, halls, deadEnds);
+        Map loadedMap = new Map(loaded, name, sizeX, sizeY, rooms, setting, halls, deadEnds);
         
         
         //This part separates the map fields from the tile data
@@ -197,7 +196,7 @@ public class mapController {
     }
     
     //saves the map to the database
-    public void saveMap(connector c){
-        c.makeMap(currMap.toString(), currMap.mapID);
+    public void saveMap(){
+        connector.makeMap(currMap.toString(), 506);
     }
 }

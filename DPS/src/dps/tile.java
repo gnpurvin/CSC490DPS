@@ -1,5 +1,14 @@
 package dps;
 
+/***************
+ * This is a class used mostly by the map class itself, sometimes 
+ * accessed by the controller class. It defines what a tile is, and a map is
+ * a collection of tiles arranged in a 2D Grid.
+ * 
+ * Each tile has to have a type and a few other properties. Stuff like what 
+ * is there, if it's occupied, what cover it provides, etc. This can be 
+ * changed.
+ ****************/
 public class tile {
         //property vars go here, figure out what that is later on
         public String type;

@@ -29,7 +29,6 @@ public class Map {
     public String deadEnds;
     public tile[][] Grid;
     public int floorNum;
-    public int mapID;
     public String mapName;
     public Random rng;
     public List<token> tokenList;
@@ -59,7 +58,6 @@ public class Map {
             }
         }
         floorNum = 1;
-        mapID = 00000;
         mapName = "default";
         System.out.println(this.toString());
         tokenList = new ArrayList<>();
@@ -81,9 +79,8 @@ public class Map {
      * @param halls
      * @param deadEndsYN
      */
-    public Map(Boolean loaded, int id, String name, int width, int length, int rooms, String environment, String halls, String deadEndsYN){
+    public Map(Boolean loaded, String name, int width, int length, int rooms, String environment, String halls, String deadEndsYN){
         mapName = name;
-        mapID = id;
         sizeX = width;
         sizeY = length;
         numRooms = rooms;
@@ -109,16 +106,6 @@ public class Map {
         }
     }
     
-    
-    /***************
-     * This is a subclass used mostly by the map class itself, sometimes 
-     * accessed by the controller class. It defines what a tile is, and a map is
-     * a collection of tiles arranged in a 2D Grid.
-     * 
-     * Each tile has to have a type and a few other properties. Stuff like what 
-     * is there, if it's occupied, what cover it provides, etc. This can be 
-     * changed.
-     ****************/
     
     
     /***********
@@ -187,9 +174,9 @@ public class Map {
         return tileCoords;
     }
     
-    //Makes a random big ass number for the map ID
-    public void setMapId(){
-        this.mapID = rng.nextInt(10000);
+    //Names the map. Exactly what it says
+    public void setMapName(String name){
+        this.mapName = name;
     }
     
     /**
@@ -254,7 +241,6 @@ public class Map {
     @Override
     public final String toString(){
         String dungeon = "";
-        dungeon.concat(Integer.toString(mapID) + ", ");
         dungeon.concat(mapName + ", ");
         dungeon.concat(Integer.toString(sizeX) + ", ");
         dungeon.concat(Integer.toString(sizeY) + ", ");
