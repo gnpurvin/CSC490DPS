@@ -5,9 +5,13 @@
  */
 package dps;
 
+import database.connector;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 
 /**
  * This class handles most of the editing and such for the map class. It will 
@@ -46,6 +50,8 @@ public class mapController {
      * Iterates through each tile in the 2D array and draws it. 
      * This gon' be reaaal complicated.
      * hold on to ya butts
+     * @param c
+     * @return 
      */
     public void drawMap(Canvas c){
         gc = c.getGraphicsContext2D();
@@ -73,7 +79,7 @@ public class mapController {
                 
             }
         }
-    //presumably the to jpg/png method goes here
+    
     }
     
     public void moveTokenTo(token t, int x, int y){
@@ -112,10 +118,17 @@ public class mapController {
     //takes various args from csv file, puts them into the constructor, Map 
     //class builds it, then returns it as a Map object exactly the same as it 
     //saved.
-    public Map readFrom(){
-        //fix later lmao
+    public Map readFrom(connector c){
+        //yoink vals from db, pass them to vars, instantiate map using those vars as args
+        String fullMapString = c.getMapValues(currMap.mapID);
+        
         Map loadedMap = new Map();
         //loadedMap.Grid
         return loadedMap;
+    }
+    
+    //saves the map to the database
+    public void saveMap(connector c){
+        c.makeMap(currMap.toString(), currMap.mapID);
     }
 }

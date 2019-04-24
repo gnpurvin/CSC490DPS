@@ -170,7 +170,7 @@ public class PlayerSessionController implements Initializable {
     @FXML
     protected void CreateMap(ActionEvent action) throws IOException{
        FXMLLoader Map = new FXMLLoader(getClass().getResource("MapMaker.fxml"));
-       Map.setController(new MapMakerController(username,session));
+       Map.setController(new MapMakerController());
        Stage stage = new Stage();
        stage.initOwner(CreateM.getParentPopup().getOwnerWindow());
        stage.setScene(new Scene((Parent) Map.load()));
@@ -318,7 +318,7 @@ public class PlayerSessionController implements Initializable {
         catch(Exception e){
             e.printStackTrace();
         }
-        Sessioncode.setText(Integer.toString(session));
+        Sessioncode.setText("Session Code: " + Integer.toString(session));
         Sessioncode.setVisible(DM);
         OpenM.setVisible(DM);
         CloseM.setVisible(DM);

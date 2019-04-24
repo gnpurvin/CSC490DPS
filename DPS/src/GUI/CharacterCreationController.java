@@ -98,7 +98,7 @@ public class CharacterCreationController implements Initializable {
         //sets combo box with options below
         ClassDropDown.getItems().clear();
         ClassDropDown.getItems().addAll("Barbarian", "Bard", "Cleric", "Druid", "Fighter",
-                "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard");
+                "Monk", "Paladin", "Ranger", "Rouge", "Sorcerer", "Warlock", "Wizard");
 
         //sets combo box with options below
         RaceDropDown.getItems().clear();

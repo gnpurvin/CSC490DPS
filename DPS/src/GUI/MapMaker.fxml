@@ -7,11 +7,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MapMakerController">
    <children>
-      <Button id="DrawRandMapButton" fx:id="DrawRandMapButton" layoutX="1047.0" layoutY="101.0" mnemonicParsing="false" onAction="#DrawMap" text="Draw Random Map" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="101.0" />
-      <Canvas fx:id="MapCanvas" height="600.0" layoutX="141.0" layoutY="91.0" width="600.0" AnchorPane.leftAnchor="141.0" AnchorPane.topAnchor="91.0" />
-      <Button id="DrawRandMapButton" fx:id="ExitBtn" layoutX="1024.0" layoutY="622.0" mnemonicParsing="false" onAction="#Exit" text="Exit" AnchorPane.bottomAnchor="153.0" AnchorPane.rightAnchor="137.0" />
-      <Button id="DrawRandMapButton" fx:id="SaveBtn" layoutX="1027.0" layoutY="622.0" mnemonicParsing="false" onAction="#Save" text="Save" AnchorPane.bottomAnchor="153.0" AnchorPane.rightAnchor="200.0" />
+      <Button id="DrawRandMapButton" fx:id="DrawRandMapButton" layoutX="1047.0" layoutY="101.0" mnemonicParsing="false" text="Draw Random Map" />
+      <Canvas height="600.0" layoutX="141.0" layoutY="91.0" width="600.0" />
    </children>
 </AnchorPane>

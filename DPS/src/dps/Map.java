@@ -71,6 +71,9 @@ public class Map {
      * user picks options for the map before it is created.
      * 
      * Finish later!
+     * @param loaded
+     * @param name
+     * @param id
      * @param width
      * @param length
      * @param rooms
@@ -78,10 +81,12 @@ public class Map {
      * @param halls
      * @param deadEndsYN
      */
-    public Map(int width, int length, int rooms, String environment, String halls, String deadEndsYN){
-        //sets the map size
+    public Map(Boolean loaded, int id, String name, int width, int length, int rooms, String environment, String halls, String deadEndsYN){
+        mapName = name;
+        mapID = id;
         sizeX = width;
         sizeY = length;
+        numRooms = rooms;
         setting = environment;
         hallType = halls;
         deadEnds = deadEndsYN;
@@ -97,8 +102,10 @@ public class Map {
         //that increments each time a room is placed and exits either a) when 
         //all rooms are placed or b) it runs out of room to put them. Go fucken
         //HAM on the error checking to ensure it doesn't break something
-        for (int k = 0; k < rooms; k++){
-            placeRoom();
+        if(loaded == false){
+            for (int k = 0; k < rooms; k++){
+                placeRoom();
+            }
         }
     }
     
@@ -184,13 +191,14 @@ public class Map {
         @Override
         public String toString(){
             String tileString = "";
-            tileString.concat(type);
-            tileString.concat((this.isRoom.toString()) + ",");
+            
+            tileString.concat((Integer.toString(this.xPos)) + ", ");
+            tileString.concat((Integer.toString(this.yPos)) + ", ");
+            tileString.concat(type + ", ");
+            tileString.concat((this.isRoom.toString()) + ", ");
             tileString.concat((this.isHall.toString()) + ", ");
             tileString.concat((this.isOccupied.toString()) + ", ");
-            tileString.concat((this.isStairs.toString()) + ", ");
-            tileString.concat((Integer.toString(this.xPos)) + ", ");
-            tileString.concat((Integer.toString(this.yPos)) + "\n");
+            tileString.concat((this.isStairs.toString()) + "\n");
             return tileString;
         }
         
@@ -329,6 +337,14 @@ public class Map {
     @Override
     public final String toString(){
         String dungeon = "";
+        dungeon.concat(Integer.toString(mapID) + ", ");
+        dungeon.concat(mapName + ", ");
+        dungeon.concat(Integer.toString(sizeX) + ", ");
+        dungeon.concat(Integer.toString(sizeY) + ", ");
+        dungeon.concat(Integer.toString(numRooms));
+        dungeon.concat(setting + ", ");
+        dungeon.concat(hallType + ", ");
+        dungeon.concat(deadEnds + "\n");
         for(int x = 0; x < sizeX; x++){
             for(int y = 0; y < sizeY; y++){
                 dungeon.concat(Integer.toString(sizeX));
