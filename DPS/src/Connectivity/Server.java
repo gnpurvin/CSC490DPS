@@ -77,7 +77,7 @@ public class Server extends Thread{
           String addy[];
         try{
             addy = InetAddress.getLocalHost().toString().split("/");
-           // System.out.println("IP is: " + addy[1]);
+            System.out.println("IP is: " + addy[1]);
             this.IP = addy[1];
         }catch(UnknownHostException e){
             e.printStackTrace();

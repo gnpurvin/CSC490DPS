@@ -32,7 +32,8 @@ public class Client {
     public Client(int servPort, int sessionCode, PlayerSessionController con) throws IOException {
         this.sessionCode = sessionCode;
         Connection dbcon = connector.connect();
-        this.serverName = getHostIP();
+        this.serverName = this.getHostIP();
+        System.out.println(this.serverName);
         this.servPort = servPort;
         this.controller = con;
         
