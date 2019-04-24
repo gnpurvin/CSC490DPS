@@ -121,8 +121,45 @@ public class mapController {
     public Map readFrom(connector c){
         //yoink vals from db, pass them to vars, instantiate map using those vars as args
         String fullMapString = c.getMapValues(currMap.mapID);
+        String mapArray[] = fullMapString.split("\n");
         
-        Map loadedMap = new Map();
+        /*
+        * This is the part where we pull map fields from the string and 
+        * instantiate a new map object with them. 
+        */
+        String mapFields[] = mapArray[0].split(", ");
+        Boolean loaded = true;
+        int id = Integer.parseInt(mapFields[0]);
+        String name = mapFields[1];
+        int sizeX = Integer.parseInt(mapFields[2]);
+        int sizeY = Integer.parseInt(mapFields[3]);
+        int rooms = Integer.parseInt(mapFields[4]);
+        String setting = mapFields[5];
+        String halls = mapFields[6];
+        String deadEnds = mapFields[7];
+        
+        
+        Map loadedMap = new Map(loaded, id, name, sizeX, sizeY, rooms, setting, halls, deadEnds);
+        
+        
+        //This part separates the map fields from the tile data
+        String tileArray[] = new String[mapArray.length - 1];
+        System.arraycopy(mapArray, 1, tileArray, 0, (mapArray.length - 1));
+        
+        for(int i = 0; i < tileArray.length; i++){
+            String tile[] = tileArray[i].split(", ");
+            int xCoord = Integer.parseInt(tile[0]);
+            int yCoord = Integer.parseInt(tile[1]);
+            String tileType = tile[2];
+            String isRoom = tile[3];
+            String isHall = tile[4];
+            String isOccupied = tile[5];
+            String isStairs = tile[6];
+            
+            loadedMap.Grid[xCoord][yCoord] = new tile(xCoord, yCoord, tileType, isRoom, isHall, isOccupied, isStairs);
+        }
+        
+        
         //loadedMap.Grid
         return loadedMap;
     }
