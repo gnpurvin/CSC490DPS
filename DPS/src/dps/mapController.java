@@ -98,7 +98,7 @@ public class mapController {
      * @return 
      */
     public token createToken(int x, int y, String type){
-        int id = (tm.tokenList.size() + 1);
+        int id = (currMap.tokenList.size() + 1);
         token t = new token(tm, id, x, y, type, Color.DARKORANGE);
         this.drawTokens();
         return t;

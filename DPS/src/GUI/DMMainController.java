@@ -59,6 +59,7 @@ public class DMMainController implements Initializable {
     @FXML
     public void MapMaker(ActionEvent event) throws Exception{
        FXMLLoader Map = new FXMLLoader(getClass().getResource("MapMaker.fxml"));
+       Map.setController(new MapMakerController(username,session));
        Stage stage = new Stage();
        stage.initOwner(MakeMap.getScene().getWindow());
        stage.setScene(new Scene((Parent) Map.load()));

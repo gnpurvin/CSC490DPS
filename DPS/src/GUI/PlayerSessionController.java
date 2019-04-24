@@ -29,6 +29,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import java.io.File;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -71,6 +72,8 @@ public class PlayerSessionController implements Initializable {
     public ScrollPane Session;
     @FXML
     public Label Sessioncode;
+    @FXML
+    public Canvas MapCanvas;
 
 
 
@@ -110,7 +113,7 @@ public class PlayerSessionController implements Initializable {
         TypeofDice.getItems().addAll("d4","d6","d8","d10","d12","d20","d100");
         NumberofDice.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 1, integerFilter));
         try{
-            Player = new Client(11064, session, this);
+            Player = new Client(5000, session, this);
             Player.start(username);
         }
         catch(IOException e){
@@ -128,7 +131,6 @@ public class PlayerSessionController implements Initializable {
                 AddC.getItems().add(temp);
             }
         }
-
     }
 
 
@@ -136,6 +138,8 @@ public class PlayerSessionController implements Initializable {
     @FXML
     protected void ChatSend(ActionEvent action) throws IOException{
         Player.sendMsg(ChatOut.getText());
+        this.onMessage(ChatOut.getText());
+        ChatOut.clear();
     }
 
     @FXML
@@ -150,17 +154,28 @@ public class PlayerSessionController implements Initializable {
 
     @FXML
     protected void OpenMap(ActionEvent action){
-
+        
     }
 
     @FXML
     protected void CloseMap(ActionEvent action){
-
+        
+    }
+    
+    @FXML
+    protected void tokenMove(ActionEvent action){
+        
     }
 
     @FXML
-    protected void CreateMap(ActionEvent action){
-
+    protected void CreateMap(ActionEvent action) throws IOException{
+       FXMLLoader Map = new FXMLLoader(getClass().getResource("MapMaker.fxml"));
+       Map.setController(new MapMakerController(username, session));
+       Stage stage = new Stage();
+       stage.initOwner(CreateM.getParentPopup().getOwnerWindow());
+       stage.setScene(new Scene((Parent) Map.load()));
+       stage.setMaximized(true);
+       stage.show();
     }
 
     protected void AddCharacter(MenuItem m){
@@ -297,13 +312,13 @@ public class PlayerSessionController implements Initializable {
 
     private void DMSes(){
         try{
-            Server serv = new Server(11064, session);
+            Server serv = new Server(5000, session);
             serv.start();
         }
         catch(Exception e){
             e.printStackTrace();
         }
-        Sessioncode.setText(Integer.toString(session));
+        Sessioncode.setText("Session Code: " + Integer.toString(session));
         Sessioncode.setVisible(DM);
         OpenM.setVisible(DM);
         CloseM.setVisible(DM);
