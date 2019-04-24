@@ -96,13 +96,30 @@ public class Client {
 
     private boolean connect() throws IOException {
         System.out.println(this.serverName);
+        System.out.println(this.servPort);
         try {
             this.socket = new Socket(serverName, servPort);
-            this.serverOut = socket.getOutputStream();
-            this.serverIn = socket.getInputStream();
-            this.bufferedIn = new BufferedReader(new InputStreamReader(serverIn));
-            return true;
+            System.out.println("this.socket");
         } catch (IOException e) {
+            System.out.println("this.socket not working");
+        }
+        try{
+            this.serverOut = socket.getOutputStream();
+            System.out.println("this.serverOut");
+        } catch (IOException e) {
+            System.out.println("this.serverOut not working");
+        }
+        try {
+            this.serverIn = socket.getInputStream();
+            System.out.println("this.serverIn");
+        } catch (IOException e) {
+            System.out.println("this.serverIn not working");
+        }
+        try {
+            this.bufferedIn = new BufferedReader(new InputStreamReader(serverIn));
+            System.out.println("this.bufferedIn");
+            return true;
+        } catch (Exception e) {
             System.out.println("Could not connect client to host.\n");
         }
         return false;

@@ -23,6 +23,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.converter.IntegerStringConverter;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -156,5 +157,20 @@ public class CharacterCreationController implements Initializable {
 
         AnchorPane Back = FXMLLoader.load(getClass().getResource("CharacterMain.fxml"));
         CharacterCreation.getChildren().setAll(Back);
+    }
+    
+    public void editChar(String name){
+        CharacterSheet character = new CharacterSheet();
+        try {
+            File file = new File("Characters\\" + name);
+            JAXBContext jaxbContext = JAXBContext.newInstance(CharacterSheet.class);
+
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            character = (CharacterSheet) jaxbUnmarshaller.unmarshal(file);
+
+
+	  } catch (JAXBException e) {
+		e.printStackTrace();
+	  }
     }
 }
