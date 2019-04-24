@@ -28,6 +28,7 @@ public class mapController {
     private final Color wallColor;
     public Canvas c;
     public GraphicsContext gc;
+    public TokenMaster tm;
     
     
     //Default Main
@@ -58,6 +59,7 @@ public class mapController {
         for(int v = 0; v < currMap.numRooms; v++){
             currMap.placeRoom();
         }
+
         System.out.println("Placed rooms");
         
         //iterates across each row
@@ -81,13 +83,40 @@ public class mapController {
     
     }
     
+    
+    ////////////////////////////////////////
+    /// Section for 
+    /// Token manipulation methods 
+    ///////////////////////////////////////
+    
+    
+    /**
+     * Makes a token!
+     * @param x
+     * @param y
+     * @param type
+     * @return 
+     */
+    public token createToken(int x, int y, String type){
+        int id = (currMap.tokenList.size() + 1);
+        token t = new token(tm, id, x, y, type, Color.DARKORANGE);
+        this.drawTokens();
+        return t;
+    }
+    
+    /**
+     * 
+     * @param t
+     * @param x
+     * @param y 
+     */
     public void moveTokenTo(token t, int x, int y){
         t.moveTo(x, y);
         currMap.Grid[x][y].isOccupied = true;
         this.drawTokens();
     }
-
-
+    
+    
     /**
      * This method just iterates through the list of tokens and draws them at 
      * the position specified by their X and Y coordinates in the color specified
@@ -102,8 +131,12 @@ public class mapController {
         }
     }
     
+    
+    //////End of token Section////////
+    
+    
     /**
-     * 
+     * Checks if the tile at specified x and y is occupied.
      * @param x
      * @param y
      * @return 
@@ -117,17 +150,53 @@ public class mapController {
     //takes various args from csv file, puts them into the constructor, Map 
     //class builds it, then returns it as a Map object exactly the same as it 
     //saved.
-    public Map readFrom(connector c){
+    public Map readFrom(connector c, int seshID){
         //yoink vals from db, pass them to vars, instantiate map using those vars as args
-        String fullMapString = c.getMapValues(currMap.mapID);
+        String fullMapString = c.getMapValues(seshID);
+        String mapArray[] = fullMapString.split("\n");
         
-        Map loadedMap = new Map();
+        /*
+        * This is the part where we pull map fields from the string and 
+        * instantiate a new map object with them. 
+        */
+        String mapFields[] = mapArray[0].split(", ");
+        Boolean loaded = true;
+        String name = mapFields[0];
+        int sizeX = Integer.parseInt(mapFields[1]);
+        int sizeY = Integer.parseInt(mapFields[2]);
+        int rooms = Integer.parseInt(mapFields[3]);
+        String setting = mapFields[4];
+        String halls = mapFields[5];
+        String deadEnds = mapFields[6];
+        
+        
+        Map loadedMap = new Map(loaded, name, sizeX, sizeY, rooms, setting, halls, deadEnds);
+        
+        
+        //This part separates the map fields from the tile data
+        String tileArray[] = new String[mapArray.length - 1];
+        System.arraycopy(mapArray, 1, tileArray, 0, (mapArray.length - 1));
+        
+        for(int i = 0; i < tileArray.length; i++){
+            String tile[] = tileArray[i].split(", ");
+            int xCoord = Integer.parseInt(tile[0]);
+            int yCoord = Integer.parseInt(tile[1]);
+            String tileType = tile[2];
+            String isRoom = tile[3];
+            String isHall = tile[4];
+            String isOccupied = tile[5];
+            String isStairs = tile[6];
+            
+            loadedMap.Grid[xCoord][yCoord] = new tile(xCoord, yCoord, tileType, isRoom, isHall, isOccupied, isStairs);
+        }
+        
+        
         //loadedMap.Grid
         return loadedMap;
     }
     
     //saves the map to the database
-    public void saveMap(connector c){
-        c.makeMap(currMap.toString(), currMap.mapID);
+    public void saveMap(){
+        connector.makeMap(currMap.toString(), 506);
     }
 }
