@@ -124,6 +124,7 @@ public class connector {
 
     //getSessionList returns an ArrayList of session names that the user has created
     public static ArrayList<String> getSessionList(String username) {
+        
         int sessionID = -1;
         
         ArrayList<Integer> sessIDList = new ArrayList<Integer>();
@@ -141,7 +142,7 @@ public class connector {
                 sessIDList.add(sessionID);
             }
             for (int i = 0; i < sessIDList.size(); i++) {
-                String findSessionName = "SELECT sessionName FROM session WHERE sessionID = " + sessionID;
+                String findSessionName = "SELECT sessionName FROM session WHERE sessionID = " + sessIDList.get(i);
                 ResultSet rs2 = st.executeQuery(findSessionName);
                 
                 while (rs2.next()) {
@@ -157,6 +158,7 @@ public class connector {
         }
         return sessNameList;
     }
+    
     
 
     //makeSession makes a session using the user's username and a sessionName then returns the sessionID
@@ -501,8 +503,8 @@ public class connector {
         
         //test getSessionList
         /*ArrayList<String> sessions = new ArrayList<String>();
-        sessions = connector.getSessionList("Aesthellar");
-        System.out.println("Aesthellar's owned sessions: ");
+        sessions = connector.getSessionList("wolfdogman");
+        System.out.println("wolfdogman's owned sessions: ");
         for (int i = 0; i < sessions.size(); i++) {
             System.out.println(sessions.get(i));
         }*/
