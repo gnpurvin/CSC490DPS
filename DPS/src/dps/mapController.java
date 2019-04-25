@@ -196,6 +196,6 @@ public class mapController {
     
     //saves the map to the database
     public void saveMap(){
-        connector.makeMap(currMap.toString(), 506);
+        connector.makeMap(currMap.toString(), 972);
     }
 }
