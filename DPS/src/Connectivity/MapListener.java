@@ -10,5 +10,5 @@ package Connectivity;
  * @author sotirod
  */
 public interface MapListener {
-    
+     public void GotaNewMap(String mapStr);
 }
