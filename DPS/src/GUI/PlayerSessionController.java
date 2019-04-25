@@ -7,6 +7,9 @@ package GUI;
 
 import Connectivity.Client;
 import Connectivity.Server;
+import database.connector;
+import dps.Map;
+import dps.mapController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,6 +32,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import java.io.File;
+import java.util.ArrayList;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -49,7 +53,7 @@ public class PlayerSessionController implements Initializable {
     @FXML
     public TextField NumberofDice;
     @FXML
-    public MenuItem OpenM;
+    public Menu OpenM;
     @FXML
     public MenuItem CloseM;
     @FXML
@@ -111,6 +115,7 @@ public class PlayerSessionController implements Initializable {
         }
         TypeofDice.getItems().clear();
         TypeofDice.getItems().addAll("d4","d6","d8","d10","d12","d20","d100");
+        TypeofDice.setValue("d4");
         NumberofDice.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 1, integerFilter));
         try{
             Player = new Client(5000, session, this);
@@ -131,6 +136,18 @@ public class PlayerSessionController implements Initializable {
                 AddC.getItems().add(temp);
             }
         }
+        ArrayList<Integer> mapIds = connector.getMapList(session);
+        System.out.println(mapIds);
+        OpenM.getItems().clear();
+        for(int i = 0; i < mapIds.size(); i++){
+            MenuItem temp = new MenuItem(Integer.toString(mapIds.get(i)));
+            temp.setUserData(temp.getText());
+            temp.setOnAction((ActionEvent event) -> {
+                OpenMap(temp);
+            });
+            if(mapIds.size() != 0)
+                OpenM.getItems().add(temp);
+        }
     }
 
 
@@ -138,7 +155,7 @@ public class PlayerSessionController implements Initializable {
     @FXML
     protected void ChatSend(ActionEvent action) throws IOException{
         Player.sendMsg(ChatOut.getText());
-        this.onMessage(ChatOut.getText());
+        ChatIn.setText(ChatIn.getText() + "/n" + username + ": " + ChatOut.getText());
         ChatOut.clear();
     }
 
@@ -153,8 +170,12 @@ public class PlayerSessionController implements Initializable {
     }
 
     @FXML
-    protected void OpenMap(ActionEvent action){
-        
+    protected void OpenMap(MenuItem m){
+        mapController mapCon = new mapController();
+        Map map = mapCon.readFrom(Integer.parseInt((String) m.getUserData()));
+        mapCon.c = MapCanvas;
+        mapCon.currMap = map;
+        mapCon.drawMap(MapCanvas);
     }
 
     @FXML
@@ -173,7 +194,11 @@ public class PlayerSessionController implements Initializable {
        Map.setController(new MapMakerController(username, session));
        Stage stage = new Stage();
        stage.initOwner(CreateM.getParentPopup().getOwnerWindow());
-       stage.setScene(new Scene((Parent) Map.load()));
+       Scene scene = new Scene((Parent) Map.load());
+       File f = new File("flatred.css");
+       scene.getStylesheets().clear();
+       scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+       stage.setScene(scene);
        stage.setMaximized(true);
        stage.show();
     }
@@ -293,7 +318,11 @@ public class PlayerSessionController implements Initializable {
        FXMLLoader CreateChar = new FXMLLoader(getClass().getResource("CharacterMain.fxml"));
        Stage stage = new Stage();
        stage.initOwner(Create.getParentPopup().getScene().getWindow());
-       stage.setScene(new Scene((Parent) CreateChar.load()));
+       Scene scene = new Scene((Parent) CreateChar.load());
+       File f = new File("flatred.css");
+       scene.getStylesheets().clear();
+       scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+       stage.setScene(scene);
        stage.setMaximized(true);
        stage.show();
     }
@@ -301,7 +330,8 @@ public class PlayerSessionController implements Initializable {
     @FXML
     protected void Roll(ActionEvent action) throws IOException{
         //rolls dice using
-        Player.sendMsg("roll " + NumberofDice.getText() + (String) TypeofDice.getValue());
+        if(NumberofDice.getText() != "")
+            Player.sendMsg("roll " + NumberofDice.getText() + (String) TypeofDice.getValue());
     }
 
     @FXML

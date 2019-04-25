@@ -11,6 +11,7 @@ package dps;
  ****************/
 public class tile {
         //property vars go here, figure out what that is later on
+        public int prop;
         public String type;
         public Boolean isRoom;
         public Boolean isHall;
@@ -36,6 +37,11 @@ public class tile {
             yPos = y;
         }
         
+        public tile(int property, int x, int y){
+            this.setProp(property);
+            xPos = x;
+            yPos = y;
+        }
         /**
          * Custom overloaded constructor.
          * @param x
@@ -99,16 +105,31 @@ public class tile {
         //toString method. Important for saving. Fix later bc this is super gross
         @Override
         public String toString(){
-            String tileString = "";
-            
-            tileString.concat((Integer.toString(this.xPos)) + ", ");
-            tileString.concat((Integer.toString(this.yPos)) + ", ");
-            tileString.concat(type + ", ");
-            tileString.concat((this.isRoom.toString()) + ", ");
-            tileString.concat((this.isHall.toString()) + ", ");
-            tileString.concat((this.isOccupied.toString()) + ", ");
-            tileString.concat((this.isStairs.toString()) + "\n");
+            String tileString = "";            
+            tileString = tileString.concat(Integer.toString(this.prop));
             return tileString;
         }
+
+    public void setProp(int prop) {
+        this.prop = prop;
+        if(prop == 0){    
+            this.isRoom = false;
+            this.isHall = false;
+            this.isOccupied = false;
+            this.isStairs = false;
+        }
+        else if(prop == 1){
+            this.isRoom = true;
+            this.isHall = false;
+            this.isOccupied = false;
+            this.isStairs = false;
+        }
+        else if(prop == 2){
+            this.isRoom = true;
+            this.isHall = false;
+            this.isOccupied = true;
+            this.isStairs = false;
+        }
+    }
         
     }

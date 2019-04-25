@@ -29,6 +29,9 @@ public class mapController {
     public Canvas c;
     public GraphicsContext gc;
     public TokenMaster tm;
+    private enum tileEnum{
+        WALL, FLOOROPEN, FLOORTAKEN
+    };
     
     
     //Default Main
@@ -150,16 +153,17 @@ public class mapController {
     //takes various args from csv file, puts them into the constructor, Map 
     //class builds it, then returns it as a Map object exactly the same as it 
     //saved.
-    public Map readFrom(connector c, int seshID){
+    public Map readFrom(int mapID){
         //yoink vals from db, pass them to vars, instantiate map using those vars as args
-        String fullMapString = c.getMapValues(seshID);
+        String fullMapString = connector.getMapValues(mapID);
+        System.out.println(fullMapString);
         String mapArray[] = fullMapString.split("\n");
         
         /*
         * This is the part where we pull map fields from the string and 
         * instantiate a new map object with them. 
         */
-        String mapFields[] = mapArray[0].split(", ");
+        String mapFields[] = mapArray[0].split(",");
         Boolean loaded = true;
         String name = mapFields[0];
         int sizeX = Integer.parseInt(mapFields[1]);
@@ -177,8 +181,9 @@ public class mapController {
         String tileArray[] = new String[mapArray.length - 1];
         System.arraycopy(mapArray, 1, tileArray, 0, (mapArray.length - 1));
         
+        
         for(int i = 0; i < tileArray.length; i++){
-            String tile[] = tileArray[i].split(", ");
+            String tile[] = tileArray[i].split(",");
             int xCoord = Integer.parseInt(tile[0]);
             int yCoord = Integer.parseInt(tile[1]);
             String tileType = tile[2];
@@ -196,7 +201,7 @@ public class mapController {
     }
     
     //saves the map to the database
-    public void saveMap(){
-        connector.makeMap(currMap.toString(), 506);
+    public void saveMap(int ses){
+        connector.makeMap(currMap.toString(), ses);
     }
 }
