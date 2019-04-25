@@ -52,7 +52,6 @@ public class mapController {
      * This gon' be reaaal complicated.
      * hold on to ya butts
      * @param c
-     * @return 
      */
     public void drawMap(Canvas c){
         gc = c.getGraphicsContext2D();
