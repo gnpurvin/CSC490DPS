@@ -1,5 +1,5 @@
 package Connectivity;
 
 public interface TokenMoveListener{
-    public void move(int tokenID);
+     public void moveToken(int tokenID);
 }
