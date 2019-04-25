@@ -242,7 +242,7 @@ public class Map {
         dungeon = dungeon.concat(Integer.toString(numRooms));
         dungeon = dungeon.concat(setting + ", ");
         dungeon = dungeon.concat(hallType + ", ");
-        dungeon = dungeon.concat(deadEnds.toString() + "\n");
+        dungeon = dungeon.concat(deadEnds + "\n");
         for(int x = 0; x < sizeX; x++){
             for(int y = 0; y < sizeY; y++){
                 dungeon = dungeon.concat(Integer.toString(sizeX));
