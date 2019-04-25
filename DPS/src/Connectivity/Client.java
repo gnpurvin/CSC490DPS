@@ -75,7 +75,8 @@ public class Client {
         this.addMapListener(new MapListener(){
             @Override
             public void GotaNewMap(String mapStr){
-                //call GUI method for draw map here
+                System.out.println(mapStr);
+                con.mapLoad(mapStr);
                 
             }
         });
@@ -206,7 +207,7 @@ public class Client {
                         handleOnline(tokens);
                     } else if ("offline".equalsIgnoreCase(cmd)) {
                         handleOffline(tokens);
-                    } else if (cmd.length()>100){
+                    } else if ("map".equalsIgnoreCase(cmd)){
                         handleRecieveMap(tokens);
                     } else if("tokenmove".equalsIgnoreCase(cmd)){
                         handleRecieveTokenMove(tokens);
@@ -271,12 +272,15 @@ public class Client {
     }
 
     //CALL THIS METHOD FROM GUI WHEN MAP CHANGES
-    private void handleSendMap(String mapStr) throws IOException {
+    public void handleSendMap(String mapStr) throws IOException {
         this.sendMsg(mapStr);
+        System.out.println(mapStr);
+        System.out.println("Handlesendmap");
     }
     
     private void handleRecieveMap(String tokens[]) {
-       String mapStr = tokens[0];
+        System.out.println("Im here");
+       String mapStr = tokens[1];
        
        for (MapListener listener : userMapListeners) {
             listener.GotaNewMap(mapStr);

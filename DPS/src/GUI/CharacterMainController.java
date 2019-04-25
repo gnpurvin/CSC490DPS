@@ -46,6 +46,7 @@ public class CharacterMainController implements Initializable {
     }
 
     @FXML
+    @SuppressWarnings("unchecked")
     public void EditCharacter(ActionEvent event) throws Exception{
         FXMLLoader Edit = new FXMLLoader(getClass().getResource("CharacterCreation.fxml"));
         Parent root = Edit.load();
@@ -59,8 +60,9 @@ public class CharacterMainController implements Initializable {
                 i++;
             }
         }
-       
-        ChoiceDialog dia = new ChoiceDialog((String)temp[0], temp);
+        String option = temp[0];
+        ChoiceDialog dia;
+        dia = new ChoiceDialog(option,(Object[]) temp);
         dia.showAndWait();
         con.editChar((String) dia.getSelectedItem());
         CharacterMain.getChildren().setAll(root);

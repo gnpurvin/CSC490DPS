@@ -33,6 +33,8 @@ import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -143,7 +145,11 @@ public class PlayerSessionController implements Initializable {
             MenuItem temp = new MenuItem(Integer.toString(mapIds.get(i)));
             temp.setUserData(temp.getText());
             temp.setOnAction((ActionEvent event) -> {
-                OpenMap(temp);
+                try {
+                    OpenMap(temp);
+                } catch (IOException ex) {
+                    Logger.getLogger(PlayerSessionController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             });
             if(mapIds.size() != 0)
                 OpenM.getItems().add(temp);
@@ -170,12 +176,9 @@ public class PlayerSessionController implements Initializable {
     }
 
     @FXML
-    protected void OpenMap(MenuItem m){
-        mapController mapCon = new mapController();
-        Map map = mapCon.readFrom(Integer.parseInt((String) m.getUserData()));
-        mapCon.c = MapCanvas;
-        mapCon.currMap = map;
-        mapCon.drawMap(MapCanvas);
+    protected void OpenMap(MenuItem m) throws IOException{
+        String s = (String) m.getUserData();
+        Player.handleSendMap("map " + connector.getMapValues(Integer.parseInt(s)));
     }
 
     @FXML
@@ -358,5 +361,13 @@ public class PlayerSessionController implements Initializable {
     public void onMessage(String msg){
         //Prints new messages in chat
         ChatIn.setText(ChatIn.getText() + "\n" + msg);
+    }
+    public void mapLoad(String s){
+        mapController mapCon = new mapController();
+        System.out.println(s);
+        Map map = mapCon.loadMap(s);
+        mapCon.c = MapCanvas;
+        mapCon.currMap = map;
+        mapCon.drawMap(MapCanvas);
     }
 }

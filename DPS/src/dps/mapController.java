@@ -115,6 +115,7 @@ public class mapController {
     public void moveTokenTo(token t, int x, int y){
         t.moveTo(x, y);
         currMap.Grid[x][y].isOccupied = true;
+        currMap.Grid[x][y].prop = 2;
         this.drawTokens();
     }
     
@@ -156,7 +157,7 @@ public class mapController {
         //yoink vals from db, pass them to vars, instantiate map using those vars as args
         String fullMapString = connector.getMapValues(mapID);
         System.out.println(fullMapString);
-        String mapArray[] = fullMapString.split("\n");
+        String mapArray[] = fullMapString.split("-");
         
         /*
         * This is the part where we pull map fields from the string and 
@@ -180,18 +181,49 @@ public class mapController {
         String tileArray[] = new String[mapArray.length - 1];
         System.arraycopy(mapArray, 1, tileArray, 0, (mapArray.length - 1));
         
-        
         for(int i = 0; i < tileArray.length; i++){
             String tile[] = tileArray[i].split(",");
-            int xCoord = Integer.parseInt(tile[0]);
-            int yCoord = Integer.parseInt(tile[1]);
-            String tileType = tile[2];
-            String isRoom = tile[3];
-            String isHall = tile[4];
-            String isOccupied = tile[5];
-            String isStairs = tile[6];
-            
-            loadedMap.Grid[xCoord][yCoord] = new tile(xCoord, yCoord, tileType, isRoom, isHall, isOccupied, isStairs);
+                for (int z = 0; z < tile.length; z++){
+                    loadedMap.Grid[i][z] = new tile(Integer.parseInt(tile[z]), i, z);
+                }
+        }
+        
+        
+        //loadedMap.Grid
+        return loadedMap;
+    }
+    
+    public Map loadMap(String s){
+        String mapArray[] = s.split("-");
+        
+        /*
+        * This is the part where we pull map fields from the string and 
+        * instantiate a new map object with them. 
+        */
+        String mapFields[] = mapArray[0].split(",");
+        Boolean loaded = true;
+        String name = mapFields[0];
+        int sizeX = Integer.parseInt(mapFields[1]);
+        int sizeY = Integer.parseInt(mapFields[2]);
+        int rooms = Integer.parseInt(mapFields[3]);
+        String setting = mapFields[4];
+        String halls = mapFields[5];
+        String deadEnds = mapFields[6];
+        
+        
+        Map loadedMap = new Map(loaded, name, sizeX, sizeY, rooms, setting, halls, deadEnds);
+        
+        
+        //This part separates the map fields from the tile data
+        String tileArray[] = new String[mapArray.length - 1];
+        System.arraycopy(mapArray, 1, tileArray, 0, (mapArray.length - 1));
+        
+        for(int i = 0; i < tileArray.length - 1; i++){
+            String tile[] = tileArray[i].split(",");
+                for (int z = 0; z < tile.length; z++){
+                    System.out.println(i + " " + z);
+                    loadedMap.Grid[i][z] = new tile(Integer.parseInt(tile[z]), i, z);
+                }
         }
         
         

@@ -51,15 +51,18 @@ public class ServerWorker extends Thread {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         String line;
+        
 
         //loop to constantly grab input
         while ((line = reader.readLine()) != null) {
-
+            System.out.println(line);
             //divide the input byte array by whitespace and get commands accordingly
             String[] tokens = line.split(" ");
+            System.out.println(tokens);
 
             if (tokens != null && tokens.length > 0) {
                 String cmd = tokens[0];
+                System.out.println(cmd.length());
 
                 if ("quit".equalsIgnoreCase(cmd) || ("logoff".equalsIgnoreCase(cmd))) { //if logoff, then handle logoff
                     handleLogoff();
@@ -67,8 +70,9 @@ public class ServerWorker extends Thread {
                     HandleLogin(tokens);
                 } else if ("roll".equalsIgnoreCase(cmd)) {
                     HandleRollDice(tokens);
-                } else if (cmd.length()>100){
+                } else if ("map".equalsIgnoreCase(cmd)){
                     HandleMap(tokens);
+                    System.out.println("handlingthings");
                 } else if("tokenmove".equalsIgnoreCase(cmd)){
                     HandleTokenMove(tokens);
                 } else if (cmd.startsWith("#")) {   //if # is the first character, then it's a direct message.
@@ -209,13 +213,9 @@ public class ServerWorker extends Thread {
     private void HandleMap(String tokens[]) throws IOException {
         String mapString = tokens[1];
         List<ServerWorker> workerList = server.getWorkerList();
-
+        System.out.println("handlemap");
         for (ServerWorker worker : workerList) {
-            if (!login.equals(worker.getLogin())) {
-                {
-                    worker.send(mapString); ///send map to client
-                }
-            }
+                worker.send("map " + mapString + "\n"); ///send map to client
         }
 
     }
