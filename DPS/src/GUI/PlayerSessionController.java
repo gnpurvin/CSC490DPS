@@ -148,7 +148,7 @@ public class PlayerSessionController implements Initializable {
                 try {
                     OpenMap(temp);
                 } catch (IOException ex) {
-                    Logger.getLogger(PlayerSessionController.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("nope");
                 }
             });
             if(mapIds.size() != 0)
@@ -161,7 +161,7 @@ public class PlayerSessionController implements Initializable {
     @FXML
     protected void ChatSend(ActionEvent action) throws IOException{
         Player.sendMsg(ChatOut.getText());
-        ChatIn.setText(ChatIn.getText() + "/n" + username + ": " + ChatOut.getText());
+        ChatIn.setText(ChatIn.getText() + "\n" + username + ": " + ChatOut.getText());
         ChatOut.clear();
     }
 
@@ -368,6 +368,6 @@ public class PlayerSessionController implements Initializable {
         Map map = mapCon.loadMap(s);
         mapCon.c = MapCanvas;
         mapCon.currMap = map;
-        mapCon.drawMap(MapCanvas);
+        mapCon.drawMap2(MapCanvas);
     }
 }

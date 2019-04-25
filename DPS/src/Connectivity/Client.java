@@ -273,9 +273,8 @@ public class Client {
 
     //CALL THIS METHOD FROM GUI WHEN MAP CHANGES
     public void handleSendMap(String mapStr) throws IOException {
-        this.sendMsg(mapStr);
-        System.out.println(mapStr);
-        System.out.println("Handlesendmap");
+        String cmd = mapStr + "\n";
+        this.serverOut.write(cmd.getBytes());
     }
     
     private void handleRecieveMap(String tokens[]) {
