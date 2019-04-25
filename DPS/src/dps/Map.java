@@ -236,18 +236,18 @@ public class Map {
     @Override
     public final String toString(){
         String dungeon = "";
-        dungeon.concat(mapName + ", ");
-        dungeon.concat(Integer.toString(sizeX) + ", ");
-        dungeon.concat(Integer.toString(sizeY) + ", ");
-        dungeon.concat(Integer.toString(numRooms));
-        dungeon.concat(setting + ", ");
-        dungeon.concat(hallType + ", ");
-        dungeon.concat(deadEnds.toString() + "\n");
+        dungeon = dungeon.concat(mapName + ", ");
+        dungeon = dungeon.concat(Integer.toString(sizeX) + ", ");
+        dungeon = dungeon.concat(Integer.toString(sizeY) + ", ");
+        dungeon = dungeon.concat(Integer.toString(numRooms));
+        dungeon = dungeon.concat(setting + ", ");
+        dungeon = dungeon.concat(hallType + ", ");
+        dungeon = dungeon.concat(deadEnds.toString() + "\n");
         for(int x = 0; x < sizeX; x++){
             for(int y = 0; y < sizeY; y++){
-                dungeon.concat(Integer.toString(sizeX));
-                dungeon.concat(Integer.toString(sizeY));
-                dungeon.concat(this.getTileAt(x, y).toString());
+                dungeon = dungeon.concat(Integer.toString(sizeX));
+                dungeon = dungeon.concat(Integer.toString(sizeY));
+                dungeon = dungeon.concat(this.getTileAt(x, y).toString());
             }
         }
         return dungeon;
