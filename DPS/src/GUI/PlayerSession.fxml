@@ -19,22 +19,26 @@
                   <Button fx:id="SendBtn" mnemonicParsing="false" onAction="#ChatSend" prefHeight="25.0" prefWidth="80.0" text="Send" />
                </children>
             </TextFlow>
-            <AnchorPane fx:id="MapPane" layoutX="1.0" prefHeight="625.0" prefWidth="600.0" style="-fx-background-color: #C0C0C0;" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="MapPane" layoutX="1.0" prefHeight="575.0" prefWidth="600.0" style="-fx-background-color: #C0C0C0;" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <MenuBar prefHeight="25.0" prefWidth="547.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <MenuBar prefHeight="10.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <menus>
                       <Menu mnemonicParsing="false" text="Map">
                         <items>
                           <MenuItem mnemonicParsing="false" onAction="#AddToken" text="Add token" />
                           <MenuItem mnemonicParsing="false" onAction="#DeleteToken" text="Delete token" />
-                          <MenuItem fx:id="OpenM" mnemonicParsing="false" onAction="#OpenMap" text="Open map" visible="false" />
+                              <Menu fx:id="OpenM" mnemonicParsing="false" text="Open Map" visible="false">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                                </items>
+                              </Menu>
                           <MenuItem fx:id="CloseM" mnemonicParsing="false" onAction="#CloseMap" text="Close map" visible="false" />
                           <MenuItem fx:id="CreateM" mnemonicParsing="false" onAction="#CreateMap" text="Create map" visible="false" />                    
                         </items>
                       </Menu>
                     </menus>
                   </MenuBar>
-                  <Canvas fx:id="MapCanvas" height="600.0" onMouseClicked="#tokenMove" width="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />
+                  <Canvas fx:id="MapCanvas" height="575.0" onMouseClicked="#tokenMove" width="575.0" AnchorPane.leftAnchor="12.5" AnchorPane.topAnchor="25.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="660.0" prefHeight="475.0" prefWidth="580.0" AnchorPane.leftAnchor="700.0" AnchorPane.topAnchor="0.0">
@@ -56,7 +60,7 @@
                <children>
                   <TextField fx:id="NumberofDice" layoutX="43.0" layoutY="50.0" promptText="# of die" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="50.0" />
                   <ChoiceBox fx:id="TypeofDice" layoutX="260.0" layoutY="50.0" prefWidth="150.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="50.0" />
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="222.0" layoutY="113.0" mnemonicParsing="false" onAction="#Roll" prefHeight="25.0" prefWidth="40.0" text="Roll" textAlignment="CENTER" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="110.0" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="222.0" layoutY="113.0" mnemonicParsing="false" onAction="#Roll" prefHeight="25.0" prefWidth="60.0" text="Roll" textAlignment="CENTER" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="110.0" />
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="189.0" layoutY="22.0" prefHeight="17.0" prefWidth="110.0" text="Dice Roller" textAlignment="CENTER" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="10.0">
                      <font>
                         <Font size="20.0" />

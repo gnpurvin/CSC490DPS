@@ -1,6 +1,7 @@
 package GUI;
 
 import database.connector;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -72,7 +73,11 @@ public class MainMenuController implements Initializable{
        FXMLLoader CreateChar = new FXMLLoader(getClass().getResource("CharacterMain.fxml"));
        Stage stage = new Stage();
        stage.initOwner(Create.getScene().getWindow());
-       stage.setScene(new Scene((Parent) CreateChar.load()));
+       Scene scene = new Scene((Parent) CreateChar.load());
+       File f = new File("flatred.css");
+       scene.getStylesheets().clear();
+       scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+       stage.setScene(scene);
        stage.setMaximized(true);
        stage.show();
 
