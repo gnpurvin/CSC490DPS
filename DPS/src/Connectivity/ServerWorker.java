@@ -55,10 +55,8 @@ public class ServerWorker extends Thread {
 
         //loop to constantly grab input
         while ((line = reader.readLine()) != null) {
-            System.out.println(line);
             //divide the input byte array by whitespace and get commands accordingly
             String[] tokens = line.split(" ");
-            System.out.println(tokens);
 
             if (tokens != null && tokens.length > 0) {
                 String cmd = tokens[0];
@@ -72,7 +70,6 @@ public class ServerWorker extends Thread {
                     HandleRollDice(tokens);
                 } else if ("map".equalsIgnoreCase(cmd)){
                     HandleMap(tokens);
-                    System.out.println("handlingthings");
                 } else if("tokenmove".equalsIgnoreCase(cmd)){
                     HandleTokenMove(tokens);
                 } else if (cmd.startsWith("#")) {   //if # is the first character, then it's a direct message.
