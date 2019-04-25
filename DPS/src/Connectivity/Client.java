@@ -1,4 +1,5 @@
 package Connectivity;
+
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -7,12 +8,15 @@ import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import GUI.PlayerSessionController;
+import dps.*;
+
 /**
  *
  *
  * @author Ray
  */
 public class Client {
+
     private String serverName;
     private final int servPort;
     private OutputStream serverOut;
@@ -20,9 +24,13 @@ public class Client {
     private BufferedReader bufferedIn;
     private final ArrayList<UserStatusListener> userStatusListeners = new ArrayList<>();
     private final ArrayList<MessageListener> userMessageListeners = new ArrayList<>();
+    private final ArrayList<MapListener> userMapListeners = new ArrayList<>();
+    private final ArrayList<TokenMoveListener> userTokenListeners = new ArrayList<>();
     private Socket socket;
     private int sessionCode;
-    private PlayerSessionController controller;
+    public PlayerSessionController con;
+    
+
     /**
      * Constructor for the client object
      * @param servPort Server port you want to use. Default 11064.
@@ -32,33 +40,56 @@ public class Client {
     public Client(int servPort, int sessionCode, PlayerSessionController con) throws IOException {
         this.sessionCode = sessionCode;
         Connection dbcon = connector.connect();
-        this.serverName = this.getHostIP();
-        System.out.println(this.serverName);
+        this.serverName = getHostIP();
+        System.out.println("client is connected to: "+this.serverName);
         this.servPort = servPort;
-        this.controller = con;
-        
+        this.con = con;
+
         //overriding the abstract methods in the interface
         this.addUserStatusListener(new UserStatusListener() {
+
             @Override
             public void online(String login) {
                 System.out.println("ONLINE: " + login);
             }
+
             @Override
             public void offline(String login) {
                 System.out.println("OFFLINE: " + login);
             }
+
         });
+
         //overriding the abstract method in the interface
         this.addMessageListener(new MessageListener() {
             @Override
             public String onMessage(String fromLogin, String msg) {
                 String outMsg = fromLogin + ": " + msg;
                 System.out.println(outMsg);
-                controller.onMessage(outMsg);
+                con.onMessage(outMsg);
                 return outMsg;
             }
         });
+        
+        //MapListener
+        this.addMapListener(new MapListener(){
+            @Override
+            public void GotaNewMap(String mapStr){
+                //call GUI method for draw map here
+                
+            }
+        });
+        
+        this.addTokenListener(new TokenMoveListener(){
+            @Override
+            public void moveToken(int tokenID){
+                //call GUI tokenMove here
+            }
+        });
+        
+        
     }
+
     //starts the client connection process and logs in with a username
     public boolean start(String username) throws IOException {
         if (this.connect()) {
@@ -75,67 +106,77 @@ public class Client {
         }
         return true;
     }
+
     //for logging in with a string username
     private boolean login(String login) throws IOException {
         String cmd = "login " + login + " " + sessionCode + "\n";
         serverOut.write(cmd.getBytes());
+
         String response = bufferedIn.readLine();
         System.out.println("Server said: " + response);
+
         //this just matches the output from the server
         if ("welcome to the party!".equalsIgnoreCase(response)) {
             startMsgReader();
+
             return true;
         } else {
             return false;
         }
     }
+
     public void logoff() throws IOException {
         String cmd = "logoff\n";
         serverOut.write(cmd.getBytes());
     }
 
     private boolean connect() throws IOException {
-        System.out.println(this.serverName);
-        System.out.println(this.servPort);
-        try {
-            this.socket = new Socket(serverName, servPort);
-            System.out.println("this.socket");
-        } catch (IOException e) {
-            System.out.println("this.socket not working");
-        }
         try{
+            this.socket = new Socket(serverName, servPort);
             this.serverOut = socket.getOutputStream();
-            System.out.println("this.serverOut");
-        } catch (IOException e) {
-            System.out.println("this.serverOut not working");
-        }
-        try {
             this.serverIn = socket.getInputStream();
-            System.out.println("this.serverIn");
-        } catch (IOException e) {
-            System.out.println("this.serverIn not working");
-        }
-        try {
             this.bufferedIn = new BufferedReader(new InputStreamReader(serverIn));
-            System.out.println("this.bufferedIn");
             return true;
-        } catch (Exception e) {
+        }catch(Exception e){
             System.out.println("Could not connect client to host.\n");
-        }
+        
         return false;
     }
+    }
+    
     public void addUserStatusListener(UserStatusListener listener) {
         userStatusListeners.add(listener);
     }
+
     public void removeUserStatusListener(UserStatusListener listener) {
         userStatusListeners.remove(listener);
     }
+
     public void addMessageListener(MessageListener listener) {
         userMessageListeners.add(listener);
     }
+
     public void removeMessageListener(MessageListener listener) {
         userMessageListeners.remove(listener);
     }
+
+    public void addMapListener(MapListener listener){
+        userMapListeners.add(listener);
+    }
+    
+    public void removeMapListener(MapListener listener){
+        userMapListeners.remove(listener);
+    }
+    
+    public void addTokenListener(TokenMoveListener listener){
+        userTokenListeners.add(listener);
+    }
+    
+    public void removeTokenListener(TokenMoveListener listener){
+        userTokenListeners.remove(listener);
+    }
+    
+    
     private void startMsgReader() {
         Thread t = new Thread() {
             @Override
@@ -148,7 +189,9 @@ public class Client {
             }
         };
         t.start();
+
     }
+
     //loop constantly reading input from server
     private void readMsgLoop() throws IOException {
         
@@ -156,6 +199,7 @@ public class Client {
             String line;
             while ((line = bufferedIn.readLine()) != null) {
                 String[] tokens = line.split(" ");
+
                 if (tokens != null && tokens.length > 0) {
                     String cmd = tokens[0];
                     if ("online".equalsIgnoreCase(cmd)) {
@@ -170,11 +214,14 @@ public class Client {
                         handleMessage(tokens);
                     }
                 }
+
             }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
     }
+
     //for printing who is logged in 
     private void handleOnline(String[] tokens) {
         String login = tokens[1];
@@ -182,6 +229,7 @@ public class Client {
             listener.online(login);
         }
     }
+
     //for printing logoffs
     private void handleOffline(String[] tokens) {
         String login = tokens[1];
@@ -189,11 +237,13 @@ public class Client {
             listener.offline(login);
         }
     }
+
     //call this method for sending strings to server
     public void sendMsg(String Msg) throws IOException {
         String cmd = Msg + "\n";
         serverOut.write(cmd.getBytes());
     }
+
     //method for displaying messages recieved
     private void handleMessage(String[] tokens) throws IOException {
         String cmd = "";
@@ -201,13 +251,16 @@ public class Client {
         for (int i = 2; i < tokens.length; i++) {
             cmd = cmd.concat(tokens[i] + " ");
         }
+
         for (MessageListener listener : userMessageListeners) {
             listener.onMessage(login, cmd);
         }
     }
+
     public OutputStream getOutStream() {
         return this.serverOut;
     }
+
     public InputStream getInStream() {
         return this.serverIn;
     }
@@ -224,12 +277,16 @@ public class Client {
     
     private void handleRecieveMap(String tokens[]) {
        String mapStr = tokens[0];
-        //drawMap(mapStr);
+       
+       for (MapListener listener : userMapListeners) {
+            listener.GotaNewMap(mapStr);
+        }
+        
     }
     
     /**
     * CALL THIS METHOD FROM GUI WHEN A TOKEN MOVES
-    *@param the token that has been moved
+    *@param tokenID the token that has been moved
     */
     public void handleSendTokenMove(int tokenID) throws IOException {
         //tell the other connections that this token has moved
@@ -244,15 +301,14 @@ public class Client {
         int tokenID = Integer.parseInt(tokens[1]);
         
         //call db for tokenInfo
-        String tokenVals[] = connector.getTokenValues(tokenID).split(",");
-        int newX = Integer.parseInt(tokenVals[0]);
-        int newY = Integer.parseInt(tokenVals[1]);
+      // String tokenVals[] = connector.getTokenValues(tokenID).split(",");
+       // int newX = Integer.parseInt(tokenVals[0]);
+       // int newY = Integer.parseInt(tokenVals[1]);
         
-        for (MessageListener listener : userMessageListeners) {
-           
-                //GUI method for moving tokens goes right here
-            
+        for (TokenMoveListener listener : userTokenListeners) {
+           listener.moveToken(tokenID);
         }
-    
-    }
+     
+}
+
 }
