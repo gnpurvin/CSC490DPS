@@ -66,7 +66,7 @@ public class Client {
             public String onMessage(String fromLogin, String msg) {
                 String outMsg = fromLogin + ": " + msg;
                 System.out.println(outMsg);
-                PlayerSessionController.onMessage(outMsg);
+                con.onMessage(outMsg);
                 return outMsg;
             }
         });
