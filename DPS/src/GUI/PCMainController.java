@@ -6,6 +6,7 @@
 package GUI;
 
 import database.connector;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -59,7 +60,11 @@ public class PCMainController implements Initializable {
        FXMLLoader Create = new FXMLLoader(getClass().getResource("CharacterMain.fxml"));
        Stage stage = new Stage();
        stage.initOwner(CreateChar.getScene().getWindow());
-       stage.setScene(new Scene((Parent) Create.load()));
+       Scene scene = new Scene((Parent) Create.load());
+       File f = new File("flatred.css");
+       scene.getStylesheets().clear();
+       scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+       stage.setScene(scene);
        stage.setMaximized(true);
        stage.show();
 
@@ -69,14 +74,18 @@ public class PCMainController implements Initializable {
 
     @FXML
     public void JoinSession(ActionEvent event) throws Exception{
-        FXMLLoader Session = new FXMLLoader(getClass().getResource("PlayerSession.fxml"));
-        PlayerSessionController controller = new PlayerSessionController(username, session, DM);
-        Session.setController(controller);
-        Stage stage = new Stage();
-        stage.initOwner(Join.getScene().getWindow());
-        stage.setScene(new Scene((Parent) Session.load()));
-        stage.setMaximized(true);
-        stage.show();
+       FXMLLoader Session = new FXMLLoader(getClass().getResource("PlayerSession.fxml"));
+       PlayerSessionController controller = new PlayerSessionController(username, session, DM);
+       Session.setController(controller);
+       Stage stage = new Stage();
+       stage.initOwner(Join.getScene().getWindow());
+       Scene scene = new Scene((Parent) Session.load());
+       File f = new File("flatred.css");
+       scene.getStylesheets().clear();
+       scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+       stage.setScene(scene);
+       stage.setMaximized(true);
+       stage.show();
     }
 
     @FXML

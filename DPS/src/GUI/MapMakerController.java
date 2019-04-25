@@ -51,8 +51,14 @@ public class MapMakerController implements Initializable {
     
     @FXML
     public void Save(ActionEvent e){
+        int num;
         if(newMap != null){
-            connector.makeMap(newMap.toString(), session);
+            String mapString = newMap.toString();
+            System.out.println(mapString);
+            do{
+                num = connector.makeMap(mapString, session);
+            }while(num == -1);    
+            SaveBtn.getScene().getWindow().hide();
         }    
     }
     

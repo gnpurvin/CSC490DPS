@@ -287,6 +287,7 @@ public class connector {
             ResultSet rs = st.executeQuery(randCheck);
             if(rs.next()) {
                 System.out.println("The mapID is not unique");
+                return -1;
             } else {
                 st.executeUpdate(insertNewMap);  //insert new map
                 st.executeUpdate(insertNewSessMap); //insert new sessionmaps

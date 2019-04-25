@@ -172,5 +172,19 @@ public class CharacterCreationController implements Initializable {
 	  } catch (JAXBException e) {
 		e.printStackTrace();
 	  }
+        Name.setText(character.Name);
+        Name.setEditable(false);
+        RaceDropDown.setValue(character.Race);
+        ClassDropDown.setValue(character.ClassName);
+        LevelTxt.setText(character.Level);
+        HP.setText(character.HP);
+        AC.setText(character.AC);
+        Str.setText(character.Str);
+        Int.setText(character.Int);
+        Dex.setText(character.Dex);
+        Con.setText(character.Con);
+        Cha.setText(character.Cha);
+        Wis.setText(character.Wis);
+        
     }
 }
