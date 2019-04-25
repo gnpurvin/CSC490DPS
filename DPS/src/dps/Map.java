@@ -196,7 +196,7 @@ public class Map {
             for(int i = 0; i < roomWidth; i++){
                 for(int j = 0; j < roomLength; j++){
                     //System.out.println((coordX + i) + ", " + (coordY + j));
-                    if(Grid[coordX + i][coordY + j].isRoom == true || Grid[coordX + i][coordY + j].isHall == true){
+                    if(Grid[coordX + i][coordY + j].prop == 2 || Grid[coordX + i][coordY + j].prop == 1){
                         free = false;
                     }
                 }
@@ -205,7 +205,7 @@ public class Map {
             if(free == true){
                 for(int q = 0; q < roomWidth; q++){
                     for(int w = 0; w < roomLength; w++){
-                        Grid[coordX + q][coordY + w].isRoom = true;
+                        Grid[coordX + q][coordY + w].prop = 1;
                         Grid[coordX + q][coordY + w].type = "Room";
                     }
                 }
@@ -241,7 +241,7 @@ public class Map {
         dungeon = dungeon.concat(Integer.toString(numRooms)+ ",");
         dungeon = dungeon.concat(setting + ",");
         dungeon = dungeon.concat(hallType + ",");
-        dungeon = dungeon.concat(deadEnds.toString() + ".");
+        dungeon = dungeon.concat(deadEnds + ".");
         for(int x = 0; x < sizeX; x++){
             for(int y = 0; y < sizeY; y++){
                 //dungeon.concat(Integer.toString(sizeX));
